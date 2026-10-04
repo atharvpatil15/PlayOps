@@ -9,7 +9,7 @@ This document defines the coding standards, naming conventions, and best practic
 > Read this document fully before writing any code. These standards are enforced via ESLint, Prettier, and pre-commit hooks — violations will block your PR.
 
 ---
-
+asas
 ## Table of Contents
 
 - [1. Naming Conventions](#1-naming-conventions)
