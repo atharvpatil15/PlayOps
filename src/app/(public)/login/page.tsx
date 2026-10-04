@@ -189,22 +189,40 @@ export default function LoginPage() {
               </form>
             </Form>
 
-            <div className="mt-8 rounded-xl border border-border/50 bg-muted/50 p-4">
-              <h4 className="mb-2 flex items-center gap-2 text-sm font-semibold text-foreground">
-                <AlertCircle className="h-4 w-4 text-primary" /> Demo Accounts
-              </h4>
-              <div className="space-y-1 text-xs text-muted-foreground">
-                <div className="flex items-center justify-between rounded border border-border/50 bg-background/50 p-2">
-                  <span className="font-medium">Admin:</span>
-                  <code className="rounded bg-muted px-1.5 py-0.5 text-primary">
-                    admin@kkwagh.edu.in
-                  </code>
-                </div>
-                <div className="flex items-center justify-between rounded border border-border/50 bg-background/50 p-2">
-                  <span className="font-medium">Player:</span>
-                  <code className="rounded bg-muted px-1.5 py-0.5 text-primary">
-                    player@kkwagh.edu.in
-                  </code>
+            <div className="mt-8 rounded-xl border border-primary/20 bg-primary/[0.03] p-4">
+              <div className="mb-2.5 flex items-center justify-between">
+                <h4 className="flex items-center gap-1.5 text-sm font-bold text-foreground">
+                  <AlertCircle className="h-4 w-4 text-primary" /> Demo Admin Login
+                </h4>
+                <Button
+                  type="button"
+                  variant="outline"
+                  size="sm"
+                  className="h-7 border-primary/30 text-xs font-semibold text-primary hover:bg-primary/10"
+                  onClick={() => {
+                    form.setValue("email", "atharwapatil1@gmail.com");
+                    form.setValue("password", "Admin@123");
+                    toast.info("Demo admin credentials filled! Click 'Sign In' to enter.");
+                  }}
+                >
+                  ⚡ Auto-fill Admin
+                </Button>
+              </div>
+
+              <div className="space-y-1.5 text-xs text-muted-foreground">
+                <div className="flex flex-col gap-1 rounded-lg border border-border/50 bg-background/70 p-2.5 sm:flex-row sm:items-center sm:justify-between">
+                  <div className="flex items-center gap-1.5">
+                    <span className="font-semibold text-foreground">Email:</span>
+                    <code className="font-mono font-bold text-primary">
+                      atharwapatil1@gmail.com
+                    </code>
+                  </div>
+                  <div className="flex items-center gap-1.5">
+                    <span className="font-semibold text-foreground">Password:</span>
+                    <code className="font-mono font-bold text-foreground">
+                      Admin@123
+                    </code>
+                  </div>
                 </div>
               </div>
             </div>
