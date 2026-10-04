@@ -161,14 +161,17 @@ export function PlayerProfileView({ initialPlayer, user }: PlayerProfileViewProp
   // If user has not yet created a player profile, show the onboarding registration form
   if (!player) {
     return (
-      <div className="max-w-2xl mx-auto space-y-6">
+      <div className="mx-auto max-w-2xl space-y-6">
         <div className="border-b border-border pb-4">
-          <Badge variant="outline" className="mb-2">Player Onboarding</Badge>
+          <Badge variant="outline" className="mb-2">
+            Player Onboarding
+          </Badge>
           <h1 className="text-2xl font-bold tracking-tight text-foreground sm:text-3xl">
             Complete Your Student Athlete Profile
           </h1>
-          <p className="text-sm text-muted-foreground mt-1">
-            Register your college PRN to generate your official K. K. Wagh Sports ID Pass and join tournament rosters.
+          <p className="mt-1 text-sm text-muted-foreground">
+            Register your college PRN to generate your official K. K. Wagh Sports ID Pass and join
+            tournament rosters.
           </p>
         </div>
 
@@ -181,7 +184,7 @@ export function PlayerProfileView({ initialPlayer, user }: PlayerProfileViewProp
           </CardHeader>
           <CardContent>
             <form onSubmit={handleRegisterOrUpdate} className="space-y-4">
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                 <div className="space-y-2">
                   <Label htmlFor="prn">College PRN (Permanent Registration No.)</Label>
                   <Input
@@ -201,15 +204,13 @@ export function PlayerProfileView({ initialPlayer, user }: PlayerProfileViewProp
                     id="dob"
                     type="date"
                     value={formData.date_of_birth}
-                    onChange={(e) =>
-                      setFormData({ ...formData, date_of_birth: e.target.value })
-                    }
+                    onChange={(e) => setFormData({ ...formData, date_of_birth: e.target.value })}
                     required
                   />
                 </div>
               </div>
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                 <div className="space-y-2">
                   <Label>Engineering Department</Label>
                   <Select
@@ -304,10 +305,10 @@ export function PlayerProfileView({ initialPlayer, user }: PlayerProfileViewProp
                         type="button"
                         key={sport}
                         onClick={() => toggleSport(sport)}
-                        className={`px-3 py-1.5 rounded-full text-xs font-medium border transition-colors ${
+                        className={`rounded-full border px-3 py-1.5 text-xs font-medium transition-colors ${
                           isSelected
-                            ? "bg-primary text-primary-foreground border-primary"
-                            : "bg-muted/50 text-muted-foreground border-border hover:bg-muted"
+                            ? "border-primary bg-primary text-primary-foreground"
+                            : "border-border bg-muted/50 text-muted-foreground hover:bg-muted"
                         }`}
                       >
                         {isSelected ? "✓ " : "+ "}
@@ -324,9 +325,7 @@ export function PlayerProfileView({ initialPlayer, user }: PlayerProfileViewProp
                   id="emergency"
                   placeholder="+91 98230 11223 (Parent / Guardian)"
                   value={formData.emergency_contact}
-                  onChange={(e) =>
-                    setFormData({ ...formData, emergency_contact: e.target.value })
-                  }
+                  onChange={(e) => setFormData({ ...formData, emergency_contact: e.target.value })}
                   required
                 />
               </div>
@@ -337,9 +336,7 @@ export function PlayerProfileView({ initialPlayer, user }: PlayerProfileViewProp
                   id="medical"
                   placeholder="None, or specify asthma, dust allergies, etc."
                   value={formData.medical_info || ""}
-                  onChange={(e) =>
-                    setFormData({ ...formData, medical_info: e.target.value })
-                  }
+                  onChange={(e) => setFormData({ ...formData, medical_info: e.target.value })}
                 />
               </div>
 
@@ -356,8 +353,8 @@ export function PlayerProfileView({ initialPlayer, user }: PlayerProfileViewProp
 
   // If user profile is already registered, display the Official Pass & Information Card
   return (
-    <div className="space-y-6 max-w-4xl mx-auto">
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-border pb-4">
+    <div className="mx-auto max-w-4xl space-y-6">
+      <div className="flex flex-col justify-between gap-4 border-b border-border pb-4 sm:flex-row sm:items-center">
         <div>
           <h1 className="text-2xl font-bold tracking-tight text-foreground sm:text-3xl">
             Player Profile & Digital Pass
@@ -372,11 +369,11 @@ export function PlayerProfileView({ initialPlayer, user }: PlayerProfileViewProp
         </Button>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
         {/* Digital ID Pass Card */}
-        <Card className="md:col-span-1 border-primary/30 shadow-lg text-center bg-gradient-to-b from-card to-muted/30">
+        <Card className="border-primary/30 bg-gradient-to-b from-card to-muted/30 text-center shadow-lg md:col-span-1">
           <CardHeader className="pb-3">
-            <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-primary/15 text-primary font-bold text-xl mb-1 ring-2 ring-primary/30">
+            <div className="mx-auto mb-1 flex h-16 w-16 items-center justify-center rounded-full bg-primary/15 text-xl font-bold text-primary ring-2 ring-primary/30">
               {player.users?.full_name?.slice(0, 2).toUpperCase() || "AJ"}
             </div>
             <CardTitle className="text-lg font-bold text-foreground">
@@ -392,19 +389,14 @@ export function PlayerProfileView({ initialPlayer, user }: PlayerProfileViewProp
           </CardHeader>
           <CardContent className="space-y-4 pt-1">
             {/* Real Verifiable QR Code */}
-            <div className="rounded-xl border border-border bg-white p-4 shadow-sm inline-block mx-auto">
-              <QRCodeSVG
-                value={qrValue}
-                size={140}
-                level="M"
-                includeMargin={false}
-              />
+            <div className="mx-auto inline-block rounded-xl border border-border bg-white p-4 shadow-sm">
+              <QRCodeSVG value={qrValue} size={140} level="M" includeMargin={false} />
             </div>
             <div>
-              <p className="font-mono text-[11px] text-muted-foreground tracking-wider uppercase">
+              <p className="font-mono text-[11px] uppercase tracking-wider text-muted-foreground">
                 {player.qr_code || `PLAYOPS-${player.registration_number}`}
               </p>
-              <p className="text-[10px] text-muted-foreground mt-0.5">
+              <p className="mt-0.5 text-[10px] text-muted-foreground">
                 Scan with referee camera to verify eligibility
               </p>
             </div>
@@ -431,23 +423,23 @@ export function PlayerProfileView({ initialPlayer, user }: PlayerProfileViewProp
           </CardHeader>
           <CardContent className="space-y-5">
             <div className="grid grid-cols-2 gap-4 text-sm">
-              <div className="rounded-lg bg-muted/40 p-3 border border-border">
+              <div className="rounded-lg border border-border bg-muted/40 p-3">
                 <span className="text-xs text-muted-foreground">Department</span>
-                <p className="font-semibold text-foreground mt-0.5">{player.department}</p>
+                <p className="mt-0.5 font-semibold text-foreground">{player.department}</p>
               </div>
-              <div className="rounded-lg bg-muted/40 p-3 border border-border">
+              <div className="rounded-lg border border-border bg-muted/40 p-3">
                 <span className="text-xs text-muted-foreground">Academic Year</span>
-                <p className="font-semibold text-foreground mt-0.5">{player.year}</p>
+                <p className="mt-0.5 font-semibold text-foreground">{player.year}</p>
               </div>
-              <div className="rounded-lg bg-muted/40 p-3 border border-border">
+              <div className="rounded-lg border border-border bg-muted/40 p-3">
                 <span className="text-xs text-muted-foreground">Blood Group</span>
-                <p className="font-semibold text-foreground mt-0.5">
+                <p className="mt-0.5 font-semibold text-foreground">
                   {player.blood_group || "Not provided"}
                 </p>
               </div>
-              <div className="rounded-lg bg-muted/40 p-3 border border-border">
+              <div className="rounded-lg border border-border bg-muted/40 p-3">
                 <span className="text-xs text-muted-foreground">Physical Stats</span>
-                <p className="font-semibold text-foreground mt-0.5">
+                <p className="mt-0.5 font-semibold text-foreground">
                   {player.height ? `${player.height} cm` : "—"} /{" "}
                   {player.weight ? `${player.weight} kg` : "—"}
                 </p>
@@ -455,7 +447,7 @@ export function PlayerProfileView({ initialPlayer, user }: PlayerProfileViewProp
             </div>
 
             <div className="space-y-2 pt-1">
-              <span className="text-xs font-semibold text-muted-foreground uppercase">
+              <span className="text-xs font-semibold uppercase text-muted-foreground">
                 Registered Sports Disciplines
               </span>
               <div className="flex flex-wrap gap-2">
@@ -466,20 +458,18 @@ export function PlayerProfileView({ initialPlayer, user }: PlayerProfileViewProp
                     </Badge>
                   ))
                 ) : (
-                  <span className="text-sm text-muted-foreground">
-                    No sports selected yet.
-                  </span>
+                  <span className="text-sm text-muted-foreground">No sports selected yet.</span>
                 )}
               </div>
             </div>
 
-            <div className="space-y-2 pt-2 border-t border-border">
-              <span className="text-xs font-semibold text-muted-foreground uppercase">
+            <div className="space-y-2 border-t border-border pt-2">
+              <span className="text-xs font-semibold uppercase text-muted-foreground">
                 Emergency & Medical Information
               </span>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm">
+              <div className="grid grid-cols-1 gap-3 text-sm sm:grid-cols-2">
                 <div className="flex items-center gap-2 text-foreground">
-                  <Phone className="h-4 w-4 text-muted-foreground shrink-0" />
+                  <Phone className="h-4 w-4 shrink-0 text-muted-foreground" />
                   <span className="font-mono text-xs">{player.emergency_contact}</span>
                 </div>
                 {player.medical_info && (
@@ -495,7 +485,7 @@ export function PlayerProfileView({ initialPlayer, user }: PlayerProfileViewProp
 
       {/* Edit Profile Dialog */}
       <Dialog open={isEditOpen} onOpenChange={setIsEditOpen}>
-        <DialogContent className="sm:max-w-lg max-h-[90vh] overflow-y-auto">
+        <DialogContent className="max-h-[90vh] overflow-y-auto sm:max-w-lg">
           <form onSubmit={handleRegisterOrUpdate}>
             <DialogHeader>
               <DialogTitle>Update Player Profile</DialogTitle>
@@ -598,10 +588,10 @@ export function PlayerProfileView({ initialPlayer, user }: PlayerProfileViewProp
                         type="button"
                         key={sport}
                         onClick={() => toggleSport(sport)}
-                        className={`px-2.5 py-1 rounded-full text-xs font-medium border transition-colors ${
+                        className={`rounded-full border px-2.5 py-1 text-xs font-medium transition-colors ${
                           isSelected
-                            ? "bg-primary text-primary-foreground border-primary"
-                            : "bg-muted/50 text-muted-foreground border-border hover:bg-muted"
+                            ? "border-primary bg-primary text-primary-foreground"
+                            : "border-border bg-muted/50 text-muted-foreground hover:bg-muted"
                         }`}
                       >
                         {isSelected ? "✓ " : "+ "}
@@ -616,9 +606,7 @@ export function PlayerProfileView({ initialPlayer, user }: PlayerProfileViewProp
                 <Label>Emergency Contact Phone</Label>
                 <Input
                   value={formData.emergency_contact}
-                  onChange={(e) =>
-                    setFormData({ ...formData, emergency_contact: e.target.value })
-                  }
+                  onChange={(e) => setFormData({ ...formData, emergency_contact: e.target.value })}
                   required
                 />
               </div>
@@ -627,9 +615,7 @@ export function PlayerProfileView({ initialPlayer, user }: PlayerProfileViewProp
                 <Label>Medical Notes</Label>
                 <Textarea
                   value={formData.medical_info || ""}
-                  onChange={(e) =>
-                    setFormData({ ...formData, medical_info: e.target.value })
-                  }
+                  onChange={(e) => setFormData({ ...formData, medical_info: e.target.value })}
                 />
               </div>
             </div>

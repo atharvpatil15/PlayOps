@@ -6,7 +6,7 @@ import { Badge } from "@/components/ui/badge";
 export default function AdminMatchesPage() {
   return (
     <div className="space-y-6">
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b pb-4">
+      <div className="flex flex-col justify-between gap-4 border-b pb-4 sm:flex-row sm:items-center">
         <div>
           <h1 className="text-2xl font-bold tracking-tight text-foreground sm:text-3xl">
             Matches & Live Ground Console
@@ -25,8 +25,8 @@ export default function AdminMatchesPage() {
       <Card className="border-red-500/40">
         <CardHeader className="bg-red-500/5">
           <div className="flex items-center justify-between">
-            <CardTitle className="text-base font-bold flex items-center gap-2">
-              <Radio className="h-4 w-4 text-red-500 animate-pulse" />
+            <CardTitle className="flex items-center gap-2 text-base font-bold">
+              <Radio className="h-4 w-4 animate-pulse text-red-500" />
               <span>Ground Scorekeeper Console: Cricket Semi-Final</span>
             </CardTitle>
             <Badge variant="live">LIVE SCORING</Badge>
@@ -35,16 +35,18 @@ export default function AdminMatchesPage() {
             Main Cricket Ground • Computer Strikers vs Mech Warriors
           </CardDescription>
         </CardHeader>
-        <CardContent className="p-6 space-y-6">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-center">
-            <div className="p-4 rounded-xl border bg-muted/20 space-y-2">
-              <p className="text-xs text-muted-foreground font-semibold">Computer Strikers (Batting)</p>
-              <p className="text-3xl font-extrabold text-foreground font-mono">152 / 4</p>
+        <CardContent className="space-y-6 p-6">
+          <div className="grid grid-cols-1 gap-4 text-center md:grid-cols-2">
+            <div className="space-y-2 rounded-xl border bg-muted/20 p-4">
+              <p className="text-xs font-semibold text-muted-foreground">
+                Computer Strikers (Batting)
+              </p>
+              <p className="font-mono text-3xl font-extrabold text-foreground">152 / 4</p>
               <p className="text-xs text-muted-foreground">17.2 Overs (Current RR: 8.76)</p>
             </div>
-            <div className="p-4 rounded-xl border bg-muted/20 space-y-2">
-              <p className="text-xs text-muted-foreground font-semibold">Mech Warriors (Bowling)</p>
-              <p className="text-3xl font-extrabold text-muted-foreground font-mono">Yet to Bat</p>
+            <div className="space-y-2 rounded-xl border bg-muted/20 p-4">
+              <p className="text-xs font-semibold text-muted-foreground">Mech Warriors (Bowling)</p>
+              <p className="font-mono text-3xl font-extrabold text-muted-foreground">Yet to Bat</p>
               <p className="text-xs text-muted-foreground">Target: TBD</p>
             </div>
           </div>
@@ -54,14 +56,30 @@ export default function AdminMatchesPage() {
               Quick Score Controls
             </p>
             <div className="flex flex-wrap gap-2">
-              <Button size="sm" variant="outline">+ 0 (Dot)</Button>
-              <Button size="sm" variant="outline">+ 1 Run</Button>
-              <Button size="sm" variant="outline">+ 2 Runs</Button>
-              <Button size="sm" variant="outline" className="font-bold">+ 4 Boundary</Button>
-              <Button size="sm" variant="outline" className="font-bold">+ 6 Maximum</Button>
-              <Button size="sm" variant="destructive" className="font-bold">🔴 Wicket</Button>
-              <Button size="sm" variant="secondary">Wide (+1)</Button>
-              <Button size="sm" variant="secondary">No Ball (+1)</Button>
+              <Button size="sm" variant="outline">
+                + 0 (Dot)
+              </Button>
+              <Button size="sm" variant="outline">
+                + 1 Run
+              </Button>
+              <Button size="sm" variant="outline">
+                + 2 Runs
+              </Button>
+              <Button size="sm" variant="outline" className="font-bold">
+                + 4 Boundary
+              </Button>
+              <Button size="sm" variant="outline" className="font-bold">
+                + 6 Maximum
+              </Button>
+              <Button size="sm" variant="destructive" className="font-bold">
+                🔴 Wicket
+              </Button>
+              <Button size="sm" variant="secondary">
+                Wide (+1)
+              </Button>
+              <Button size="sm" variant="secondary">
+                No Ball (+1)
+              </Button>
             </div>
           </div>
         </CardContent>

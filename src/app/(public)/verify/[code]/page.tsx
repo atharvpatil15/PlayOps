@@ -19,10 +19,10 @@ export default async function VerifyPlayerPage({ params }: VerifyPageProps) {
   const player = rawPlayer as any;
 
   return (
-    <div className="min-h-[80vh] flex items-center justify-center py-12 px-4">
-      <div className="max-w-md w-full space-y-6">
-        <div className="text-center space-y-1">
-          <Badge variant="outline" className="text-xs tracking-wider uppercase mb-1">
+    <div className="flex min-h-[80vh] items-center justify-center px-4 py-12">
+      <div className="w-full max-w-md space-y-6">
+        <div className="space-y-1 text-center">
+          <Badge variant="outline" className="mb-1 text-xs uppercase tracking-wider">
             Official Credential Verification
           </Badge>
           <h1 className="text-xl font-bold tracking-tight text-foreground sm:text-2xl">
@@ -34,16 +34,16 @@ export default async function VerifyPlayerPage({ params }: VerifyPageProps) {
         </div>
 
         {player ? (
-          <Card className="border-primary/40 shadow-xl overflow-hidden bg-card">
+          <Card className="overflow-hidden border-primary/40 bg-card shadow-xl">
             <div className="h-3 bg-gradient-to-r from-primary to-blue-400" />
-            <CardHeader className="text-center pb-2">
-              <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-emerald-500/15 text-emerald-500 ring-4 ring-emerald-500/20 mb-2">
+            <CardHeader className="pb-2 text-center">
+              <div className="mx-auto mb-2 flex h-16 w-16 items-center justify-center rounded-full bg-emerald-500/15 text-emerald-500 ring-4 ring-emerald-500/20">
                 <CheckCircle2 className="h-8 w-8" />
               </div>
-              <Badge variant="success" className="mx-auto text-xs px-3 py-1 font-semibold">
+              <Badge variant="success" className="mx-auto px-3 py-1 text-xs font-semibold">
                 ✓ VERIFIED STUDENT ATHLETE
               </Badge>
-              <CardTitle className="text-xl font-bold mt-2 text-foreground">
+              <CardTitle className="mt-2 text-xl font-bold text-foreground">
                 {player.users?.full_name}
               </CardTitle>
               <CardDescription className="font-mono text-xs text-muted-foreground">
@@ -52,27 +52,25 @@ export default async function VerifyPlayerPage({ params }: VerifyPageProps) {
             </CardHeader>
             <CardContent className="space-y-4 pt-2">
               <div className="grid grid-cols-2 gap-3 text-xs">
-                <div className="p-2.5 rounded-lg bg-muted/50 border border-border">
-                  <span className="text-muted-foreground block">Department</span>
-                  <span className="font-semibold text-foreground mt-0.5 block">
+                <div className="rounded-lg border border-border bg-muted/50 p-2.5">
+                  <span className="block text-muted-foreground">Department</span>
+                  <span className="mt-0.5 block font-semibold text-foreground">
                     {player.department}
                   </span>
                 </div>
-                <div className="p-2.5 rounded-lg bg-muted/50 border border-border">
-                  <span className="text-muted-foreground block">Academic Year</span>
-                  <span className="font-semibold text-foreground mt-0.5 block">
-                    {player.year}
-                  </span>
+                <div className="rounded-lg border border-border bg-muted/50 p-2.5">
+                  <span className="block text-muted-foreground">Academic Year</span>
+                  <span className="mt-0.5 block font-semibold text-foreground">{player.year}</span>
                 </div>
-                <div className="p-2.5 rounded-lg bg-muted/50 border border-border">
-                  <span className="text-muted-foreground block">Blood Group</span>
-                  <span className="font-semibold text-foreground mt-0.5 block">
+                <div className="rounded-lg border border-border bg-muted/50 p-2.5">
+                  <span className="block text-muted-foreground">Blood Group</span>
+                  <span className="mt-0.5 block font-semibold text-foreground">
                     {player.blood_group || "N/A"}
                   </span>
                 </div>
-                <div className="p-2.5 rounded-lg bg-muted/50 border border-border">
-                  <span className="text-muted-foreground block">Roster Status</span>
-                  <span className="font-semibold text-emerald-500 mt-0.5 block">
+                <div className="rounded-lg border border-border bg-muted/50 p-2.5">
+                  <span className="block text-muted-foreground">Roster Status</span>
+                  <span className="mt-0.5 block font-semibold text-emerald-500">
                     {player.is_active ? "Eligible" : "Suspended"}
                   </span>
                 </div>
@@ -80,14 +78,14 @@ export default async function VerifyPlayerPage({ params }: VerifyPageProps) {
 
               {player.sports_interested && player.sports_interested.length > 0 && (
                 <div className="space-y-1.5 pt-1">
-                  <span className="text-[11px] font-semibold text-muted-foreground uppercase">
+                  <span className="text-[11px] font-semibold uppercase text-muted-foreground">
                     Authorized Sports
                   </span>
                   <div className="flex flex-wrap gap-1">
                     {player.sports_interested.map((sport: string, i: number) => (
                       <span
                         key={i}
-                        className="px-2 py-0.5 rounded text-[11px] bg-primary/10 text-primary border border-primary/20 font-medium"
+                        className="rounded border border-primary/20 bg-primary/10 px-2 py-0.5 text-[11px] font-medium text-primary"
                       >
                         {sport}
                       </span>
@@ -96,7 +94,7 @@ export default async function VerifyPlayerPage({ params }: VerifyPageProps) {
                 </div>
               )}
 
-              <div className="pt-2 border-t border-border flex items-center justify-between text-xs text-muted-foreground">
+              <div className="flex items-center justify-between border-t border-border pt-2 text-xs text-muted-foreground">
                 <div className="flex items-center gap-1 font-mono">
                   <Shield className="h-3.5 w-3.5 text-primary" />
                   <span>ID: {player.qr_code || player.registration_number}</span>
@@ -108,20 +106,20 @@ export default async function VerifyPlayerPage({ params }: VerifyPageProps) {
         ) : (
           <Card className="border-destructive/30 shadow-md">
             <CardHeader className="text-center">
-              <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-destructive/15 text-destructive mb-2">
+              <div className="mx-auto mb-2 flex h-16 w-16 items-center justify-center rounded-full bg-destructive/15 text-destructive">
                 <XCircle className="h-8 w-8" />
               </div>
               <Badge variant="destructive" className="mx-auto">
                 Unverified Credential
               </Badge>
-              <CardTitle className="text-lg font-bold mt-2">Invalid or Expired Pass</CardTitle>
+              <CardTitle className="mt-2 text-lg font-bold">Invalid or Expired Pass</CardTitle>
               <CardDescription>
                 No active student athlete found with identifier:{" "}
-                <span className="font-mono text-foreground font-semibold">{code}</span>
+                <span className="font-mono font-semibold text-foreground">{code}</span>
               </CardDescription>
             </CardHeader>
             <CardContent className="text-center">
-              <p className="text-xs text-muted-foreground mb-4">
+              <p className="mb-4 text-xs text-muted-foreground">
                 Please contact the KK Wagh Sports Department desk or verify the code.
               </p>
               <Button asChild variant="outline" size="sm">

@@ -14,8 +14,14 @@ export default function PlayerPerformancePage() {
         </p>
       </div>
 
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-        <StatCard title="Total Runs" value="384" icon={Flame} trend="Avg: 48.0" description="Cricket 2026 Season" />
+      <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
+        <StatCard
+          title="Total Runs"
+          value="384"
+          icon={Flame}
+          trend="Avg: 48.0"
+          description="Cricket 2026 Season"
+        />
         <StatCard title="Highest Score" value="86*" icon={Target} description="vs Civil Titans" />
         <StatCard title="Strike Rate" value="142.2" icon={Activity} trend="Top 5% in College" />
         <StatCard title="Player of the Match" value="2" icon={Award} description="2 Awards won" />

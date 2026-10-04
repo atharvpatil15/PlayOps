@@ -85,12 +85,7 @@ export async function updateSport(id: string, input: Partial<SportInput>) {
     }
 
     const admin = createAdminClient();
-    const { data, error } = await admin
-      .from("sports")
-      .update(input)
-      .eq("id", id)
-      .select()
-      .single();
+    const { data, error } = await admin.from("sports").update(input).eq("id", id).select().single();
 
     if (error) throw error;
 

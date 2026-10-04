@@ -40,7 +40,9 @@ export default async function AdminDashboardPage() {
     admin.from("teams").select("*", { count: "exact", head: true }),
     admin
       .from("matches")
-      .select("*, tournaments(name), team_a:teams!matches_team_a_id_fkey(name), team_b:teams!matches_team_b_id_fkey(name)")
+      .select(
+        "*, tournaments(name), team_a:teams!matches_team_a_id_fkey(name), team_b:teams!matches_team_b_id_fkey(name)"
+      )
       .eq("status", "live")
       .limit(3),
   ]);
@@ -48,7 +50,7 @@ export default async function AdminDashboardPage() {
   return (
     <div className="space-y-6">
       {/* Top Banner */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-border pb-4">
+      <div className="flex flex-col justify-between gap-4 border-b border-border pb-4 sm:flex-row sm:items-center">
         <div>
           <h1 className="text-2xl font-bold tracking-tight text-foreground sm:text-3xl">
             Sports Governance Center
@@ -75,7 +77,7 @@ export default async function AdminDashboardPage() {
       </div>
 
       {/* 6 Key Stat Cards with live counts from Supabase */}
-      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+      <div className="grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-6">
         <StatCard
           title="Athletes"
           value={String(playersCount ?? 0)}
@@ -118,8 +120,8 @@ export default async function AdminDashboardPage() {
       <Card>
         <CardHeader className="flex flex-row items-center justify-between">
           <div>
-            <CardTitle className="text-lg font-bold flex items-center gap-2">
-              <Radio className="h-4 w-4 text-red-500 animate-pulse" />
+            <CardTitle className="flex items-center gap-2 text-lg font-bold">
+              <Radio className="h-4 w-4 animate-pulse text-red-500" />
               <span>Ongoing In-Play Matches</span>
             </CardTitle>
             <CardDescription>Live ground scoring console</CardDescription>
@@ -135,14 +137,16 @@ export default async function AdminDashboardPage() {
             liveMatches.map((m: any) => (
               <div
                 key={m.id}
-                className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-3 rounded-lg border border-border bg-muted/20"
+                className="flex flex-col justify-between gap-3 rounded-lg border border-border bg-muted/20 p-3 sm:flex-row sm:items-center"
               >
                 <div>
-                  <div className="flex items-center gap-2 text-xs text-muted-foreground mb-1">
-                    <span className="font-semibold text-primary">{m.tournaments?.name || "Tournament"}</span>
+                  <div className="mb-1 flex items-center gap-2 text-xs text-muted-foreground">
+                    <span className="font-semibold text-primary">
+                      {m.tournaments?.name || "Tournament"}
+                    </span>
                     <span>• In Progress</span>
                   </div>
-                  <p className="font-bold text-sm">
+                  <p className="text-sm font-bold">
                     {m.team_a?.name || "Team A"} ({m.score_team_a ?? 0}) vs{" "}
                     {m.team_b?.name || "Team B"} ({m.score_team_b ?? 0})
                   </p>
@@ -153,9 +157,12 @@ export default async function AdminDashboardPage() {
               </div>
             ))
           ) : (
-            <div className="text-center py-6 text-sm text-muted-foreground border border-dashed rounded-lg">
+            <div className="rounded-lg border border-dashed py-6 text-center text-sm text-muted-foreground">
               No live matches currently in progress.{" "}
-              <Link href={ROUTES.ADMIN_MATCHES} className="text-primary hover:underline font-medium">
+              <Link
+                href={ROUTES.ADMIN_MATCHES}
+                className="font-medium text-primary hover:underline"
+              >
                 Start a scheduled match
               </Link>
             </div>
@@ -164,14 +171,14 @@ export default async function AdminDashboardPage() {
       </Card>
 
       {/* Quick Actions & Recent Activity Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
         <Card>
           <CardHeader>
             <CardTitle className="text-base font-bold">Quick Department Operations</CardTitle>
             <CardDescription>Fast shortcuts for daily sports department workflows</CardDescription>
           </CardHeader>
           <CardContent className="grid grid-cols-2 gap-3">
-            <Button asChild variant="outline" className="justify-start gap-2 h-auto py-3">
+            <Button asChild variant="outline" className="h-auto justify-start gap-2 py-3">
               <Link href={ROUTES.ADMIN_TOURNAMENTS}>
                 <Trophy className="h-4 w-4 text-primary" />
                 <div className="text-left">
@@ -181,7 +188,7 @@ export default async function AdminDashboardPage() {
               </Link>
             </Button>
 
-            <Button asChild variant="outline" className="justify-start gap-2 h-auto py-3">
+            <Button asChild variant="outline" className="h-auto justify-start gap-2 py-3">
               <Link href={ROUTES.ADMIN_PLAYERS}>
                 <Users className="h-4 w-4 text-primary" />
                 <div className="text-left">
@@ -191,22 +198,26 @@ export default async function AdminDashboardPage() {
               </Link>
             </Button>
 
-            <Button asChild variant="outline" className="justify-start gap-2 h-auto py-3">
+            <Button asChild variant="outline" className="h-auto justify-start gap-2 py-3">
               <Link href={ROUTES.ADMIN_SPORTS}>
                 <Dumbbell className="h-4 w-4 text-primary" />
                 <div className="text-left">
                   <p className="text-xs font-bold">Sports Catalog</p>
-                  <p className="text-[10px] text-muted-foreground">{sportsCount ?? 0} sports defined</p>
+                  <p className="text-[10px] text-muted-foreground">
+                    {sportsCount ?? 0} sports defined
+                  </p>
                 </div>
               </Link>
             </Button>
 
-            <Button asChild variant="outline" className="justify-start gap-2 h-auto py-3">
+            <Button asChild variant="outline" className="h-auto justify-start gap-2 py-3">
               <Link href={ROUTES.ADMIN_VENUES}>
                 <MapPin className="h-4 w-4 text-primary" />
                 <div className="text-left">
                   <p className="text-xs font-bold">Campus Venues</p>
-                  <p className="text-[10px] text-muted-foreground">{venuesCount ?? 0} grounds & courts</p>
+                  <p className="text-[10px] text-muted-foreground">
+                    {venuesCount ?? 0} grounds & courts
+                  </p>
                 </div>
               </Link>
             </Button>
@@ -220,20 +231,28 @@ export default async function AdminDashboardPage() {
           </CardHeader>
           <CardContent className="space-y-3 text-xs">
             <div className="flex items-center justify-between border-b border-border pb-2">
-              <span className="text-foreground font-medium">• Master sports catalog initialized (10 disciplines)</span>
+              <span className="font-medium text-foreground">
+                • Master sports catalog initialized (10 disciplines)
+              </span>
               <span className="text-muted-foreground">Active</span>
             </div>
             <div className="flex items-center justify-between border-b border-border pb-2">
-              <span className="text-foreground font-medium">• Campus grounds registered (6 venues)</span>
+              <span className="font-medium text-foreground">
+                • Campus grounds registered (6 venues)
+              </span>
               <span className="text-muted-foreground">Available</span>
             </div>
             <div className="flex items-center justify-between border-b border-border pb-2">
-              <span className="text-foreground font-medium">• Smart QR Pass verification service active</span>
+              <span className="font-medium text-foreground">
+                • Smart QR Pass verification service active
+              </span>
               <span className="text-muted-foreground">Online</span>
             </div>
             <div className="flex items-center justify-between">
-              <span className="text-foreground font-medium">• Supabase real-time connection verified</span>
-              <span className="text-emerald-500 font-semibold">Connected</span>
+              <span className="font-medium text-foreground">
+                • Supabase real-time connection verified
+              </span>
+              <span className="font-semibold text-emerald-500">Connected</span>
             </div>
           </CardContent>
         </Card>

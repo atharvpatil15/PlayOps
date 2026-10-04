@@ -8,14 +8,7 @@ export const matchScheduleSchema = z.object({
   venueId: z.string().uuid().optional().nullable(),
   matchDate: z.string().min(1, "Match date is required"),
   startTime: z.string().optional(),
-  round: z.enum([
-    "group",
-    "round_of_16",
-    "quarter_final",
-    "semi_final",
-    "third_place",
-    "final",
-  ]),
+  round: z.enum(["group", "round_of_16", "quarter_final", "semi_final", "third_place", "final"]),
   matchNumber: z.coerce.number().min(1),
 });
 

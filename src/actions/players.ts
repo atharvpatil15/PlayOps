@@ -68,10 +68,7 @@ export async function registerPlayerProfile(input: PlayerProfileInput) {
         {
           id: user.id,
           email: user.email!,
-          full_name:
-            user.user_metadata?.full_name ||
-            user.email?.split("@")[0] ||
-            "Student Player",
+          full_name: user.user_metadata?.full_name || user.email?.split("@")[0] || "Student Player",
           role: "player",
         },
       ]);
@@ -113,10 +110,7 @@ export async function registerPlayerProfile(input: PlayerProfileInput) {
   }
 }
 
-export async function updatePlayerProfile(
-  playerId: string,
-  input: Partial<PlayerProfileInput>
-) {
+export async function updatePlayerProfile(playerId: string, input: Partial<PlayerProfileInput>) {
   try {
     const admin = createAdminClient();
     const { data, error } = await admin
@@ -155,9 +149,7 @@ export async function getAllPlayers(search?: string, department?: string) {
     }
 
     if (search) {
-      query = query.or(
-        `registration_number.ilike.%${search}%,users.full_name.ilike.%${search}%`
-      );
+      query = query.or(`registration_number.ilike.%${search}%,users.full_name.ilike.%${search}%`);
     }
 
     const { data, error } = await query;

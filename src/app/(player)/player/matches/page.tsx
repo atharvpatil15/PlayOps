@@ -40,14 +40,18 @@ export default function PlayerMatchesPage() {
       <div className="space-y-4">
         {matches.map((m) => (
           <Card key={m.id} className="p-4">
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b pb-2 mb-3">
-              <span className="text-xs font-semibold text-primary">{m.tournament} • {m.stage}</span>
+            <div className="mb-3 flex flex-col justify-between gap-2 border-b pb-2 sm:flex-row sm:items-center">
+              <span className="text-xs font-semibold text-primary">
+                {m.tournament} • {m.stage}
+              </span>
               <Badge variant={m.status === "Scheduled" ? "default" : "success"}>{m.status}</Badge>
             </div>
             <div className="flex items-center justify-between py-1">
               <div>
-                <p className="font-bold text-base text-foreground">Computer Strikers vs {m.opponent}</p>
-                <div className="flex flex-wrap gap-4 mt-2 text-xs text-muted-foreground">
+                <p className="text-base font-bold text-foreground">
+                  Computer Strikers vs {m.opponent}
+                </p>
+                <div className="mt-2 flex flex-wrap gap-4 text-xs text-muted-foreground">
                   <span className="flex items-center gap-1">
                     <Calendar className="h-3.5 w-3.5" />
                     {m.date}

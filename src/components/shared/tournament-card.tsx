@@ -15,49 +15,52 @@ export function TournamentCard({ tournament }: TournamentCardProps) {
     tournament.status === "ongoing"
       ? "success"
       : tournament.status === "upcoming"
-      ? "default"
-      : "secondary";
+        ? "default"
+        : "secondary";
 
   return (
-    <Card className="flex flex-col justify-between overflow-hidden hover:shadow-md transition-shadow">
+    <Card className="flex flex-col justify-between overflow-hidden transition-shadow hover:shadow-md">
       <CardHeader className="pb-3">
         <div className="flex items-start justify-between gap-2">
           <Badge variant={statusVariant} className="capitalize">
             {tournament.status}
           </Badge>
-          <span className="text-xs font-semibold text-muted-foreground uppercase tracking-wide">
+          <span className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">
             {tournament.format.replace("+", " & ")}
           </span>
         </div>
-        <CardTitle className="text-lg font-bold leading-tight mt-2 text-foreground line-clamp-1">
+        <CardTitle className="mt-2 line-clamp-1 text-lg font-bold leading-tight text-foreground">
           {tournament.name}
         </CardTitle>
       </CardHeader>
       <CardContent className="space-y-2.5 text-sm text-muted-foreground">
         <div className="flex items-center gap-2">
-          <Trophy className="h-4 w-4 text-primary shrink-0" />
+          <Trophy className="h-4 w-4 shrink-0 text-primary" />
           <span>{tournament.sport?.name || "Multi-sport"}</span>
         </div>
         <div className="flex items-center gap-2">
-          <Calendar className="h-4 w-4 text-muted-foreground shrink-0" />
+          <Calendar className="h-4 w-4 shrink-0 text-muted-foreground" />
           <span>
             {formatDate(tournament.start_date)} - {formatDate(tournament.end_date)}
           </span>
         </div>
         {tournament.venue && (
           <div className="flex items-center gap-2">
-            <MapPin className="h-4 w-4 text-muted-foreground shrink-0" />
+            <MapPin className="h-4 w-4 shrink-0 text-muted-foreground" />
             <span className="line-clamp-1">{tournament.venue.name}</span>
           </div>
         )}
         <div className="flex items-center gap-2">
-          <Users className="h-4 w-4 text-muted-foreground shrink-0" />
+          <Users className="h-4 w-4 shrink-0 text-muted-foreground" />
           <span>Max {tournament.max_teams} Teams</span>
         </div>
       </CardContent>
-      <CardFooter className="pt-2 border-t">
+      <CardFooter className="border-t pt-2">
         <Button asChild variant="outline" size="sm" className="w-full">
-          <Link href={`/tournaments/${tournament.id}`} className="flex items-center justify-center gap-1.5">
+          <Link
+            href={`/tournaments/${tournament.id}`}
+            className="flex items-center justify-center gap-1.5"
+          >
             <span>View Tournament</span>
             <ArrowRight className="h-3.5 w-3.5" />
           </Link>

@@ -493,25 +493,25 @@
 | 6 | Assign/change captain | P0 | Easy |
 | 7 | Delete team | P0 | Easy |
 
-- [ ] **List teams** `P0` `Easy`  
+- [x] **List teams** `P0` `Easy`  
   Data table at `/admin/teams`. Columns: team name, sport, tournament, captain, player count, department, status. Filter by sport, tournament.
 
-- [ ] **Create team** `P0` `Medium`  
+- [x] **Create team** `P0` `Medium`  
   Form at `/admin/teams/new`. Fields: name, sport (select), tournament (select), department, gender category, logo upload. After creation, redirect to team detail for player assignment.
 
-- [ ] **Edit team details** `P0` `Easy`  
+- [x] **Edit team details** `P0` `Easy`  
   Edit team name, logo, department, gender category. Update in Supabase.
 
-- [ ] **Add players to team** `P0` `Medium`  
+- [x] **Add players to team** `P0` `Medium`  
   Player search/select with autocomplete. Validate against: sport's max player limit, player not already on another team in same tournament, gender category match. Insert into `team_players`.
 
-- [ ] **Remove players from team** `P0` `Easy`  
+- [x] **Remove players from team** `P0` `Easy`  
   Remove player from `team_players`. Confirmation dialog. Cannot remove captain without reassignment.
 
-- [ ] **Assign/change captain** `P0` `Easy`  
+- [x] **Assign/change captain** `P0` `Easy`  
   Select captain from team player list. Update `teams.captain_id`. Only one captain per team.
 
-- [ ] **Delete team** `P0` `Easy`  
+- [x] **Delete team** `P0` `Easy`  
   Check for active matches. Cascade delete `team_players` entries. Confirmation dialog with impact summary.
 
 ---
@@ -529,10 +529,10 @@
 | 7 | Auto-generate fixtures (league) | P0 | Hard |
 | 8 | Set tournament rules | P1 | Easy |
 
-- [ ] **List tournaments** `P0` `Easy`  
+- [x] **List tournaments** `P0` `Easy`  
   Data table at `/admin/tournaments`. Columns: name, sport, format, status, dates, team count, venue. Status badge coloring. Filter by status, sport.
 
-- [ ] **Create tournament form** `P0` `Medium`  
+- [x] **Create tournament form** `P0` `Medium`  
   Multi-step form at `/admin/tournaments/new`:
   - Step 1: Basic info (name, sport, format, gender category)
   - Step 2: Dates (start, end, registration deadline)
@@ -541,16 +541,16 @@
   
   Insert into `tournaments` table with status = `upcoming`.
 
-- [ ] **Edit tournament** `P0` `Medium`  
+- [x] **Edit tournament** `P0` `Medium`  
   Edit all tournament fields. Restrict editing certain fields after tournament starts (e.g., format, sport). Show warning for destructive changes.
 
-- [ ] **Delete tournament** `P0` `Easy`  
+- [x] **Delete tournament** `P0` `Easy`  
   Only allow if status is `upcoming` or `cancelled`. Cascade warning for registrations. Confirmation dialog.
 
-- [ ] **Manage registrations (approve/reject)** `P0` `Medium`  
+- [x] **Manage registrations (approve/reject)** `P0` `Medium`  
   Registration management at `/admin/tournaments/[id]/registrations`. Table of pending registrations with team details. Approve/reject buttons. Add remarks on rejection. Batch approve option.
 
-- [ ] **Auto-generate fixtures (knockout)** `P0` `Hard`  
+- [x] **Auto-generate fixtures (knockout)** `P0` `Hard`  
   Algorithm to generate single-elimination bracket:
   - Handle byes for non-power-of-2 team counts
   - Seed teams (random or based on ranking)
@@ -558,7 +558,7 @@
   - Visual bracket preview before confirming
   - Assign venues and time slots
 
-- [ ] **Auto-generate fixtures (league/round-robin)** `P0` `Hard`  
+- [x] **Auto-generate fixtures (league/round-robin)** `P0` `Hard`  
   Round-robin algorithm:
   - Generate all possible pairings
   - Distribute across rounds
@@ -567,7 +567,7 @@
   - Create corresponding `points_table` rows initialized to 0
   - Assign venues and time slots
 
-- [ ] **Set tournament rules** `P1` `Easy`  
+- [x] **Set tournament rules** `P1` `Easy`  
   Rich text or markdown editor for tournament rules. Stored in `tournaments.rules`. Displayed on tournament detail page.
 
 ---

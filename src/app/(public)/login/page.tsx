@@ -3,36 +3,63 @@
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import * as z from "zod";
 import { Trophy, LogIn, AlertCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
 import { createClient } from "@/lib/supabase/client";
 import { ROUTES } from "@/lib/constants/routes";
 import { toast } from "sonner";
+
+const loginSchema = z.object({
+  email: z.string().email({ message: "Please enter a valid email address." }),
+  password: z.string().min(1, { message: "Password is required." }),
+});
 
 export default function LoginPage() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const redirectPath = searchParams.get("redirect");
 
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   const supabase = createClient();
 
-  const handleLogin = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const form = useForm<z.infer<typeof loginSchema>>({
+    resolver: zodResolver(loginSchema),
+    defaultValues: {
+      email: "",
+      password: "",
+    },
+  });
+
+  const onSubmit = async (values: z.infer<typeof loginSchema>) => {
     setIsLoading(true);
     setErrorMessage(null);
 
     try {
       const { data, error } = await supabase.auth.signInWithPassword({
-        email,
-        password,
+        email: values.email,
+        password: values.password,
       });
 
       if (error) {
@@ -71,81 +98,130 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="container max-w-md px-4 py-16 sm:py-24">
-      <Card className="shadow-lg border-border/60">
-        <CardHeader className="space-y-1 text-center">
-          <div className="mx-auto mb-2 flex h-12 w-12 items-center justify-center rounded-xl bg-primary/10 text-primary">
-            <Trophy className="h-6 w-6" />
+    <div className="container flex min-h-[calc(100vh-4rem)] items-center justify-center px-4 py-12 sm:px-6 lg:px-8">
+      <div className="w-full max-w-md space-y-8">
+        <div className="flex flex-col items-center">
+          <div className="mb-6 flex h-16 w-16 items-center justify-center rounded-2xl bg-primary/10 text-primary shadow-sm">
+            <Trophy className="h-8 w-8" />
           </div>
-          <CardTitle className="text-2xl font-bold tracking-tight">PlayOps Sign In</CardTitle>
-          <CardDescription>
+          <h2 className="text-center text-3xl font-extrabold tracking-tight text-foreground">
+            Welcome Back
+          </h2>
+          <p className="mt-2 max-w-sm text-center text-sm text-muted-foreground">
             Enter your college credentials to access match schedules and sports passes
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <form onSubmit={handleLogin} className="space-y-4">
-            {errorMessage && (
-              <div className="flex items-center gap-2 rounded-lg bg-destructive/10 p-3 text-sm text-destructive">
-                <AlertCircle className="h-4 w-4 shrink-0" />
-                <span>{errorMessage}</span>
-              </div>
-            )}
-
-            <div className="space-y-2">
-              <Label htmlFor="email">College / Personal Email</Label>
-              <Input
-                id="email"
-                type="email"
-                placeholder="name@kkwagh.edu.in"
-                required
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                disabled={isLoading}
-              />
-            </div>
-
-            <div className="space-y-2">
-              <div className="flex items-center justify-between">
-                <Label htmlFor="password">Password</Label>
-              </div>
-              <Input
-                id="password"
-                type="password"
-                placeholder="••••••••"
-                required
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                disabled={isLoading}
-              />
-            </div>
-
-            <Button type="submit" className="w-full" disabled={isLoading}>
-              {isLoading ? (
-                <span>Signing in...</span>
-              ) : (
-                <span className="flex items-center gap-2">
-                  <LogIn className="h-4 w-4" />
-                  <span>Sign In</span>
-                </span>
-              )}
-            </Button>
-          </form>
-
-          <div className="mt-4 rounded-lg bg-muted/60 p-3 text-xs text-muted-foreground">
-            <p className="font-semibold text-foreground">Demo Accounts:</p>
-            <p>Admin: admin@kkwagh.edu.in</p>
-            <p>Student Athlete: player@kkwagh.edu.in</p>
-          </div>
-        </CardContent>
-        <CardFooter className="flex flex-col space-y-2 text-center text-sm border-t pt-4">
-          <p className="text-muted-foreground">
-            Don&apos;t have a sports pass account yet?{" "}
-            <Link href={ROUTES.REGISTER} className="font-semibold text-primary hover:underline">
-              Register now
-            </Link>
           </p>
-        </CardFooter>
-      </Card>
+        </div>
+
+        <Card className="border-border/50 bg-card/50 shadow-xl backdrop-blur-sm">
+          <CardContent className="pt-8">
+            <Form {...form}>
+              <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+                {errorMessage && (
+                  <div className="flex items-center gap-3 rounded-lg border border-destructive/20 bg-destructive/15 p-4 text-sm font-medium text-destructive">
+                    <AlertCircle className="h-5 w-5 shrink-0" />
+                    <span>{errorMessage}</span>
+                  </div>
+                )}
+
+                <div className="space-y-4">
+                  <FormField
+                    control={form.control}
+                    name="email"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>College / Personal Email</FormLabel>
+                        <FormControl>
+                          <Input
+                            type="email"
+                            placeholder="name@kkwagh.edu.in"
+                            className="h-11"
+                            disabled={isLoading}
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
+                  <FormField
+                    control={form.control}
+                    name="password"
+                    render={({ field }) => (
+                      <FormItem>
+                        <div className="flex items-center justify-between">
+                          <FormLabel>Password</FormLabel>
+                          {/* Future link for forgot password */}
+                          {/* <Link href="#" className="text-xs font-semibold text-primary hover:underline">Forgot password?</Link> */}
+                        </div>
+                        <FormControl>
+                          <Input
+                            type="password"
+                            placeholder="••••••••"
+                            className="h-11"
+                            disabled={isLoading}
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </div>
+
+                <Button
+                  type="submit"
+                  className="h-11 w-full text-base font-semibold"
+                  disabled={isLoading}
+                >
+                  {isLoading ? (
+                    <span className="flex items-center gap-2">
+                      <div className="h-4 w-4 animate-spin rounded-full border-2 border-primary-foreground border-t-transparent" />
+                      Signing in...
+                    </span>
+                  ) : (
+                    <span className="flex items-center gap-2">
+                      <LogIn className="h-5 w-5" />
+                      Sign In to PlayOps
+                    </span>
+                  )}
+                </Button>
+              </form>
+            </Form>
+
+            <div className="mt-8 rounded-xl border border-border/50 bg-muted/50 p-4">
+              <h4 className="mb-2 flex items-center gap-2 text-sm font-semibold text-foreground">
+                <AlertCircle className="h-4 w-4 text-primary" /> Demo Accounts
+              </h4>
+              <div className="space-y-1 text-xs text-muted-foreground">
+                <div className="flex items-center justify-between rounded border border-border/50 bg-background/50 p-2">
+                  <span className="font-medium">Admin:</span>
+                  <code className="rounded bg-muted px-1.5 py-0.5 text-primary">
+                    admin@kkwagh.edu.in
+                  </code>
+                </div>
+                <div className="flex items-center justify-between rounded border border-border/50 bg-background/50 p-2">
+                  <span className="font-medium">Player:</span>
+                  <code className="rounded bg-muted px-1.5 py-0.5 text-primary">
+                    player@kkwagh.edu.in
+                  </code>
+                </div>
+              </div>
+            </div>
+          </CardContent>
+          <CardFooter className="flex flex-col space-y-2 rounded-b-xl border-t bg-muted/10 p-6 text-center text-sm">
+            <p className="text-muted-foreground">
+              Don&apos;t have a sports pass account yet?{" "}
+              <Link
+                href={ROUTES.REGISTER}
+                className="font-semibold text-primary transition-all hover:underline"
+              >
+                Register now
+              </Link>
+            </p>
+          </CardFooter>
+        </Card>
+      </div>
     </div>
   );
 }

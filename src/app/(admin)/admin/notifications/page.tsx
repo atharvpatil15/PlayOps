@@ -6,7 +6,7 @@ import { Label } from "@/components/ui/label";
 
 export default function AdminNotificationsPage() {
   return (
-    <div className="space-y-6 max-w-4xl">
+    <div className="max-w-4xl space-y-6">
       <div className="border-b pb-4">
         <h1 className="text-2xl font-bold tracking-tight text-foreground sm:text-3xl">
           Broadcast Announcements & Alerts
@@ -18,7 +18,7 @@ export default function AdminNotificationsPage() {
 
       <Card>
         <CardHeader>
-          <CardTitle className="text-base font-bold flex items-center gap-2">
+          <CardTitle className="flex items-center gap-2 text-base font-bold">
             <Bell className="h-5 w-5 text-primary" />
             <span>Create New Announcement</span>
           </CardTitle>
@@ -27,7 +27,10 @@ export default function AdminNotificationsPage() {
         <CardContent className="space-y-4">
           <div className="space-y-2">
             <Label htmlFor="title">Announcement Headline</Label>
-            <Input id="title" placeholder="e.g. Schedule Update: Cricket Semi-Finals Moved to 10 AM" />
+            <Input
+              id="title"
+              placeholder="e.g. Schedule Update: Cricket Semi-Finals Moved to 10 AM"
+            />
           </div>
 
           <div className="space-y-2">

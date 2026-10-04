@@ -54,7 +54,7 @@ export function Sidebar({ role }: SidebarProps) {
   const navItems = role === "admin" ? adminNavItems : playerNavItems;
 
   return (
-    <aside className="w-64 border-r border-border bg-card/60 backdrop-blur min-h-[calc(100vh-4rem)] p-4 flex flex-col justify-between hidden md:flex">
+    <aside className="flex hidden min-h-[calc(100vh-4rem)] w-64 flex-col justify-between border-r border-border bg-card/60 p-4 backdrop-blur md:flex">
       <div className="space-y-4">
         <div className="px-3 py-2">
           <h2 className="mb-2 px-2 text-xs font-bold uppercase tracking-wider text-muted-foreground">
@@ -84,7 +84,7 @@ export function Sidebar({ role }: SidebarProps) {
         </div>
       </div>
 
-      <div className="p-3 border-t text-xs text-muted-foreground">
+      <div className="border-t p-3 text-xs text-muted-foreground">
         <p className="font-semibold text-foreground">KK Wagh Sports</p>
         <p>PlayOps v1.0 Enterprise</p>
       </div>

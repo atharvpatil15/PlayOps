@@ -62,12 +62,7 @@ export async function createVenue(input: VenueInput) {
 export async function updateVenue(id: string, input: Partial<VenueInput>) {
   try {
     const admin = createAdminClient();
-    const { data, error } = await admin
-      .from("venues")
-      .update(input)
-      .eq("id", id)
-      .select()
-      .single();
+    const { data, error } = await admin.from("venues").update(input).eq("id", id).select().single();
 
     if (error) throw error;
 

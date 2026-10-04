@@ -14,9 +14,9 @@ export function MatchCard({ match, isLive }: MatchCardProps) {
   const isMatchLive = isLive || match.status === "live";
 
   return (
-    <Card className="overflow-hidden hover:border-primary/50 transition-colors">
-      <CardHeader className="bg-muted/40 p-3 flex flex-row items-center justify-between space-y-0">
-        <span className="text-xs font-semibold text-muted-foreground uppercase">
+    <Card className="overflow-hidden transition-colors hover:border-primary/50">
+      <CardHeader className="flex flex-row items-center justify-between space-y-0 bg-muted/40 p-3">
+        <span className="text-xs font-semibold uppercase text-muted-foreground">
           {match.round.replace(/_/g, " ")} • Match #{match.match_number}
         </span>
         {isMatchLive ? (
@@ -31,33 +31,34 @@ export function MatchCard({ match, isLive }: MatchCardProps) {
         )}
       </CardHeader>
 
-      <CardContent className="p-4 space-y-4">
+      <CardContent className="space-y-4 p-4">
         {/* Teams and Scores */}
         <div className="space-y-2">
           <div className="flex items-center justify-between">
-            <span className="font-semibold text-foreground text-sm sm:text-base">
+            <span className="text-sm font-semibold text-foreground sm:text-base">
               {match.team_a?.name || "Team A"}
             </span>
-            <span className="font-mono text-base sm:text-lg font-bold">
+            <span className="font-mono text-base font-bold sm:text-lg">
               {match.score_team_a || "-"}
             </span>
           </div>
           <div className="flex items-center justify-between">
-            <span className="font-semibold text-foreground text-sm sm:text-base">
+            <span className="text-sm font-semibold text-foreground sm:text-base">
               {match.team_b?.name || "Team B"}
             </span>
-            <span className="font-mono text-base sm:text-lg font-bold">
+            <span className="font-mono text-base font-bold sm:text-lg">
               {match.score_team_b || "-"}
             </span>
           </div>
         </div>
 
         {/* Schedule & Venue Metadata */}
-        <div className="pt-2 border-t flex flex-wrap items-center justify-between text-xs text-muted-foreground gap-2">
+        <div className="flex flex-wrap items-center justify-between gap-2 border-t pt-2 text-xs text-muted-foreground">
           <div className="flex items-center gap-1.5">
             <Clock className="h-3.5 w-3.5" />
             <span>
-              {formatDate(match.match_date)} {match.start_time ? `• ${formatTime(match.start_time)}` : ""}
+              {formatDate(match.match_date)}{" "}
+              {match.start_time ? `• ${formatTime(match.start_time)}` : ""}
             </span>
           </div>
           {match.venue && (

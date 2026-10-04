@@ -9,7 +9,7 @@ export default async function AdminSportsPage() {
   return (
     <div className="space-y-6">
       {error && (
-        <div className="p-4 rounded-lg bg-destructive/15 text-destructive border border-destructive/30 text-sm">
+        <div className="rounded-lg border border-destructive/30 bg-destructive/15 p-4 text-sm text-destructive">
           Warning: Could not fetch live sports: {error}
         </div>
       )}

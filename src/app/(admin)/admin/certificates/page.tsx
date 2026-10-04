@@ -6,13 +6,14 @@ import { Badge } from "@/components/ui/badge";
 export default function AdminCertificatesPage() {
   return (
     <div className="space-y-6">
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b pb-4">
+      <div className="flex flex-col justify-between gap-4 border-b pb-4 sm:flex-row sm:items-center">
         <div>
           <h1 className="text-2xl font-bold tracking-tight text-foreground sm:text-3xl">
             Digital Certificate Generator
           </h1>
           <p className="text-sm text-muted-foreground">
-            Batch-generate merit and participation certificates with tamper-proof QR verification codes.
+            Batch-generate merit and participation certificates with tamper-proof QR verification
+            codes.
           </p>
         </div>
         <Button className="gap-2">
@@ -27,14 +28,20 @@ export default function AdminCertificatesPage() {
           <CardDescription>All issued college certificates are publicly verifiable</CardDescription>
         </CardHeader>
         <CardContent className="space-y-3">
-          <div className="flex items-center justify-between p-3 rounded-lg border">
+          <div className="flex items-center justify-between rounded-lg border p-3">
             <div>
-              <p className="font-semibold text-sm">Atharva Joshi • Winner Gold Medalist</p>
-              <p className="text-xs text-muted-foreground">Inter-Dept Cricket Premier League 2026 • Issued 22 Oct</p>
+              <p className="text-sm font-semibold">Atharva Joshi • Winner Gold Medalist</p>
+              <p className="text-xs text-muted-foreground">
+                Inter-Dept Cricket Premier League 2026 • Issued 22 Oct
+              </p>
             </div>
             <div className="flex items-center gap-2">
-              <Badge variant="outline" className="font-mono text-xs">KKW-CRK-2026-WIN-001</Badge>
-              <Button size="sm" variant="ghost">Download</Button>
+              <Badge variant="outline" className="font-mono text-xs">
+                KKW-CRK-2026-WIN-001
+              </Badge>
+              <Button size="sm" variant="ghost">
+                Download
+              </Button>
             </div>
           </div>
         </CardContent>

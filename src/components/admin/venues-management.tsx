@@ -31,12 +31,7 @@ import {
 } from "@/components/ui/select";
 import { Label } from "@/components/ui/label";
 import { toast } from "sonner";
-import {
-  createVenue,
-  updateVenue,
-  deleteVenue,
-  type VenueInput,
-} from "@/actions/venues";
+import { createVenue, updateVenue, deleteVenue, type VenueInput } from "@/actions/venues";
 
 interface Venue {
   id: string;
@@ -77,8 +72,7 @@ export function VenuesManagement({ initialVenues }: VenuesManagementProps) {
     const matchesSearch =
       venue.name.toLowerCase().includes(search.toLowerCase()) ||
       venue.location.toLowerCase().includes(search.toLowerCase());
-    const matchesFilter =
-      filterType === "all" || venue.type === filterType;
+    const matchesFilter = filterType === "all" || venue.type === filterType;
     return matchesSearch && matchesFilter;
   });
 
@@ -133,11 +127,7 @@ export function VenuesManagement({ initialVenues }: VenuesManagementProps) {
       if (editingVenue) {
         const res = await updateVenue(editingVenue.id, payload);
         if (!res.success) throw new Error(res.error || "Update failed");
-        setVenues((prev) =>
-          prev.map((v) =>
-            v.id === editingVenue.id ? { ...v, ...payload } : v
-          )
-        );
+        setVenues((prev) => prev.map((v) => (v.id === editingVenue.id ? { ...v, ...payload } : v)));
         toast.success(`Updated ${payload.name} successfully!`);
       } else {
         const res = await createVenue(payload);
@@ -171,7 +161,7 @@ export function VenuesManagement({ initialVenues }: VenuesManagementProps) {
 
   return (
     <div className="space-y-6">
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-border pb-4">
+      <div className="flex flex-col justify-between gap-4 border-b border-border pb-4 sm:flex-row sm:items-center">
         <div>
           <h1 className="text-2xl font-bold tracking-tight text-foreground sm:text-3xl">
             Campus Venues & Facilities
@@ -187,14 +177,14 @@ export function VenuesManagement({ initialVenues }: VenuesManagementProps) {
       </div>
 
       {/* Filters and Search */}
-      <div className="flex flex-col sm:flex-row gap-3">
+      <div className="flex flex-col gap-3 sm:flex-row">
         <div className="relative flex-1">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+          <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
           <Input
             placeholder="Search venue name or location..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="pl-9 bg-card"
+            className="bg-card pl-9"
           />
         </div>
         <div className="w-full sm:w-48">
@@ -215,12 +205,12 @@ export function VenuesManagement({ initialVenues }: VenuesManagementProps) {
       {/* Venues Table */}
       <Card>
         <CardHeader>
-          <CardTitle className="text-base font-semibold flex items-center justify-between">
+          <CardTitle className="flex items-center justify-between text-base font-semibold">
             <span>Campus Venues ({filteredVenues.length})</span>
           </CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="rounded-md border border-border overflow-hidden">
+          <div className="overflow-hidden rounded-md border border-border">
             <Table>
               <TableHeader>
                 <TableRow>
@@ -245,7 +235,7 @@ export function VenuesManagement({ initialVenues }: VenuesManagementProps) {
                     <TableRow key={venue.id} className="hover:bg-muted/50">
                       <TableCell className="font-medium text-foreground">
                         <div className="flex items-center gap-2">
-                          <MapPin className="h-4 w-4 text-primary shrink-0" />
+                          <MapPin className="h-4 w-4 shrink-0 text-primary" />
                           <span>{venue.name}</span>
                         </div>
                       </TableCell>
@@ -264,7 +254,7 @@ export function VenuesManagement({ initialVenues }: VenuesManagementProps) {
                             venue.facilities.slice(0, 3).map((f, i) => (
                               <span
                                 key={i}
-                                className="inline-block px-1.5 py-0.5 text-[10px] rounded bg-muted text-muted-foreground"
+                                className="inline-block rounded bg-muted px-1.5 py-0.5 text-[10px] text-muted-foreground"
                               >
                                 {f}
                               </span>
@@ -273,7 +263,7 @@ export function VenuesManagement({ initialVenues }: VenuesManagementProps) {
                             <span className="text-xs text-muted-foreground">None</span>
                           )}
                           {(venue.facilities?.length || 0) > 3 && (
-                            <span className="text-[10px] text-muted-foreground self-center">
+                            <span className="self-center text-[10px] text-muted-foreground">
                               +{venue.facilities!.length - 3}
                             </span>
                           )}
@@ -284,7 +274,7 @@ export function VenuesManagement({ initialVenues }: VenuesManagementProps) {
                           {venue.is_available ? "Available" : "Maintenance"}
                         </Badge>
                       </TableCell>
-                      <TableCell className="text-right space-x-1">
+                      <TableCell className="space-x-1 text-right">
                         <Button
                           variant="ghost"
                           size="sm"
@@ -466,18 +456,10 @@ export function VenuesManagement({ initialVenues }: VenuesManagementProps) {
             </DialogDescription>
           </DialogHeader>
           <DialogFooter>
-            <Button
-              variant="outline"
-              onClick={() => setIsDeleteOpen(false)}
-              disabled={loading}
-            >
+            <Button variant="outline" onClick={() => setIsDeleteOpen(false)} disabled={loading}>
               Cancel
             </Button>
-            <Button
-              variant="destructive"
-              onClick={handleDelete}
-              disabled={loading}
-            >
+            <Button variant="destructive" onClick={handleDelete} disabled={loading}>
               {loading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
               Delete Venue
             </Button>

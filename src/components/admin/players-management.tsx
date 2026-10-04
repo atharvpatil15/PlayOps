@@ -98,8 +98,7 @@ export function PlayersManagement({ initialPlayers }: PlayersManagementProps) {
       p.registration_number.toLowerCase().includes(search.toLowerCase()) ||
       p.users?.full_name?.toLowerCase().includes(search.toLowerCase()) ||
       p.qr_code?.toLowerCase().includes(search.toLowerCase());
-    const matchesDept =
-      selectedDept === "All Departments" || p.department === selectedDept;
+    const matchesDept = selectedDept === "All Departments" || p.department === selectedDept;
     return matchesSearch && matchesDept;
   });
 
@@ -139,9 +138,7 @@ export function PlayersManagement({ initialPlayers }: PlayersManagementProps) {
       if (selectedPlayer?.id === player.id) {
         setSelectedPlayer({ ...selectedPlayer, is_active: newStatus });
       }
-      toast.success(
-        `Player marked as ${newStatus ? "Eligible" : "Suspended / Inactive"}`
-      );
+      toast.success(`Player marked as ${newStatus ? "Eligible" : "Suspended / Inactive"}`);
     } catch (err: any) {
       toast.error(err.message || "Failed to toggle status.");
     } finally {
@@ -151,13 +148,14 @@ export function PlayersManagement({ initialPlayers }: PlayersManagementProps) {
 
   return (
     <div className="space-y-6">
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-border pb-4">
+      <div className="flex flex-col justify-between gap-4 border-b border-border pb-4 sm:flex-row sm:items-center">
         <div>
           <h1 className="text-2xl font-bold tracking-tight text-foreground sm:text-3xl">
             Player Directory & Verification
           </h1>
           <p className="text-sm text-muted-foreground">
-            Search registered student athletes, inspect digital QR passes, and verify tournament eligibility.
+            Search registered student athletes, inspect digital QR passes, and verify tournament
+            eligibility.
           </p>
         </div>
         <Button onClick={() => setIsScanOpen(true)} className="gap-2">
@@ -167,14 +165,14 @@ export function PlayersManagement({ initialPlayers }: PlayersManagementProps) {
       </div>
 
       {/* Filter and Search */}
-      <div className="flex flex-col sm:flex-row gap-3">
+      <div className="flex flex-col gap-3 sm:flex-row">
         <div className="relative flex-1">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+          <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
           <Input
             placeholder="Search by student name, PRN, or QR code..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="pl-9 bg-card"
+            className="bg-card pl-9"
           />
         </div>
         <div className="w-full sm:w-64">
@@ -196,12 +194,12 @@ export function PlayersManagement({ initialPlayers }: PlayersManagementProps) {
       {/* Athletes Table */}
       <Card>
         <CardHeader>
-          <CardTitle className="text-base font-semibold flex items-center justify-between">
+          <CardTitle className="flex items-center justify-between text-base font-semibold">
             <span>Registered Athletes ({filteredPlayers.length})</span>
           </CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="rounded-md border border-border overflow-hidden">
+          <div className="overflow-hidden rounded-md border border-border">
             <Table>
               <TableHeader>
                 <TableRow>
@@ -235,10 +233,10 @@ export function PlayersManagement({ initialPlayers }: PlayersManagementProps) {
                       <TableCell>{player.department}</TableCell>
                       <TableCell>{player.year}</TableCell>
                       <TableCell>
-                        <div className="flex flex-wrap gap-1 max-w-[180px]">
+                        <div className="flex max-w-[180px] flex-wrap gap-1">
                           {player.sports_interested && player.sports_interested.length > 0 ? (
                             player.sports_interested.slice(0, 2).map((s, i) => (
-                              <Badge key={i} variant="outline" className="text-[10px] py-0">
+                              <Badge key={i} variant="outline" className="py-0 text-[10px]">
                                 {s}
                               </Badge>
                             ))
@@ -252,7 +250,7 @@ export function PlayersManagement({ initialPlayers }: PlayersManagementProps) {
                           )}
                         </div>
                       </TableCell>
-                      <TableCell className="font-mono text-xs text-primary font-medium">
+                      <TableCell className="font-mono text-xs font-medium text-primary">
                         {player.qr_code || `PLAYOPS-${player.registration_number}`}
                       </TableCell>
                       <TableCell>
@@ -260,7 +258,7 @@ export function PlayersManagement({ initialPlayers }: PlayersManagementProps) {
                           {player.is_active ? "Eligible" : "Suspended"}
                         </Badge>
                       </TableCell>
-                      <TableCell className="text-right space-x-2">
+                      <TableCell className="space-x-2 text-right">
                         <Button
                           variant="ghost"
                           size="sm"
@@ -286,19 +284,17 @@ export function PlayersManagement({ initialPlayers }: PlayersManagementProps) {
         <DialogContent className="sm:max-w-md">
           {selectedPlayer && (
             <div className="space-y-4">
-              <DialogHeader className="text-center pb-2">
-                <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-primary/10 text-primary font-bold text-xl mb-1">
+              <DialogHeader className="pb-2 text-center">
+                <div className="mx-auto mb-1 flex h-14 w-14 items-center justify-center rounded-full bg-primary/10 text-xl font-bold text-primary">
                   {selectedPlayer.users?.full_name?.slice(0, 2).toUpperCase() || "KK"}
                 </div>
-                <DialogTitle className="text-lg">
-                  {selectedPlayer.users?.full_name}
-                </DialogTitle>
+                <DialogTitle className="text-lg">{selectedPlayer.users?.full_name}</DialogTitle>
                 <DialogDescription className="font-mono text-xs">
                   PRN: {selectedPlayer.registration_number} • {selectedPlayer.department}
                 </DialogDescription>
               </DialogHeader>
 
-              <div className="rounded-xl border border-border bg-white p-4 shadow-sm text-center">
+              <div className="rounded-xl border border-border bg-white p-4 text-center shadow-sm">
                 <div className="inline-block">
                   <QRCodeSVG
                     value={`${typeof window !== "undefined" ? window.location.origin : ""}/verify/${selectedPlayer.qr_code || selectedPlayer.registration_number}`}
@@ -306,31 +302,31 @@ export function PlayersManagement({ initialPlayers }: PlayersManagementProps) {
                     level="M"
                   />
                 </div>
-                <p className="font-mono text-[11px] text-slate-700 font-semibold mt-2">
+                <p className="mt-2 font-mono text-[11px] font-semibold text-slate-700">
                   {selectedPlayer.qr_code || `PLAYOPS-${selectedPlayer.registration_number}`}
                 </p>
               </div>
 
               <div className="grid grid-cols-2 gap-2 text-xs">
-                <div className="p-2 rounded bg-muted/40 border">
-                  <span className="text-muted-foreground block">Year</span>
+                <div className="rounded border bg-muted/40 p-2">
+                  <span className="block text-muted-foreground">Year</span>
                   <span className="font-semibold text-foreground">{selectedPlayer.year}</span>
                 </div>
-                <div className="p-2 rounded bg-muted/40 border">
-                  <span className="text-muted-foreground block">Blood Group</span>
+                <div className="rounded border bg-muted/40 p-2">
+                  <span className="block text-muted-foreground">Blood Group</span>
                   <span className="font-semibold text-foreground">
                     {selectedPlayer.blood_group || "N/A"}
                   </span>
                 </div>
-                <div className="p-2 rounded bg-muted/40 border col-span-2">
-                  <span className="text-muted-foreground block">Emergency Contact</span>
+                <div className="col-span-2 rounded border bg-muted/40 p-2">
+                  <span className="block text-muted-foreground">Emergency Contact</span>
                   <span className="font-mono text-foreground">
                     {selectedPlayer.emergency_contact}
                   </span>
                 </div>
               </div>
 
-              <DialogFooter className="flex-col sm:flex-row gap-2 pt-2">
+              <DialogFooter className="flex-col gap-2 pt-2 sm:flex-row">
                 <Button
                   variant={selectedPlayer.is_active ? "destructive" : "default"}
                   size="sm"
@@ -383,12 +379,10 @@ export function PlayersManagement({ initialPlayers }: PlayersManagementProps) {
           </form>
 
           {scannedPlayer && (
-            <div className="rounded-lg border border-emerald-500/30 bg-emerald-500/5 p-4 space-y-3">
+            <div className="space-y-3 rounded-lg border border-emerald-500/30 bg-emerald-500/5 p-4">
               <div className="flex items-center justify-between">
                 <div>
-                  <h4 className="font-bold text-foreground">
-                    {scannedPlayer.users?.full_name}
-                  </h4>
+                  <h4 className="font-bold text-foreground">{scannedPlayer.users?.full_name}</h4>
                   <p className="font-mono text-xs text-muted-foreground">
                     PRN: {scannedPlayer.registration_number}
                   </p>
@@ -398,7 +392,7 @@ export function PlayersManagement({ initialPlayers }: PlayersManagementProps) {
                 </Badge>
               </div>
 
-              <div className="text-xs space-y-1 text-muted-foreground border-t border-border/50 pt-2">
+              <div className="space-y-1 border-t border-border/50 pt-2 text-xs text-muted-foreground">
                 <p>
                   <strong className="text-foreground">Dept:</strong> {scannedPlayer.department} (
                   {scannedPlayer.year})

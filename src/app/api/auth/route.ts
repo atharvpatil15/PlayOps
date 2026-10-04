@@ -13,11 +13,7 @@ export async function GET() {
       return NextResponse.json({ user: null, role: null }, { status: 401 });
     }
 
-    const { data: profile } = await supabase
-      .from("users")
-      .select("*")
-      .eq("id", user.id)
-      .single();
+    const { data: profile } = await supabase.from("users").select("*").eq("id", user.id).single();
 
     return NextResponse.json({ user, profile });
   } catch (err: unknown) {

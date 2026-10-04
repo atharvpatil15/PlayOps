@@ -7,9 +7,7 @@ export async function GET(request: NextRequest) {
     const { searchParams } = new URL(request.url);
     const status = searchParams.get("status");
 
-    let query = supabase
-      .from("tournaments")
-      .select("*, sport:sports(*), venue:venues(*)");
+    let query = supabase.from("tournaments").select("*, sport:sports(*), venue:venues(*)");
 
     if (status) {
       query = query.eq("status", status);

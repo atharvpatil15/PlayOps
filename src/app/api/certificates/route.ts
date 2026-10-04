@@ -7,7 +7,9 @@ export async function GET(request: NextRequest) {
     const { searchParams } = new URL(request.url);
     const code = searchParams.get("code");
 
-    let query = supabase.from("certificates").select("*, player:players(*, user:users(*)), tournament:tournaments(*)");
+    let query = supabase
+      .from("certificates")
+      .select("*, player:players(*, user:users(*)), tournament:tournaments(*)");
 
     if (code) {
       query = query.eq("id", code);

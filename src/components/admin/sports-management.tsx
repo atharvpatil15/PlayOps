@@ -71,11 +71,8 @@ export function SportsManagement({ initialSports }: SportsManagementProps) {
   });
 
   const filteredSports = sports.filter((sport) => {
-    const matchesSearch = sport.name
-      .toLowerCase()
-      .includes(search.toLowerCase());
-    const matchesFilter =
-      filterType === "all" || sport.type === filterType;
+    const matchesSearch = sport.name.toLowerCase().includes(search.toLowerCase());
+    const matchesFilter = filterType === "all" || sport.type === filterType;
     return matchesSearch && matchesFilter;
   });
 
@@ -159,7 +156,7 @@ export function SportsManagement({ initialSports }: SportsManagementProps) {
 
   return (
     <div className="space-y-6">
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-border pb-4">
+      <div className="flex flex-col justify-between gap-4 border-b border-border pb-4 sm:flex-row sm:items-center">
         <div>
           <h1 className="text-2xl font-bold tracking-tight text-foreground sm:text-3xl">
             Sports Catalog Management
@@ -175,14 +172,14 @@ export function SportsManagement({ initialSports }: SportsManagementProps) {
       </div>
 
       {/* Filters and Search */}
-      <div className="flex flex-col sm:flex-row gap-3">
+      <div className="flex flex-col gap-3 sm:flex-row">
         <div className="relative flex-1">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+          <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
           <Input
             placeholder="Search sports by name..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="pl-9 bg-card"
+            className="bg-card pl-9"
           />
         </div>
         <div className="w-full sm:w-48">
@@ -202,12 +199,12 @@ export function SportsManagement({ initialSports }: SportsManagementProps) {
       {/* Sports Table */}
       <Card>
         <CardHeader>
-          <CardTitle className="text-base font-semibold flex items-center justify-between">
+          <CardTitle className="flex items-center justify-between text-base font-semibold">
             <span>Configured Sports ({filteredSports.length})</span>
           </CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="rounded-md border border-border overflow-hidden">
+          <div className="overflow-hidden rounded-md border border-border">
             <Table>
               <TableHeader>
                 <TableRow>
@@ -234,7 +231,7 @@ export function SportsManagement({ initialSports }: SportsManagementProps) {
                       <TableCell className="font-medium text-foreground">
                         <div>{sport.name}</div>
                         {sport.description && (
-                          <div className="text-xs text-muted-foreground line-clamp-1">
+                          <div className="line-clamp-1 text-xs text-muted-foreground">
                             {sport.description}
                           </div>
                         )}
@@ -251,7 +248,7 @@ export function SportsManagement({ initialSports }: SportsManagementProps) {
                           {sport.is_active ? "Active" : "Inactive"}
                         </Badge>
                       </TableCell>
-                      <TableCell className="text-right space-x-1">
+                      <TableCell className="space-x-1 text-right">
                         <Button
                           variant="ghost"
                           size="sm"
@@ -389,15 +386,13 @@ export function SportsManagement({ initialSports }: SportsManagementProps) {
               </div>
 
               <div className="grid grid-cols-4 items-start gap-4">
-                <Label htmlFor="desc" className="text-right pt-2">
+                <Label htmlFor="desc" className="pt-2 text-right">
                   Description
                 </Label>
                 <Textarea
                   id="desc"
                   value={formData.description || ""}
-                  onChange={(e) =>
-                    setFormData({ ...formData, description: e.target.value })
-                  }
+                  onChange={(e) => setFormData({ ...formData, description: e.target.value })}
                   placeholder="Brief description or rules overview..."
                   className="col-span-3"
                 />
@@ -429,23 +424,15 @@ export function SportsManagement({ initialSports }: SportsManagementProps) {
             <DialogTitle>Confirm Deletion</DialogTitle>
             <DialogDescription>
               Are you sure you want to delete{" "}
-              <strong className="text-foreground">{deletingSport?.name}</strong>? This action
-              cannot be undone if tournaments are linked.
+              <strong className="text-foreground">{deletingSport?.name}</strong>? This action cannot
+              be undone if tournaments are linked.
             </DialogDescription>
           </DialogHeader>
           <DialogFooter>
-            <Button
-              variant="outline"
-              onClick={() => setIsDeleteOpen(false)}
-              disabled={loading}
-            >
+            <Button variant="outline" onClick={() => setIsDeleteOpen(false)} disabled={loading}>
               Cancel
             </Button>
-            <Button
-              variant="destructive"
-              onClick={handleDelete}
-              disabled={loading}
-            >
+            <Button variant="destructive" onClick={handleDelete} disabled={loading}>
               {loading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
               Delete Sport
             </Button>

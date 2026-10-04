@@ -29,7 +29,7 @@ export default function ResultsPage() {
   ];
 
   return (
-    <div className="container max-w-7xl px-4 py-8 sm:px-8 space-y-8">
+    <div className="container max-w-7xl space-y-8 px-4 py-8 sm:px-8">
       <div className="border-b pb-6">
         <Badge variant="outline" className="mb-2">
           Archives
@@ -42,26 +42,28 @@ export default function ResultsPage() {
         </p>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
         {completedMatches.map((m) => (
           <Card key={m.id} className="overflow-hidden">
-            <div className="bg-muted/40 p-4 border-b flex items-center justify-between">
+            <div className="flex items-center justify-between border-b bg-muted/40 p-4">
               <div>
                 <p className="text-xs font-semibold text-primary">{m.tournament}</p>
-                <p className="text-xs text-muted-foreground">{m.round} • {m.date}</p>
+                <p className="text-xs text-muted-foreground">
+                  {m.round} • {m.date}
+                </p>
               </div>
               <Badge variant="secondary">Final Result</Badge>
             </div>
-            <CardContent className="p-4 space-y-3">
+            <CardContent className="space-y-3 p-4">
               <div className="flex items-center justify-between">
                 <span className="font-semibold text-foreground">{m.teamA}</span>
-                <span className="font-mono font-bold text-lg">{m.scoreA}</span>
+                <span className="font-mono text-lg font-bold">{m.scoreA}</span>
               </div>
               <div className="flex items-center justify-between">
                 <span className="font-semibold text-foreground">{m.teamB}</span>
-                <span className="font-mono font-bold text-lg">{m.scoreB}</span>
+                <span className="font-mono text-lg font-bold">{m.scoreB}</span>
               </div>
-              <div className="pt-2 border-t flex items-center gap-1.5 text-xs text-emerald-600 font-semibold">
+              <div className="flex items-center gap-1.5 border-t pt-2 text-xs font-semibold text-emerald-600">
                 <CheckCircle2 className="h-4 w-4" />
                 <span>{m.winner}</span>
               </div>

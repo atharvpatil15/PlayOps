@@ -8,7 +8,11 @@ export async function GET(request: NextRequest) {
     const tournamentId = searchParams.get("tournamentId");
     const status = searchParams.get("status");
 
-    let query = supabase.from("matches").select("*, team_a:teams!matches_team_a_id_fkey(*), team_b:teams!matches_team_b_id_fkey(*), sport:sports(*), venue:venues(*)");
+    let query = supabase
+      .from("matches")
+      .select(
+        "*, team_a:teams!matches_team_a_id_fkey(*), team_b:teams!matches_team_b_id_fkey(*), sport:sports(*), venue:venues(*)"
+      );
 
     if (tournamentId) query = query.eq("tournament_id", tournamentId);
     if (status) query = query.eq("status", status);

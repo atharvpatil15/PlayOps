@@ -31,20 +31,20 @@ export function Navbar() {
       <div className="container flex h-16 max-w-7xl items-center justify-between px-4 sm:px-8">
         <div className="flex items-center gap-6">
           <Link href="/" className="flex items-center space-x-2">
-            <span className="flex h-9 w-9 items-center justify-center rounded-lg bg-primary text-primary-foreground font-black text-lg shadow-sm">
+            <span className="flex h-9 w-9 items-center justify-center rounded-lg bg-primary text-lg font-black text-primary-foreground shadow-sm">
               PO
             </span>
             <div className="flex flex-col">
               <span className="text-lg font-bold leading-tight tracking-tight text-foreground">
                 PlayOps
               </span>
-              <span className="text-[10px] font-semibold text-muted-foreground uppercase tracking-wider">
+              <span className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">
                 KK Wagh Sports
               </span>
             </div>
           </Link>
 
-          <nav className="hidden md:flex items-center space-x-1">
+          <nav className="hidden items-center space-x-1 md:flex">
             {navLinks.map((link) => {
               const Icon = link.icon;
               const isActive = pathname === link.href;
@@ -53,18 +53,18 @@ export function Navbar() {
                   key={link.href}
                   href={link.href}
                   className={cn(
-                    "flex items-center space-x-1.5 px-3 py-2 text-sm font-medium rounded-md transition-colors",
+                    "flex items-center space-x-1.5 rounded-md px-3 py-2 text-sm font-medium transition-colors",
                     isActive
-                      ? "text-primary bg-primary/10 font-semibold"
-                      : "text-muted-foreground hover:text-foreground hover:bg-muted"
+                      ? "bg-primary/10 font-semibold text-primary"
+                      : "text-muted-foreground hover:bg-muted hover:text-foreground"
                   )}
                 >
                   <Icon className="h-4 w-4" />
                   <span>{link.title}</span>
                   {link.badge && (
-                    <span className="flex h-2 w-2 relative ml-1">
-                      <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
-                      <span className="relative inline-flex rounded-full h-2 w-2 bg-red-500"></span>
+                    <span className="relative ml-1 flex h-2 w-2">
+                      <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-red-400 opacity-75"></span>
+                      <span className="relative inline-flex h-2 w-2 rounded-full bg-red-500"></span>
                     </span>
                   )}
                 </Link>
@@ -73,7 +73,7 @@ export function Navbar() {
           </nav>
         </div>
 
-        <div className="hidden md:flex items-center space-x-3">
+        <div className="hidden items-center space-x-3 md:flex">
           {isAuthenticated ? (
             <div className="flex items-center space-x-2">
               {isAdmin ? (
@@ -130,9 +130,9 @@ export function Navbar() {
                   href={link.href}
                   onClick={() => setMobileMenuOpen(false)}
                   className={cn(
-                    "flex items-center justify-between px-3 py-2 text-sm font-medium rounded-md",
+                    "flex items-center justify-between rounded-md px-3 py-2 text-sm font-medium",
                     isActive
-                      ? "bg-primary/10 text-primary font-semibold"
+                      ? "bg-primary/10 font-semibold text-primary"
                       : "text-muted-foreground hover:bg-muted hover:text-foreground"
                   )}
                 >
@@ -148,7 +148,7 @@ export function Navbar() {
                 </Link>
               );
             })}
-            <div className="pt-3 border-t flex flex-col space-y-2">
+            <div className="flex flex-col space-y-2 border-t pt-3">
               {isAuthenticated ? (
                 <Button asChild className="w-full">
                   <Link href={isAdmin ? ROUTES.ADMIN_DASHBOARD : ROUTES.PLAYER_DASHBOARD}>

@@ -36,13 +36,14 @@ export function Topbar({ title, role }: TopbarProps) {
   };
 
   const displayName = user?.fullName || (role === "admin" ? "Sports Admin" : "Athlete Player");
-  const displayEmail = user?.email || (role === "admin" ? "admin@kkwagh.edu.in" : "student@kkwagh.edu.in");
+  const displayEmail =
+    user?.email || (role === "admin" ? "admin@kkwagh.edu.in" : "student@kkwagh.edu.in");
 
   return (
     <header className="sticky top-0 z-30 flex h-16 w-full items-center justify-between border-b bg-background/95 px-4 backdrop-blur sm:px-6">
       <div className="flex items-center gap-3">
         <Link href="/" className="flex items-center space-x-2 md:hidden">
-          <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary text-primary-foreground font-black text-sm">
+          <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary text-sm font-black text-primary-foreground">
             PO
           </span>
         </Link>
@@ -59,7 +60,7 @@ export function Topbar({ title, role }: TopbarProps) {
           className="relative rounded-full p-2 text-muted-foreground hover:bg-muted hover:text-foreground"
         >
           <Bell className="h-5 w-5" />
-          <span className="absolute top-1.5 right-1.5 h-2 w-2 rounded-full bg-primary" />
+          <span className="absolute right-1.5 top-1.5 h-2 w-2 rounded-full bg-primary" />
         </Link>
 
         <DropdownMenu>
@@ -82,7 +83,7 @@ export function Topbar({ title, role }: TopbarProps) {
             <DropdownMenuItem asChild>
               <Link
                 href={role === "admin" ? ROUTES.ADMIN_DASHBOARD : ROUTES.PLAYER_PROFILE}
-                className="flex items-center cursor-pointer"
+                className="flex cursor-pointer items-center"
               >
                 {role === "admin" ? (
                   <Shield className="mr-2 h-4 w-4" />
@@ -93,12 +94,12 @@ export function Topbar({ title, role }: TopbarProps) {
               </Link>
             </DropdownMenuItem>
             <DropdownMenuItem asChild>
-              <Link href="/" className="flex items-center cursor-pointer">
+              <Link href="/" className="flex cursor-pointer items-center">
                 <span>Back to Public Portal</span>
               </Link>
             </DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem onClick={handleSignOut} className="text-destructive cursor-pointer">
+            <DropdownMenuItem onClick={handleSignOut} className="cursor-pointer text-destructive">
               <LogOut className="mr-2 h-4 w-4" />
               <span>Log out</span>
             </DropdownMenuItem>

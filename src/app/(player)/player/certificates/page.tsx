@@ -23,33 +23,34 @@ export default function PlayerCertificatesPage() {
   ];
 
   return (
-    <div className="space-y-6 max-w-4xl">
+    <div className="max-w-4xl space-y-6">
       <div className="border-b pb-4">
         <h1 className="text-2xl font-bold tracking-tight text-foreground sm:text-3xl">
           Digital Merit & Participation Certificates
         </h1>
         <p className="text-sm text-muted-foreground">
-          Download and verify official cryptographically signed certificates for your college portfolio.
+          Download and verify official cryptographically signed certificates for your college
+          portfolio.
         </p>
       </div>
 
       <div className="space-y-4">
         {certs.map((c) => (
           <Card key={c.id} className="p-4">
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            <div className="flex flex-col justify-between gap-4 sm:flex-row sm:items-center">
               <div className="flex items-start gap-3">
-                <div className="rounded-lg bg-amber-500/10 p-2 text-amber-600 shrink-0">
+                <div className="shrink-0 rounded-lg bg-amber-500/10 p-2 text-amber-600">
                   <Award className="h-6 w-6" />
                 </div>
                 <div>
                   <div className="flex items-center gap-2">
-                    <h3 className="font-bold text-base text-foreground">{c.title}</h3>
+                    <h3 className="text-base font-bold text-foreground">{c.title}</h3>
                     <Badge variant="outline" className="text-xs">
                       {c.date}
                     </Badge>
                   </div>
-                  <p className="text-sm text-muted-foreground mt-0.5">{c.tournament}</p>
-                  <p className="text-xs font-mono text-muted-foreground mt-1">Code: {c.code}</p>
+                  <p className="mt-0.5 text-sm text-muted-foreground">{c.tournament}</p>
+                  <p className="mt-1 font-mono text-xs text-muted-foreground">Code: {c.code}</p>
                 </div>
               </div>
 

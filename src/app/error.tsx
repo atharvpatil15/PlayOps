@@ -16,12 +16,12 @@ export default function ErrorBoundary({
   }, [error]);
 
   return (
-    <div className="container flex min-h-[60vh] flex-col items-center justify-center text-center px-4">
-      <div className="rounded-full bg-destructive/10 p-4 text-destructive mb-4">
+    <div className="container flex min-h-[60vh] flex-col items-center justify-center px-4 text-center">
+      <div className="mb-4 rounded-full bg-destructive/10 p-4 text-destructive">
         <AlertCircle className="h-8 w-8" />
       </div>
       <h2 className="text-2xl font-bold tracking-tight text-foreground">Something went wrong</h2>
-      <p className="mt-2 text-sm text-muted-foreground max-w-md">
+      <p className="mt-2 max-w-md text-sm text-muted-foreground">
         An unexpected error occurred while communicating with PlayOps services.
       </p>
       <div className="mt-6 flex gap-3">

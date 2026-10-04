@@ -1,10 +1,4 @@
-export type Json =
-  | string
-  | number
-  | boolean
-  | null
-  | { [key: string]: Json | undefined }
-  | Json[];
+export type Json = string | number | boolean | null | { [key: string]: Json | undefined } | Json[];
 
 export type UserRole = "admin" | "player" | "viewer";
 export type SportType = "indoor" | "outdoor";
@@ -15,12 +9,7 @@ export type RegistrationStatus = "pending" | "approved" | "rejected";
 export type PaymentStatus = "unpaid" | "paid" | "refunded" | "waived";
 export type MatchStatus = "scheduled" | "live" | "completed" | "cancelled" | "postponed";
 export type MatchRound =
-  | "group"
-  | "round_of_16"
-  | "quarter_final"
-  | "semi_final"
-  | "third_place"
-  | "final";
+  "group" | "round_of_16" | "quarter_final" | "semi_final" | "third_place" | "final";
 export type EventType =
   | "goal"
   | "assist"
@@ -37,24 +26,10 @@ export type EventType =
   | "ace"
   | "smash"
   | "other";
-export type CertificateType =
-  | "winner"
-  | "runner_up"
-  | "mvp"
-  | "best_player"
-  | "participation";
-export type NotificationType =
-  | "tournament"
-  | "match"
-  | "result"
-  | "registration"
-  | "general";
+export type CertificateType = "winner" | "runner_up" | "mvp" | "best_player" | "participation";
+export type NotificationType = "tournament" | "match" | "result" | "registration" | "general";
 export type ReportType =
-  | "tournament_summary"
-  | "player_stats"
-  | "participation"
-  | "financial"
-  | "annual";
+  "tournament_summary" | "player_stats" | "participation" | "financial" | "annual";
 
 export type Database = {
   public: {
@@ -157,7 +132,7 @@ export type Database = {
             isOneToOne: true;
             referencedRelation: "users";
             referencedColumns: ["id"];
-          }
+          },
         ];
       };
       sports: {
@@ -341,7 +316,22 @@ export type Database = {
           created_at?: string;
           updated_at?: string;
         };
-        Relationships: [];
+        Relationships: [
+          {
+            foreignKeyName: "tournaments_sport_id_fkey";
+            columns: ["sport_id"];
+            isOneToOne: false;
+            referencedRelation: "sports";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "tournaments_venue_id_fkey";
+            columns: ["venue_id"];
+            isOneToOne: false;
+            referencedRelation: "venues";
+            referencedColumns: ["id"];
+          },
+        ];
       };
       tournament_registrations: {
         Row: {
@@ -696,4 +686,4 @@ export type Database = {
       [_ in never]: never;
     };
   };
-}
+};

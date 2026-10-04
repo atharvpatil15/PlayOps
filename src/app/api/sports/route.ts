@@ -5,10 +5,7 @@ import { SUPPORTED_SPORTS } from "@/lib/constants/sport";
 export async function GET() {
   try {
     const supabase = await createClient();
-    const { data: sports, error } = await supabase
-      .from("sports")
-      .select("*")
-      .eq("is_active", true);
+    const { data: sports, error } = await supabase.from("sports").select("*").eq("is_active", true);
 
     if (error || !sports || sports.length === 0) {
       // Fallback to catalog constants during local initial setup
