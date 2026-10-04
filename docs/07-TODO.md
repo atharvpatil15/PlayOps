@@ -123,7 +123,7 @@
 
 ### Enums & Types
 
-- [ ] **Create enum types** `P0` `Easy`  
+- [x] **Create enum types** `P0` `Easy`  
   Define PostgreSQL enums in a migration file:
   - `user_role` → `admin`, `player`
   - `sport_type` → `cricket`, `football`, `basketball`, `volleyball`, `badminton`, `table_tennis`, `athletics`, `chess`, `kabaddi`, `kho_kho`
@@ -138,60 +138,60 @@
 
 ### Core Tables
 
-- [ ] **Create `users` table** `P0` `Easy`  
+- [x] **Create `users` table** `P0` `Easy`  
   Extends Supabase `auth.users`. Stores `id` (FK to auth.users), `full_name`, `email`, `role` (user_role enum), `avatar_url`, `created_at`, `updated_at`.
 
-- [ ] **Create `players` table** `P0` `Medium`  
+- [x] **Create `players` table** `P0` `Medium`  
   Player profile: `id`, `user_id` (FK → users), `prn` (college PRN), `department`, `year_of_study`, `phone`, `date_of_birth`, `gender`, `blood_group`, `height_cm`, `weight_kg`, `preferred_sports` (text[]), `jersey_number`, `medical_conditions`, `emergency_contact_name`, `emergency_contact_phone`, `qr_code_data`, `is_active`, `created_at`, `updated_at`.
 
-- [ ] **Create `sports` table** `P0` `Easy`  
+- [x] **Create `sports` table** `P0` `Easy`  
   Sport catalog: `id`, `name`, `sport_type` (enum), `category` (enum), `icon_url`, `max_players_per_team`, `min_players_per_team`, `description`, `rules`, `is_active`, `created_at`.
 
-- [ ] **Create `venues` table** `P0` `Easy`  
+- [x] **Create `venues` table** `P0` `Easy`  
   Venue details: `id`, `name`, `location`, `capacity`, `sport_type` (enum[]), `facilities` (text[]), `image_url`, `is_indoor`, `is_active`, `created_at`.
 
-- [ ] **Create `teams` table** `P0` `Easy`  
+- [x] **Create `teams` table** `P0` `Easy`  
   Team info: `id`, `name`, `sport_id` (FK → sports), `tournament_id` (FK → tournaments), `captain_id` (FK → players), `logo_url`, `department`, `gender_category` (enum), `is_active`, `created_at`, `updated_at`.
 
-- [ ] **Create `team_players` table** `P0` `Easy`  
+- [x] **Create `team_players` table** `P0` `Easy`  
   Junction table: `id`, `team_id` (FK → teams), `player_id` (FK → players), `jersey_number`, `position`, `is_substitute`, `joined_at`.
 
 ### Tournament & Match Tables
 
-- [ ] **Create `tournaments` table** `P0` `Medium`  
+- [x] **Create `tournaments` table** `P0` `Medium`  
   Tournament master: `id`, `name`, `sport_id` (FK → sports), `format` (enum), `status` (enum), `gender_category` (enum), `description`, `rules`, `start_date`, `end_date`, `registration_deadline`, `max_teams`, `min_teams`, `venue_id` (FK → venues), `organizer_id` (FK → users), `banner_url`, `is_featured`, `created_at`, `updated_at`.
 
-- [ ] **Create `tournament_registrations` table** `P0` `Easy`  
+- [x] **Create `tournament_registrations` table** `P0` `Easy`  
   Registration tracking: `id`, `tournament_id` (FK), `team_id` (FK), `registered_by` (FK → users), `status` (registration_status enum), `remarks`, `registered_at`, `reviewed_at`, `reviewed_by` (FK → users).
 
-- [ ] **Create `matches` table** `P0` `Medium`  
+- [x] **Create `matches` table** `P0` `Medium`  
   Match scheduling: `id`, `tournament_id` (FK), `round_number`, `match_number`, `team_a_id` (FK → teams), `team_b_id` (FK → teams), `venue_id` (FK), `scheduled_at`, `started_at`, `ended_at`, `status` (match_status enum), `score_team_a`, `score_team_b`, `winner_id` (FK → teams), `is_draw`, `next_match_id` (FK → matches, for knockout brackets), `remarks`, `created_at`, `updated_at`.
 
-- [ ] **Create `match_events` table** `P0` `Medium`  
+- [x] **Create `match_events` table** `P0` `Medium`  
   Live event log: `id`, `match_id` (FK), `event_type` (enum), `team_id` (FK), `player_id` (FK → players), `minute`, `description`, `metadata` (jsonb), `created_at`.
 
 ### Derived / Aggregation Tables
 
-- [ ] **Create `points_table` table** `P0` `Easy`  
+- [x] **Create `points_table` table** `P0` `Easy`  
   League standings: `id`, `tournament_id` (FK), `team_id` (FK), `played`, `won`, `lost`, `drawn`, `goals_for` (or runs_for), `goals_against`, `goal_difference`, `points`, `net_run_rate` (for cricket), `rank`, `updated_at`.
 
-- [ ] **Create `player_performance` table** `P1` `Medium`  
+- [x] **Create `player_performance` table** `P1` `Medium`  
   Individual stats: `id`, `player_id` (FK), `match_id` (FK), `tournament_id` (FK), `sport_id` (FK), `goals`, `assists`, `wickets`, `runs`, `catches`, `points_scored`, `fouls`, `cards_yellow`, `cards_red`, `minutes_played`, `is_man_of_match`, `metadata` (jsonb), `created_at`.
 
 ### Support Tables
 
-- [ ] **Create `notifications` table** `P1` `Easy`  
+- [x] **Create `notifications` table** `P1` `Easy`  
   In-app notifications: `id`, `user_id` (FK), `title`, `message`, `type` (notification_type enum), `reference_id` (generic FK), `reference_type` (e.g., `match`, `tournament`), `is_read`, `read_at`, `created_at`.
 
-- [ ] **Create `certificates` table** `P2` `Easy`  
+- [x] **Create `certificates` table** `P2` `Easy`  
   Certificate records: `id`, `player_id` (FK), `tournament_id` (FK), `type` (e.g., `winner`, `runner_up`, `participation`, `man_of_tournament`), `title`, `issued_at`, `file_url`, `template_data` (jsonb), `created_at`.
 
-- [ ] **Create `reports` table** `P2` `Easy`  
+- [x] **Create `reports` table** `P2` `Easy`  
   Generated reports: `id`, `title`, `type` (e.g., `tournament_summary`, `player_report`), `reference_id`, `reference_type`, `generated_by` (FK → users), `file_url`, `metadata` (jsonb), `created_at`.
 
 ### Database Configuration
 
-- [ ] **Set up Row Level Security (RLS) policies for each table** `P0` `Hard`  
+- [x] **Set up Row Level Security (RLS) policies for each table** `P0` `Hard`  
   Define granular policies:
   - `users`: Users can read own row; admins can read all.
   - `players`: Players can read/update own profile; admins full CRUD.
@@ -206,7 +206,7 @@
   - `certificates`: Player reads own; admin creates.
   - `reports`: Admin only.
 
-- [ ] **Create database indexes** `P1` `Medium`  
+- [x] **Create database indexes** `P1` `Medium`  
   Add indexes for performance:
   - `players(user_id)`, `players(prn)`
   - `teams(tournament_id)`, `teams(sport_id)`
@@ -219,7 +219,7 @@
   - `tournaments(status)`, `tournaments(sport_id)`
   - `certificates(player_id)`
 
-- [ ] **Create database functions and triggers** `P0` `Hard`  
+- [x] **Create database functions and triggers** `P0` `Hard`  
   - `handle_new_user()` — trigger to auto-create user row on auth signup
   - `update_points_table()` — trigger on match completion to recalculate standings
   - `calculate_net_run_rate()` — for cricket league tables
@@ -228,7 +228,7 @@
   - `generate_fixtures_league()` — stored function for round-robin pairings
   - `get_team_standings()` — function to retrieve sorted points table
 
-- [ ] **Seed sample data** `P1` `Medium`  
+- [x] **Seed sample data** `P1` `Medium`  
   Create seed script with: 2 admin users, 30 players, 8 sports, 4 venues, 12 teams, 3 tournaments, 20+ matches, sample match events and points table entries.
 
 ---
