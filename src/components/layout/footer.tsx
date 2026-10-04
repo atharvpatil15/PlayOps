@@ -42,6 +42,11 @@ export function Footer() {
                   Past Match Results
                 </Link>
               </li>
+              <li>
+                <Link href="/admin/dashboard" className="transition-colors hover:text-foreground">
+                  Admin Portal
+                </Link>
+              </li>
             </ul>
           </div>
 

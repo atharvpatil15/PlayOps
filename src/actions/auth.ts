@@ -25,13 +25,19 @@ export async function loginAction(formData: FormData) {
   }
 
   // Determine redirection
-  const { data: profile } = await supabase
-    .from("users")
-    .select("role")
-    .eq("id", data.user.id)
-    .single();
+  let role: string | undefined =
+    (data.user.app_metadata?.role as string | undefined) ||
+    (data.user.user_metadata?.role as string | undefined);
 
-  const role = (profile as { role?: string } | null)?.role;
+  if (!role) {
+    const { data: profile } = await supabase
+      .from("users")
+      .select("role")
+      .eq("id", data.user.id)
+      .single();
+    role = (profile as { role?: string } | null)?.role;
+  }
+
   if (role === "admin") {
     redirect(ROUTES.ADMIN_DASHBOARD);
   } else {

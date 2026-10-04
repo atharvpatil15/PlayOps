@@ -42,12 +42,19 @@ export async function updateSession(request: NextRequest) {
 
   let role: string | null = null;
   if (user) {
-    const { data: profile } = await supabase
-      .from("users")
-      .select("role")
-      .eq("id", user.id)
-      .single();
-    role = (profile as { role?: string } | null)?.role ?? null;
+    role =
+      (user.app_metadata?.role as string) ||
+      (user.user_metadata?.role as string) ||
+      null;
+
+    if (!role) {
+      const { data: profile } = await supabase
+        .from("users")
+        .select("role")
+        .eq("id", user.id)
+        .single();
+      role = (profile as { role?: string } | null)?.role ?? null;
+    }
   }
 
   return { supabaseResponse, user, role };

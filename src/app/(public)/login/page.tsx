@@ -71,21 +71,34 @@ export default function LoginPage() {
       if (data.user) {
         toast.success("Welcome back to PlayOps!");
 
-        // Fetch user role for smart routing
-        const { data: profile } = await supabase
-          .from("users")
-          .select("role")
-          .eq("id", data.user.id)
-          .single();
+        // Fetch user role for smart routing with robust auth metadata fallback
+        let role: string | undefined =
+          (data.user.app_metadata?.role as string | undefined) ||
+          (data.user.user_metadata?.role as string | undefined);
 
-        const role = (profile as { role?: string } | null)?.role;
+        if (!role) {
+          const { data: profile } = await supabase
+            .from("users")
+            .select("role")
+            .eq("id", data.user.id)
+            .single();
+          role = (profile as { role?: string } | null)?.role;
+        }
 
-        if (redirectPath) {
-          router.push(redirectPath);
-        } else if (role === "admin") {
-          router.push(ROUTES.ADMIN_DASHBOARD);
+        if (role === "admin") {
+          // If admin, strictly navigate to admin dashboard (or specific admin subroute if requested)
+          if (redirectPath && redirectPath.startsWith("/admin")) {
+            router.push(redirectPath);
+          } else {
+            router.push(ROUTES.ADMIN_DASHBOARD);
+          }
         } else {
-          router.push(ROUTES.PLAYER_DASHBOARD);
+          // Player/viewer routing
+          if (redirectPath && !redirectPath.startsWith("/admin")) {
+            router.push(redirectPath);
+          } else {
+            router.push(ROUTES.PLAYER_DASHBOARD);
+          }
         }
         router.refresh();
       }

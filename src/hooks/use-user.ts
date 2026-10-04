@@ -27,15 +27,26 @@ export function useUser() {
           .eq("id", authUser.id)
           .single();
 
-        if (profile) {
-          setUser({
-            id: profile.id,
-            email: profile.email,
-            fullName: profile.full_name,
-            role: profile.role as UserRole,
-            avatarUrl: profile.avatar_url,
-          });
-        }
+        const role =
+          (profile?.role as UserRole) ||
+          (authUser.app_metadata?.role as UserRole) ||
+          (authUser.user_metadata?.role as UserRole) ||
+          "player";
+
+        setUser({
+          id: profile?.id || authUser.id,
+          email: profile?.email || authUser.email || "",
+          fullName:
+            profile?.full_name ||
+            (authUser.user_metadata?.full_name as string) ||
+            authUser.email?.split("@")[0] ||
+            "User",
+          role,
+          avatarUrl:
+            profile?.avatar_url ||
+            (authUser.user_metadata?.avatar_url as string) ||
+            null,
+        });
       } catch (err) {
         console.error("Error loading user session:", err);
         setUser(null);
@@ -56,15 +67,26 @@ export function useUser() {
           .eq("id", session.user.id)
           .single();
 
-        if (profile) {
-          setUser({
-            id: profile.id,
-            email: profile.email,
-            fullName: profile.full_name,
-            role: profile.role as UserRole,
-            avatarUrl: profile.avatar_url,
-          });
-        }
+        const role =
+          (profile?.role as UserRole) ||
+          (session.user.app_metadata?.role as UserRole) ||
+          (session.user.user_metadata?.role as UserRole) ||
+          "player";
+
+        setUser({
+          id: profile?.id || session.user.id,
+          email: profile?.email || session.user.email || "",
+          fullName:
+            profile?.full_name ||
+            (session.user.user_metadata?.full_name as string) ||
+            session.user.email?.split("@")[0] ||
+            "User",
+          role,
+          avatarUrl:
+            profile?.avatar_url ||
+            (session.user.user_metadata?.avatar_url as string) ||
+            null,
+        });
       } else {
         setUser(null);
       }

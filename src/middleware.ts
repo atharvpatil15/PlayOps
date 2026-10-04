@@ -37,6 +37,10 @@ export async function middleware(request: NextRequest) {
       redirectUrl.searchParams.set("redirect", pathname);
       return NextResponse.redirect(redirectUrl);
     }
+    // If admin attempts to enter player routes, redirect to admin dashboard
+    if (role === "admin") {
+      return NextResponse.redirect(new URL(ROUTES.ADMIN_DASHBOARD, request.url));
+    }
   }
 
   return supabaseResponse;
