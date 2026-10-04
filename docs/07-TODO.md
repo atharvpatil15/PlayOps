@@ -27,19 +27,19 @@
 | 9 | Configure ESLint + Prettier | P1 | Easy |
 | 10 | Set up Git repo + .gitignore | P0 | Easy |
 
-- [ ] **Initialize Next.js 15 project with TypeScript** `P0` `Easy`  
+- [x] **Initialize Next.js 15 project with TypeScript** `P0` `Easy`  
   Create the project using `create-next-app@latest` with the App Router, TypeScript, and `src/` directory enabled.
 
-- [ ] **Install and configure Tailwind CSS** `P0` `Easy`  
+- [x] **Install and configure Tailwind CSS** `P0` `Easy`  
   Tailwind comes bundled with `create-next-app`; verify `tailwind.config.ts`, configure theme extensions (colors, fonts, spacing) for PlayOps branding.
 
-- [ ] **Install and configure shadcn/ui** `P0` `Easy`  
+- [x] **Install and configure shadcn/ui** `P0` `Easy`  
   Run `npx shadcn@latest init`. Choose *New York* style, CSS variables mode. Install foundational components: `Button`, `Input`, `Card`, `Dialog`, `Table`, `Tabs`, `Badge`, `Toast`, `Dropdown Menu`, `Avatar`, `Sheet`.
 
-- [ ] **Set up Supabase project** `P0` `Easy`  
+- [x] **Set up Supabase project** `P0` `Easy`  
   Create a new Supabase project on [supabase.com](https://supabase.com). Note down the **Project URL**, **Anon Key**, and **Service Role Key**.
 
-- [ ] **Configure environment variables** `P0` `Easy`  
+- [x] **Configure environment variables** `P0` `Easy`  
   Create `.env.local` with:
   ```env
   NEXT_PUBLIC_SUPABASE_URL=
@@ -50,21 +50,21 @@
   ```
   Add `.env.local` to `.gitignore`. Create `.env.example` as a template.
 
-- [ ] **Set up Supabase client (browser + server)** `P0` `Medium`  
+- [x] **Set up Supabase client (browser + server)** `P0` `Medium`  
   Create utility files:
   - `src/lib/supabase/client.ts` — browser client (`createBrowserClient`)
   - `src/lib/supabase/server.ts` — server client (`createServerClient` with cookie handling)
   - `src/lib/supabase/middleware.ts` — middleware client for session refresh
   - `src/lib/supabase/admin.ts` — admin/service-role client for server-only operations
 
-- [ ] **Configure middleware for auth** `P0` `Medium`  
+- [x] **Configure middleware for auth** `P0` `Medium`  
   Create `src/middleware.ts`:
   - Refresh Supabase auth session on every request
   - Redirect unauthenticated users away from `/dashboard/*` and `/admin/*`
   - Redirect authenticated users away from `/login` and `/register`
   - Role-based route protection (admin vs. player routes)
 
-- [ ] **Set up project folder structure** `P0` `Easy`  
+- [x] **Set up project folder structure** `P0` `Easy`  
   ```
   src/
   ├── app/
@@ -87,11 +87,12 @@
   └── styles/                # Global CSS
   ```
 
-- [ ] **Configure ESLint and Prettier** `P1` `Easy`  
+- [x] **Configure ESLint and Prettier** `P1` `Easy`  
   Extend Next.js ESLint config. Add Prettier with `prettier-plugin-tailwindcss` for automatic class sorting. Create `.prettierrc` and `.eslintrc.json`.
 
-- [ ] **Set up Git repository and .gitignore** `P0` `Easy`  
+- [x] **Set up Git repository and .gitignore** `P0` `Easy`  
   Initialize repo, configure `.gitignore` for Next.js/Node, create initial commit with project scaffold.
+
 
 ---
 
