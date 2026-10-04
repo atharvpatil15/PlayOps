@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { ROUTES } from "@/lib/constants/routes";
 import { useUser } from "@/hooks/use-user";
+import { NotificationBell } from "@/components/layout/notification-bell";
 
 export function Navbar() {
   const pathname = usePathname();
@@ -76,6 +77,7 @@ export function Navbar() {
         <div className="hidden items-center space-x-3 md:flex">
           {isAuthenticated ? (
             <div className="flex items-center space-x-2">
+              <NotificationBell />
               {isAdmin ? (
                 <Button asChild variant="default" size="sm">
                   <Link href={ROUTES.ADMIN_DASHBOARD} className="flex items-center gap-1.5">

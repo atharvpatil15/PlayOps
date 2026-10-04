@@ -1,66 +1,23 @@
-import { Bell, Send } from "lucide-react";
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+import { getNotifications } from "@/actions/notifications";
+import { createAdminClient } from "@/lib/supabase/admin";
+import { NotificationsManagement } from "@/components/admin/notifications-management";
 
-export default function AdminNotificationsPage() {
+export const revalidate = 0;
+
+export default async function AdminNotificationsPage() {
+  const [notifsRes, tournamentsRes, sportsRes] = await Promise.all([
+    getNotifications(),
+    createAdminClient().from("tournaments").select("id, name").order("name"),
+    createAdminClient().from("sports").select("id, name").order("name"),
+  ]);
+
   return (
-    <div className="max-w-4xl space-y-6">
-      <div className="border-b pb-4">
-        <h1 className="text-2xl font-bold tracking-tight text-foreground sm:text-3xl">
-          Broadcast Announcements & Alerts
-        </h1>
-        <p className="text-sm text-muted-foreground">
-          Send real-time alerts to registered players, captains, or the entire college campus.
-        </p>
-      </div>
-
-      <Card>
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2 text-base font-bold">
-            <Bell className="h-5 w-5 text-primary" />
-            <span>Create New Announcement</span>
-          </CardTitle>
-          <CardDescription>Pushes live notifications via Supabase Realtime</CardDescription>
-        </CardHeader>
-        <CardContent className="space-y-4">
-          <div className="space-y-2">
-            <Label htmlFor="title">Announcement Headline</Label>
-            <Input
-              id="title"
-              placeholder="e.g. Schedule Update: Cricket Semi-Finals Moved to 10 AM"
-            />
-          </div>
-
-          <div className="space-y-2">
-            <Label htmlFor="target">Target Audience</Label>
-            <select
-              id="target"
-              className="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm"
-            >
-              <option value="all">All Authenticated Users & Viewers</option>
-              <option value="player">Registered Athletes & Captains Only</option>
-              <option value="admin">Sports Department Staff Only</option>
-            </select>
-          </div>
-
-          <div className="space-y-2">
-            <Label htmlFor="message">Announcement Details</Label>
-            <textarea
-              id="message"
-              rows={4}
-              placeholder="Enter comprehensive message description..."
-              className="w-full rounded-md border border-input bg-transparent p-3 text-sm shadow-sm"
-            />
-          </div>
-
-          <Button className="gap-2">
-            <Send className="h-4 w-4" />
-            <span>Broadcast Announcement Now</span>
-          </Button>
-        </CardContent>
-      </Card>
+    <div className="space-y-6">
+      <NotificationsManagement
+        initialNotifications={(notifsRes.data as any) || []}
+        tournaments={tournamentsRes.data || []}
+        sports={sportsRes.data || []}
+      />
     </div>
   );
 }

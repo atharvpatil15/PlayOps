@@ -18,6 +18,8 @@ import { Badge } from "@/components/ui/badge";
 import { StatCard } from "@/components/shared/stat-card";
 import { ROUTES } from "@/lib/constants/routes";
 import { createAdminClient } from "@/lib/supabase/admin";
+import { getAdminAnalytics } from "@/actions/analytics";
+import { AdminAnalyticsCharts } from "@/components/analytics/admin-analytics-charts";
 
 export const revalidate = 0;
 
@@ -32,6 +34,7 @@ export default async function AdminDashboardPage() {
     { count: tournamentsCount },
     { count: teamsCount },
     { count: liveMatchesCount, data: liveMatches },
+    analyticsRes,
   ] = await Promise.all([
     admin.from("players").select("*", { count: "exact", head: true }),
     admin.from("sports").select("*", { count: "exact", head: true }),
@@ -45,6 +48,7 @@ export default async function AdminDashboardPage() {
       )
       .eq("status", "live")
       .limit(3),
+    getAdminAnalytics(),
   ]);
 
   return (
@@ -169,6 +173,15 @@ export default async function AdminDashboardPage() {
           )}
         </CardContent>
       </Card>
+
+      {/* Recharts Analytics Charts */}
+      {analyticsRes.data && (
+        <AdminAnalyticsCharts
+          sportDistribution={analyticsRes.data.sportDistribution}
+          departmentDistribution={analyticsRes.data.departmentDistribution}
+          matchStatusMap={analyticsRes.data.matchStatusMap}
+        />
+      )}
 
       {/* Quick Actions & Recent Activity Grid */}
       <div className="grid grid-cols-1 gap-6 md:grid-cols-2">

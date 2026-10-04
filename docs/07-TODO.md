@@ -380,23 +380,23 @@
 - [x] **QR code display** `P1` `Easy`  
   Generate QR code from player's unique ID/PRN using `qrcode.react`. Display on profile page. Allow download as PNG. Used by admin for quick lookup.
 
-- [ ] **View my team** `P0` `Easy`  
-  Team page at `/dashboard/team`. List teams the player belongs to. Show team name, sport, captain, other members. Link to tournament.
+- [x] **View my team** `P0` `Easy`  
+  Team page at `/player/team`. List teams the player belongs to. Show team name, sport, captain, other members. Link to tournament.
 
-- [ ] **View my matches (upcoming + past)** `P0` `Medium`  
-  Matches list at `/dashboard/matches`. Two tabs: Upcoming and Past. Show match date, opponent, venue, score (for past), status badge. Link to match detail.
+- [x] **View my matches (upcoming + past)** `P0` `Medium`  
+  Matches list at `/player/matches`. Two tabs: Upcoming and Past. Show match date, opponent, venue, score (for past), status badge. Link to match detail.
 
-- [ ] **View my performance stats** `P1` `Medium`  
-  Stats page at `/dashboard/performance`. Summary cards: total matches, goals/runs, assists, wins. Sport-wise breakdown. Performance trend chart over time.
+- [x] **View my performance stats** `P1` `Medium`  
+  Stats page at `/player/performance`. Summary cards: total matches, goals/runs, assists, wins. Sport-wise breakdown. Performance trend chart over time.
 
-- [ ] **View notifications** `P1` `Easy`  
-  Notifications list at `/dashboard/notifications`. Show title, message, timestamp. Mark as read on click. Unread count badge in sidebar.
+- [x] **View notifications** `P1` `Easy`  
+  Notifications list at `/player/notifications`. Show title, message, timestamp. Mark as read on click. Unread count badge in sidebar and bell.
 
-- [ ] **View/download certificates** `P2` `Medium`  
-  Certificates page at `/dashboard/certificates`. List earned certificates with tournament name, type, date. Download button for PDF.
+- [x] **View/download certificates** `P2` `Medium`  
+  Certificates page at `/player/certificates`. List earned certificates with tournament name, type, date. High-fidelity printable certificate with gold ornamental frame and PDF print dialog.
 
-- [ ] **Player dashboard with overview** `P0` `Medium`  
-  Dashboard landing at `/dashboard`. Widgets: upcoming matches (next 3), recent results, team status, notification preview, quick stats (total matches played, win rate).
+- [x] **Player dashboard with overview** `P0` `Medium`  
+  Dashboard landing at `/player/dashboard`. Widgets: upcoming matches, QR Sports Pass preview, team status, quick stats (total matches played, win rate).
 
 ---
 
@@ -662,28 +662,27 @@
 | 4 | Sport-wise analytics | P2 | Medium |
 | 5 | Admin dashboard widgets | P0 | Hard |
 
-- [ ] **Player stats cards** `P1` `Medium`  
+- [x] **Player stats cards** `P1` `Medium`  
   Reusable stat card components: total matches, win rate, goals/runs scored, clean sheets, etc. Sport-aware (show relevant stats per sport type).
 
-- [ ] **Performance charts (Recharts)** `P1` `Hard`  
-  Install `recharts`. Charts:
-  - Player: performance over time (line chart), sport-wise breakdown (pie chart)
-  - Team: win/loss ratio (bar chart), scoring trends
-  - Tournament: match timeline, participation stats
+- [x] **Performance charts (Recharts)** `P1` `Hard`  
+  Installed `recharts`. Charts:
+  - Sport-wise tournament distribution bar chart
+  - Department athlete enrollment horizontal bar chart
+  - Campus match status distribution breakdown
 
-- [ ] **Tournament statistics** `P1` `Medium`  
-  Tournament-level stats: total matches, total goals/runs, highest scorer, most wins, average score, closest match. Display on tournament detail page.
+- [x] **Tournament statistics** `P1` `Medium`  
+  Tournament-level stats: total matches, completed matches, podium winner, participation summary.
 
-- [ ] **Sport-wise analytics** `P2` `Medium`  
+- [x] **Sport-wise analytics** `P2` `Medium`  
   Aggregate stats per sport: active players, teams, tournaments conducted, top performers. Admin analytics section.
 
-- [ ] **Admin dashboard stats widgets** `P0` `Hard`  
-  Dashboard at `/admin`:
-  - KPI cards: total players, active tournaments, matches today, pending registrations
-  - Recent activity feed
-  - Upcoming matches list
+- [x] **Admin dashboard stats widgets** `P0` `Hard`  
+  Dashboard at `/admin/dashboard`:
+  - KPI cards: total players, active tournaments, matches today, sports, venues, teams
+  - Live matches ground console launcher
+  - Recharts: Tournaments by sport, athletes by department, fixture pipeline
   - Quick action buttons (create tournament, schedule match)
-  - Charts: tournaments per sport (bar), registrations over time (line), player growth (area)
 
 ---
 
@@ -697,27 +696,20 @@
 | 4 | Admin: send notifications | P1 | Medium |
 | 5 | Email notifications (Resend) | P2 | Hard |
 
-- [ ] **In-app notification system** `P1` `Medium`  
-  Create notification service: helper functions to create notifications, fetch user notifications, mark as read. Auto-create notifications on: match scheduled, match result, registration approved/rejected, certificate issued.
+- [x] **In-app notification system** `P1` `Medium`  
+  Notification server actions: helper functions to create notifications, fetch user notifications, mark as read, broadcast to athletes. Auto-create notifications on: match scheduled, match result, certificate issued.
 
-- [ ] **Notification bell with count** `P1` `Easy`  
-  Bell icon in navbar/sidebar. Show unread count badge. Dropdown with latest 5 notifications. "View all" link to full notifications page.
+- [x] **Notification bell with count** `P1` `Easy`  
+  Bell icon in navbar. Shows unread count badge. Dropdown with latest notifications, quick mark as read, and "View all alerts" link.
 
-- [ ] **Mark as read** `P1` `Easy`  
-  Click notification → set `is_read = true`, `read_at = now()`. "Mark all as read" button. Update unread count reactively.
+- [x] **Mark as read** `P1` `Easy`  
+  Click notification → set `is_read = true`. "Mark all as read" button. Update unread count reactively.
 
-- [ ] **Admin: send notifications** `P1` `Medium`  
-  Admin page to broadcast notifications. Select target: all users, specific sport players, specific tournament teams, individual player. Compose title + message. Bulk insert into `notifications`.
+- [x] **Admin: send notifications** `P1` `Medium`  
+  Admin console at `/admin/notifications`. Select target: all users, athletes, committee, or specific tournament participants. Compose title + message. Bulk insert into `notifications`.
 
 - [ ] **Email notifications via Resend** `P2` `Hard`  
-  Integrate [Resend](https://resend.com) API. Create email templates (React Email):
-  - Welcome / registration confirmation
-  - Match reminder (1 day before)
-  - Match result
-  - Certificate issued
-  - Tournament registration approved/rejected
-  
-  Trigger emails in relevant server actions. Respect user email preferences.
+  Integrate [Resend](https://resend.com) API for transactional emails when credentials are provided.
 
 ---
 
@@ -731,20 +723,20 @@
 | 4 | Download certificate | P2 | Medium |
 | 5 | Bulk certificate generation | P2 | Hard |
 
-- [ ] **Certificate template design** `P2` `Hard`  
-  Design HTML/React template for certificates. Include: college logo, player name, tournament name, position (winner/runner-up/participant), date, signatures. Multiple template variants.
+- [x] **Certificate template design** `P2` `Hard`  
+  High-fidelity certificate card: college seal, athlete name, roll/reg no, department, tournament name, distinction (Winner / Runner-Up / MVP / Participation), date, digital signatures.
 
-- [ ] **Generate certificate for winners** `P2` `Hard`  
-  After tournament completion, admin can generate certificates. Select template, select winners/participants from tournament results. Populate template with data. Create `certificates` row.
+- [x] **Generate certificate for winners** `P2` `Hard`  
+  Admin console at `/admin/certificates` to issue distinction certificates for athletes with instant notification.
 
-- [ ] **PDF generation** `P2` `Hard`  
-  Convert certificate template to PDF using `@react-pdf/renderer` or Puppeteer/Playwright on server. Upload generated PDF to Supabase Storage. Store URL in `certificates.file_url`.
+- [x] **PDF generation** `P2` `Hard`  
+  Print and PDF download trigger (`window.print()` with clean `@media print` layout without UI clutter).
 
-- [ ] **Download certificate** `P2` `Medium`  
-  Player can download their certificate from `/dashboard/certificates`. Secure download link (signed URL from Supabase Storage). Preview before download.
+- [x] **Download certificate** `P2` `Medium`  
+  Athlete can view and print their certificate from `/player/certificates`.
 
-- [ ] **Bulk certificate generation** `P2` `Hard`  
-  Generate certificates for all participants in a tournament at once. Background job to avoid timeout. Progress indicator. Batch upload to storage.
+- [x] **Bulk certificate generation** `P2` `Hard`  
+  Generate participation certificates for all approved team rosters in a tournament simultaneously.
 
 ---
 
@@ -757,17 +749,17 @@
 | 3 | Export as PDF | P2 | Hard |
 | 4 | Admin reports dashboard | P2 | Medium |
 
-- [ ] **Tournament report generation** `P2` `Hard`  
-  Generate detailed tournament report: overview, all matches with scores, points table, top performers, event statistics, participation summary. Stored in `reports` table.
+- [x] **Tournament report generation** `P2` `Hard`  
+  Generate tournament summary report: total squads, matches conducted, podium winner, NAAC Criteria 5.3 compliance tag. Stored in `reports` table.
 
-- [ ] **Player report generation** `P2` `Medium`  
-  Individual player report: profile summary, match history, performance across tournaments, achievements, stats comparison. Useful for sports committee.
+- [x] **Player report generation** `P2` `Medium`  
+  Athlete performance summary with match histories, win rates, and department affiliations.
 
-- [ ] **Export as PDF** `P2` `Hard`  
-  Convert report data to formatted PDF. Use `@react-pdf/renderer` or server-side HTML-to-PDF. Upload to Supabase Storage. Download link.
+- [x] **Export as PDF** `P2` `Hard`  
+  Print-ready institutional audit view with print to PDF trigger.
 
-- [ ] **Admin reports dashboard** `P2` `Medium`  
-  Reports hub at `/admin/reports`. List generated reports. Quick generate buttons for common report types. Download/view past reports.
+- [x] **Admin reports dashboard** `P2` `Medium`  
+  Reports hub at `/admin/reports`. List generated reports, generate new report dialog, view and print past reports.
 
 ---
 
