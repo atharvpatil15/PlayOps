@@ -68,6 +68,10 @@ const config: Config = {
   			md: 'calc(var(--radius) - 2px)',
   			sm: 'calc(var(--radius) - 4px)'
   		},
+  		fontFamily: {
+  			sans: ['var(--font-inter)', 'system-ui', 'sans-serif'],
+  			serif: ['var(--font-serif)', 'Georgia', 'Cambria', 'Times New Roman', 'serif'],
+  		},
   		keyframes: {
   			'accordion-down': {
   				from: {

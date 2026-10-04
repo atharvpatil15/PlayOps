@@ -1,5 +1,15 @@
 import Link from "next/link";
-import { Trophy, Calendar, Users, Award, QrCode, ArrowRight, Activity, MapPin } from "lucide-react";
+import {
+  Trophy,
+  Calendar,
+  Users,
+  Award,
+  QrCode,
+  ArrowRight,
+  Activity,
+  MapPin,
+  Edit2,
+} from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";

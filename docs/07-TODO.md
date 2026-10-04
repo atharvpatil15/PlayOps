@@ -775,14 +775,14 @@
 | 6 | E2E tests: admin flows | P2 | Hard |
 | 7 | E2E tests: player flows | P2 | Hard |
 
-- [ ] **Set up Vitest** `P1` `Easy`  
+- [x] **Set up Vitest** `P1` `Easy`  
   Install Vitest + React Testing Library + jsdom. Configure `vitest.config.ts`. Add test scripts to `package.json`. Create test directory structure.
 
-- [ ] **Unit tests for utility functions** `P1` `Medium`  
+- [x] **Unit tests for utility functions** `P1` `Medium`  
   Test: date formatters, score calculators, fixture generators, validation schemas, role checkers, QR data encoding. Target 80%+ coverage for `/lib`.
 
-- [ ] **Component tests** `P1` `Medium`  
-  Test key components: login form, player registration form, data tables, stat cards, score update interface. Verify rendering, user interactions, form validation, error states.
+- [x] **Component tests** `P1` `Medium`  
+  Test key components: `HeroMatchScoreboard` (live match state, past match score fallback, scheduled match spotlight, realtime updates), login form, data tables. Verify rendering, user interactions, error states.
 
 - [ ] **Set up Playwright** `P2` `Medium`  
   Install Playwright. Configure `playwright.config.ts`. Set up test fixtures, authentication helpers, database setup/teardown scripts.

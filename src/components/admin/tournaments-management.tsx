@@ -150,14 +150,19 @@ export function TournamentsManagement({
 
   return (
     <div className="space-y-6">
-      <div className="flex flex-col justify-between gap-4 border-b border-border pb-4 sm:flex-row sm:items-center">
+      <div className="flex flex-col justify-between gap-4 border-b border-border/60 pb-5 sm:flex-row sm:items-center">
         <div>
-          <h1 className="text-2xl font-bold tracking-tight text-foreground sm:text-3xl">
-            Tournament Operations & Brackets
+          <div className="flex items-center gap-2 mb-1.5">
+            <Badge variant="outline" className="border-primary/30 bg-primary/5 text-primary text-[11px] font-bold uppercase tracking-wider">
+              <Trophy className="mr-1 h-3 w-3 text-amber-500" />
+              Athletics League Operations • Tournament Brackets
+            </Badge>
+          </div>
+          <h1 className="font-serif text-2xl font-bold tracking-tight text-foreground sm:text-3xl">
+            Tournament Operations &amp; Brackets
           </h1>
-          <p className="text-sm text-muted-foreground">
-            Create campus championships, review team registrations, and generate automated knockout
-            brackets.
+          <p className="mt-0.5 text-xs sm:text-sm text-muted-foreground">
+            Create campus championships, review team registrations, and generate automated knockout brackets.
           </p>
         </div>
         <Button onClick={() => setIsOpen(true)} className="gap-2">

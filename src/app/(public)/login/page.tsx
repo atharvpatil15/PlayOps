@@ -1,12 +1,13 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
-import { Trophy, LogIn, AlertCircle } from "lucide-react";
+import { Trophy, LogIn, AlertCircle, ShieldCheck } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
@@ -114,10 +115,17 @@ export default function LoginPage() {
     <div className="container flex min-h-[calc(100vh-4rem)] items-center justify-center px-4 py-12 sm:px-6 lg:px-8">
       <div className="w-full max-w-md space-y-8">
         <div className="flex flex-col items-center">
-          <div className="mb-6 flex h-16 w-16 items-center justify-center rounded-2xl bg-primary/10 text-primary shadow-sm">
-            <Trophy className="h-8 w-8" />
-          </div>
-          <h2 className="text-center text-3xl font-extrabold tracking-tight text-foreground">
+          <Link href="/" className="mb-4 inline-block">
+            <Image
+              src="/kk-wagh-logo.png"
+              alt="K. K. Wagh Education Society"
+              width={280}
+              height={80}
+              priority
+              className="h-16 sm:h-20 w-auto object-contain dark:brightness-0 dark:invert transition-all"
+            />
+          </Link>
+          <h2 className="text-center font-serif text-3xl font-bold tracking-tight text-foreground">
             Welcome Back
           </h2>
           <p className="mt-2 max-w-sm text-center text-sm text-muted-foreground">
@@ -205,7 +213,7 @@ export default function LoginPage() {
             <div className="mt-8 rounded-xl border border-primary/20 bg-primary/[0.03] p-4">
               <div className="mb-2.5 flex items-center justify-between">
                 <h4 className="flex items-center gap-1.5 text-sm font-bold text-foreground">
-                  <AlertCircle className="h-4 w-4 text-primary" /> Demo Admin Login
+                  <ShieldCheck className="h-4 w-4 text-primary" /> Admin Login Credentials
                 </h4>
                 <Button
                   type="button"
@@ -215,7 +223,7 @@ export default function LoginPage() {
                   onClick={() => {
                     form.setValue("email", "atharwapatil1@gmail.com");
                     form.setValue("password", "Admin@123");
-                    toast.info("Demo admin credentials filled! Click 'Sign In' to enter.");
+                    toast.info("Admin credentials filled! Click 'Sign In' to enter.");
                   }}
                 >
                   ⚡ Auto-fill Admin

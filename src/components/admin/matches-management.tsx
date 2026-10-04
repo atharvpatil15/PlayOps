@@ -234,18 +234,24 @@ export function MatchesManagement({
 
   return (
     <div className="space-y-6">
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-border pb-4">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-border/60 pb-5">
         <div>
-          <h1 className="text-2xl font-bold tracking-tight text-foreground sm:text-3xl">
-            Match Scheduling & Live Scorekeeper
+          <div className="flex items-center gap-2 mb-1.5">
+            <Badge variant="outline" className="border-primary/30 bg-primary/5 text-primary text-[11px] font-bold uppercase tracking-wider">
+              <Flame className="mr-1 h-3 w-3 text-red-500" />
+              Directorate Ground Console • Live Operations
+            </Badge>
+          </div>
+          <h1 className="font-serif text-2xl font-bold tracking-tight text-foreground sm:text-3xl">
+            Match Scheduling &amp; Live Scorekeeper
           </h1>
-          <p className="text-sm text-muted-foreground">
+          <p className="mt-0.5 text-xs sm:text-sm text-muted-foreground">
             Schedule college match fixtures, control ground scoreboards, and broadcast live ball-by-ball events.
           </p>
         </div>
-        <Button onClick={handleOpenSchedule} className="gap-2">
+        <Button onClick={handleOpenSchedule} className="gap-2 font-semibold text-xs shadow-sm">
           <Plus className="h-4 w-4" />
-          <span>Schedule Match</span>
+          <span>Schedule New Match</span>
         </Button>
       </div>
 

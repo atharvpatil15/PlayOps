@@ -1,17 +1,27 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
-import { Trophy, Radio, BarChart3, User, Menu, X, Shield } from "lucide-react";
+import Image from "next/image";
+import { usePathname, useRouter } from "next/navigation";
+import { Trophy, Radio, BarChart3, Menu, X, Shield, LogOut } from "lucide-react";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
+import { getInitials } from "@/lib/utils/helpers";
 import { ROUTES } from "@/lib/constants/routes";
 import { useUser } from "@/hooks/use-user";
+import { useAuthStore } from "@/stores/auth-store";
+import { createClient } from "@/lib/supabase/client";
 import { NotificationBell } from "@/components/layout/notification-bell";
+import { UserNav } from "@/components/layout/user-nav";
+import { toast } from "sonner";
 
 export function Navbar() {
   const pathname = usePathname();
+  const router = useRouter();
+  const supabase = createClient();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const { user, isAuthenticated, isAdmin } = useUser();
 
@@ -27,20 +37,41 @@ export function Navbar() {
     { title: "Points Table", href: ROUTES.POINTS_TABLE, icon: BarChart3 },
   ];
 
+  const handleMobileSignOut = async () => {
+    try {
+      setMobileMenuOpen(false);
+      await supabase.auth.signOut();
+      useAuthStore.getState().logout();
+      toast.success("Successfully logged out");
+      router.push(ROUTES.LOGIN);
+      router.refresh();
+    } catch (err) {
+      console.error("Sign out error:", err);
+      toast.error("Could not sign out. Please try again.");
+    }
+  };
+
+  const displayName = user?.fullName || (isAdmin ? "Sports Administrator" : "Student Athlete");
+
   return (
     <header className="sticky top-0 z-40 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-      <div className="container flex h-16 max-w-7xl items-center justify-between px-4 sm:px-8">
+      <div className="container flex h-16 sm:h-18 max-w-7xl items-center justify-between px-4 sm:px-8">
         <div className="flex items-center gap-6">
-          <Link href="/" className="flex items-center space-x-2">
-            <span className="flex h-9 w-9 items-center justify-center rounded-lg bg-primary text-lg font-black text-primary-foreground shadow-sm">
-              PO
-            </span>
-            <div className="flex flex-col">
-              <span className="text-lg font-bold leading-tight tracking-tight text-foreground">
+          <Link href="/" className="flex items-center space-x-3">
+            <Image
+              src="/kk-wagh-logo.png"
+              alt="K. K. Wagh Education Society"
+              width={260}
+              height={75}
+              priority
+              className="h-11 sm:h-14 w-auto object-contain dark:brightness-0 dark:invert transition-all"
+            />
+            <div className="hidden border-l border-border/60 pl-3 sm:flex flex-col">
+              <span className="text-base font-bold leading-tight tracking-tight text-foreground font-serif">
                 PlayOps
               </span>
               <span className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">
-                KK Wagh Sports
+                Athletic Portal
               </span>
             </div>
           </Link>
@@ -74,25 +105,38 @@ export function Navbar() {
           </nav>
         </div>
 
+        {/* Desktop user navigation */}
         <div className="hidden items-center space-x-3 md:flex">
           {isAuthenticated ? (
-            <div className="flex items-center space-x-2">
+            <div className="flex items-center space-x-3">
               <NotificationBell />
               {isAdmin ? (
-                <Button asChild variant="default" size="sm">
-                  <Link href={ROUTES.ADMIN_DASHBOARD} className="flex items-center gap-1.5">
+                <Button
+                  asChild
+                  variant="outline"
+                  size="sm"
+                  className="hidden lg:inline-flex items-center gap-1.5 border-primary/30 text-primary hover:bg-primary/5"
+                >
+                  <Link href={ROUTES.ADMIN_DASHBOARD}>
                     <Shield className="h-4 w-4" />
                     <span>Admin Panel</span>
                   </Link>
                 </Button>
               ) : (
-                <Button asChild variant="default" size="sm">
-                  <Link href={ROUTES.PLAYER_DASHBOARD} className="flex items-center gap-1.5">
-                    <User className="h-4 w-4" />
-                    <span>Dashboard</span>
+                <Button
+                  asChild
+                  variant="outline"
+                  size="sm"
+                  className="hidden lg:inline-flex items-center gap-1.5 border-primary/30 text-primary hover:bg-primary/5"
+                >
+                  <Link href={ROUTES.PLAYER_DASHBOARD}>
+                    <Trophy className="h-4 w-4" />
+                    <span>Athlete Hub</span>
                   </Link>
                 </Button>
               )}
+              {/* Profile icon visible on all pages */}
+              <UserNav align="end" showName={true} />
             </div>
           ) : (
             <div className="flex items-center space-x-2">
@@ -106,8 +150,9 @@ export function Navbar() {
           )}
         </div>
 
-        {/* Mobile menu trigger */}
-        <div className="flex md:hidden">
+        {/* Mobile top controls */}
+        <div className="flex items-center gap-2 md:hidden">
+          {isAuthenticated && <UserNav align="end" />}
           <Button
             variant="ghost"
             size="icon"
@@ -119,9 +164,35 @@ export function Navbar() {
         </div>
       </div>
 
-      {/* Mobile nav dropdown */}
+      {/* Mobile nav dropdown drawer */}
       {mobileMenuOpen && (
-        <div className="border-b bg-background px-4 py-4 md:hidden">
+        <div className="border-b bg-background px-4 py-4 md:hidden animate-in slide-in-from-top-2 duration-200">
+          {isAuthenticated && user && (
+            <div className="mb-4 flex items-center gap-3 rounded-lg border border-border/60 bg-muted/30 p-3">
+              <Avatar className="h-10 w-10 border border-border">
+                <AvatarImage src={user.avatarUrl || undefined} alt={displayName} />
+                <AvatarFallback className="bg-primary/10 text-primary font-bold text-xs">
+                  {getInitials(displayName)}
+                </AvatarFallback>
+              </Avatar>
+              <div className="flex-1 overflow-hidden">
+                <p className="truncate text-sm font-semibold text-foreground">{displayName}</p>
+                <p className="truncate text-xs text-muted-foreground">{user.email}</p>
+                <div className="mt-1">
+                  {isAdmin ? (
+                    <Badge variant="destructive" className="text-[9px] px-1 py-0 h-4 font-semibold uppercase">
+                      Admin
+                    </Badge>
+                  ) : (
+                    <Badge variant="secondary" className="text-[9px] px-1 py-0 h-4 font-semibold uppercase">
+                      Athlete
+                    </Badge>
+                  )}
+                </div>
+              </div>
+            </div>
+          )}
+
           <nav className="flex flex-col space-y-2">
             {navLinks.map((link) => {
               const Icon = link.icon;
@@ -150,20 +221,38 @@ export function Navbar() {
                 </Link>
               );
             })}
+
             <div className="flex flex-col space-y-2 border-t pt-3">
               {isAuthenticated ? (
-                <Button asChild className="w-full">
-                  <Link href={isAdmin ? ROUTES.ADMIN_DASHBOARD : ROUTES.PLAYER_DASHBOARD}>
-                    Go to {isAdmin ? "Admin Panel" : "Player Dashboard"}
-                  </Link>
-                </Button>
+                <div className="space-y-2">
+                  <Button asChild className="w-full">
+                    <Link
+                      href={isAdmin ? ROUTES.ADMIN_DASHBOARD : ROUTES.PLAYER_DASHBOARD}
+                      onClick={() => setMobileMenuOpen(false)}
+                    >
+                      {isAdmin ? "Open Admin Governance Hub" : "Open Athlete Dashboard"}
+                    </Link>
+                  </Button>
+                  <Button
+                    variant="outline"
+                    className="w-full text-destructive hover:bg-destructive/10 hover:text-destructive flex items-center justify-center gap-2"
+                    onClick={handleMobileSignOut}
+                  >
+                    <LogOut className="h-4 w-4" />
+                    <span>Log out</span>
+                  </Button>
+                </div>
               ) : (
                 <>
                   <Button asChild variant="outline" className="w-full">
-                    <Link href={ROUTES.LOGIN}>Log in</Link>
+                    <Link href={ROUTES.LOGIN} onClick={() => setMobileMenuOpen(false)}>
+                      Log in
+                    </Link>
                   </Button>
                   <Button asChild className="w-full">
-                    <Link href={ROUTES.REGISTER}>Register / Sports Pass</Link>
+                    <Link href={ROUTES.REGISTER} onClick={() => setMobileMenuOpen(false)}>
+                      Register / Sports Pass
+                    </Link>
                   </Button>
                 </>
               )}

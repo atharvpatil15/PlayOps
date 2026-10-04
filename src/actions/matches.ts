@@ -49,16 +49,25 @@ export async function getMatches(filters?: {
   tournamentId?: string;
   status?: string;
   sportId?: string;
+  sortOrder?: "asc" | "desc";
+  limit?: number;
 }) {
   try {
     const admin = createAdminClient();
     let query = admin
       .from("matches")
       .select(
-        "*, tournaments(id, name, format), sports(id, name, icon), team_a:teams!matches_team_a_id_fkey(id, name), team_b:teams!matches_team_b_id_fkey(id, name), venues(id, name, location)"
-      )
-      .order("match_date", { ascending: true })
-      .order("match_number", { ascending: true });
+        "*, tournaments(id, name, format), sports(id, name, icon), team_a:teams!matches_team_a_id_fkey(id, name, logo_url), team_b:teams!matches_team_b_id_fkey(id, name, logo_url), venues(id, name, location)"
+      );
+
+    const isDesc = filters?.sortOrder === "desc";
+    query = query
+      .order("match_date", { ascending: !isDesc })
+      .order(isDesc ? "created_at" : "match_number", { ascending: !isDesc });
+
+    if (filters?.limit) {
+      query = query.limit(filters.limit);
+    }
 
     if (filters?.tournamentId && filters.tournamentId !== "all") {
       query = query.eq("tournament_id", filters.tournamentId);

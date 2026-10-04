@@ -240,16 +240,22 @@ export function TeamsManagement({
 
   return (
     <div className="space-y-6">
-      <div className="flex flex-col justify-between gap-4 border-b border-border pb-4 sm:flex-row sm:items-center">
+      <div className="flex flex-col justify-between gap-4 border-b border-border/60 pb-5 sm:flex-row sm:items-center">
         <div>
-          <h1 className="text-2xl font-bold tracking-tight text-foreground sm:text-3xl">
-            Team & Squad Management
+          <div className="flex items-center gap-2 mb-1.5">
+            <Badge variant="outline" className="border-primary/30 bg-primary/5 text-primary text-[11px] font-bold uppercase tracking-wider">
+              <Users className="mr-1 h-3 w-3" />
+              Athletic Roster Governance • Department Squads
+            </Badge>
+          </div>
+          <h1 className="font-serif text-2xl font-bold tracking-tight text-foreground sm:text-3xl">
+            Team &amp; Squad Management
           </h1>
-          <p className="text-sm text-muted-foreground">
+          <p className="mt-0.5 text-xs sm:text-sm text-muted-foreground">
             Form departmental squads, allocate jersey numbers, assign captains, and review rosters.
           </p>
         </div>
-        <Button onClick={() => setIsOpen(true)} className="gap-2">
+        <Button onClick={() => setIsOpen(true)} className="gap-2 font-semibold text-xs shadow-sm">
           <Plus className="h-4 w-4" />
           <span>Register Squad</span>
         </Button>

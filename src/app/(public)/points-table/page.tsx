@@ -16,7 +16,7 @@ export default async function PointsTablePage({ searchParams }: PointsTablePageP
         <Badge variant="outline" className="mb-2">
           Standings
         </Badge>
-        <h1 className="text-3xl font-extrabold tracking-tight text-foreground sm:text-4xl">
+        <h1 className="font-serif text-3xl font-extrabold tracking-tight text-foreground sm:text-4xl">
           Tournament Points Table
         </h1>
         <p className="mt-1 text-sm text-muted-foreground">

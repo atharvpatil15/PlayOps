@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
@@ -111,10 +112,17 @@ export default function RegisterPage() {
     <div className="container flex min-h-[calc(100vh-4rem)] items-center justify-center px-4 py-12 sm:px-6 lg:px-8">
       <div className="w-full max-w-lg space-y-8">
         <div className="flex flex-col items-center">
-          <div className="mb-6 flex h-16 w-16 items-center justify-center rounded-2xl bg-primary/10 text-primary shadow-sm">
-            <Trophy className="h-8 w-8" />
-          </div>
-          <h2 className="text-center text-3xl font-extrabold tracking-tight text-foreground">
+          <Link href="/" className="mb-4 inline-block">
+            <Image
+              src="/kk-wagh-logo.png"
+              alt="K. K. Wagh Education Society"
+              width={280}
+              height={80}
+              priority
+              className="h-16 sm:h-20 w-auto object-contain dark:brightness-0 dark:invert transition-all"
+            />
+          </Link>
+          <h2 className="text-center font-serif text-3xl font-bold tracking-tight text-foreground">
             Create Sports Pass
           </h2>
           <p className="mt-2 max-w-md text-center text-sm text-muted-foreground">

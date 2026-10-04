@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { APP_CONFIG } from "@/lib/constants/config";
 
 export function Footer() {
@@ -7,11 +8,17 @@ export function Footer() {
       <div className="container max-w-7xl px-4 py-8 md:py-12">
         <div className="grid grid-cols-1 gap-8 md:grid-cols-4">
           <div className="space-y-3 md:col-span-2">
-            <div className="flex items-center space-x-2">
-              <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary text-sm font-black text-primary-foreground">
-                PO
-              </span>
-              <span className="text-lg font-bold text-foreground">PlayOps</span>
+            <Link href="/" className="inline-block">
+              <Image
+                src="/kk-wagh-logo.png"
+                alt="K. K. Wagh Education Society"
+                width={280}
+                height={80}
+                className="h-14 sm:h-16 w-auto object-contain dark:brightness-0 dark:invert transition-all"
+              />
+            </Link>
+            <div className="flex items-center space-x-2 pt-1">
+              <span className="text-lg font-bold font-serif text-foreground">PlayOps Athletic Ecosystem</span>
             </div>
             <p className="max-w-md text-sm text-muted-foreground">
               The official digital sports management and tournament ecosystem for{" "}

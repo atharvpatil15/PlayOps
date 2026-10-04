@@ -39,13 +39,56 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import { getMatches } from "@/actions/matches";
+import { createAdminClient } from "@/lib/supabase/admin";
+import {
+  HeroMatchScoreCard,
+  ScoreboardMatch,
+} from "@/components/home/hero-match-score-card";
 
-export default function HomePage() {
+export default async function HomePage() {
+  const admin = createAdminClient();
+
+  const [
+    liveRes,
+    pastRes,
+    { count: tournamentsCount },
+    { count: playersCount },
+    { count: sportsCount },
+    { count: venuesCount },
+  ] = await Promise.all([
+    getMatches({ status: "live" }),
+    getMatches({ status: "completed", sortOrder: "desc", limit: 5 }),
+    admin.from("tournaments").select("*", { count: "exact", head: true }),
+    admin.from("players").select("*", { count: "exact", head: true }),
+    admin.from("sports").select("*", { count: "exact", head: true }),
+    admin.from("venues").select("*", { count: "exact", head: true }),
+  ]);
+
+  const liveMatches = (liveRes?.data as unknown as ScoreboardMatch[]) || [];
+  const pastMatches = (pastRes?.data as unknown as ScoreboardMatch[]) || [];
+
   const stats = [
-    { label: "Active Tournaments", value: "8+", icon: Trophy },
-    { label: "Student Athletes", value: "1,200+", icon: Users },
-    { label: "Sports Offered", value: "10+", icon: Flame },
-    { label: "Campus Venues", value: "6 Grounds", icon: Calendar },
+    {
+      label: "Active Tournaments",
+      value: String(tournamentsCount ?? 0),
+      icon: Trophy,
+    },
+    {
+      label: "Registered Athletes",
+      value: String(playersCount ?? 0),
+      icon: Users,
+    },
+    {
+      label: "Sports Offered",
+      value: String(sportsCount ?? 10),
+      icon: Flame,
+    },
+    {
+      label: "Campus Venues",
+      value: `${venuesCount ?? 6} Grounds`,
+      icon: Calendar,
+    },
   ];
 
   const features = [
@@ -102,7 +145,7 @@ export default function HomePage() {
               KK Wagh Institute of Engineering Education & Research
             </Badge>
 
-            <h1 className="text-4xl font-extrabold leading-[1.1] tracking-tight text-foreground md:text-6xl md:leading-[1.1] lg:text-7xl">
+            <h1 className="font-serif text-4xl font-bold leading-[1.15] tracking-tight text-foreground md:text-6xl md:leading-[1.15] lg:text-7xl">
               The Official Digital Sports Arena for{" "}
               <span className="bg-gradient-to-r from-primary via-blue-500 to-indigo-600 bg-clip-text text-transparent">
                 KK Wagh
@@ -151,6 +194,14 @@ export default function HomePage() {
                 <CheckCircle2 className="h-4 w-4 text-primary" />
                 <span>Automated Brackets</span>
               </div>
+            </div>
+
+            {/* Direct Live / Past Match Score Card in Landing Page UI */}
+            <div className="w-full max-w-4xl pt-6">
+              <HeroMatchScoreCard
+                initialLiveMatches={liveMatches}
+                initialPastMatches={pastMatches}
+              />
             </div>
           </div>
         </div>
@@ -250,8 +301,8 @@ export default function HomePage() {
             <Badge variant="outline" className="mb-4 border-primary/30 text-primary">
               Enterprise Architecture
             </Badge>
-            <h2 className="mb-4 text-3xl font-bold tracking-tight text-foreground md:text-4xl">
-              Built for Speed, Reliability & Sportsmanship
+            <h2 className="mb-4 font-serif text-3xl font-bold tracking-tight text-foreground md:text-4xl">
+              Built for Speed, Reliability &amp; Sportsmanship
             </h2>
             <p className="text-lg text-muted-foreground">
               Everything needed to orchestrate college tournaments from opening whistles to trophy
@@ -289,7 +340,7 @@ export default function HomePage() {
       <section className="bg-background py-20 md:py-28">
         <div className="container mx-auto max-w-4xl px-4 sm:px-8">
           <div className="mb-12 text-center">
-            <h2 className="mb-4 text-3xl font-bold tracking-tight text-foreground">
+            <h2 className="mb-4 font-serif text-3xl font-bold tracking-tight text-foreground md:text-4xl">
               Frequently Asked Questions
             </h2>
             <p className="text-lg text-muted-foreground">
@@ -348,7 +399,7 @@ export default function HomePage() {
             <div className="absolute inset-0 bg-gradient-to-br from-primary via-primary/90 to-blue-700"></div>
 
             <div className="relative z-10 space-y-8">
-              <h2 className="text-3xl font-extrabold leading-tight tracking-tight text-white md:text-5xl">
+              <h2 className="font-serif text-3xl font-bold leading-tight tracking-tight text-white md:text-5xl">
                 Ready to Represent Your Department?
               </h2>
               <p className="mx-auto max-w-2xl text-lg leading-relaxed text-primary-foreground/90 md:text-xl">
@@ -367,7 +418,7 @@ export default function HomePage() {
                   asChild
                   size="lg"
                   variant="outline"
-                  className="h-14 border-white/30 px-8 text-base text-white backdrop-blur-sm hover:bg-white/10 hover:text-white"
+                  className="h-14 border-2 border-white bg-transparent px-8 text-base font-bold text-white backdrop-blur-sm transition-all hover:bg-white hover:text-primary shadow-sm"
                 >
                   <Link href={ROUTES.TOURNAMENTS}>Browse Tournaments</Link>
                 </Button>

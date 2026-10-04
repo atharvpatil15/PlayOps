@@ -1,10 +1,18 @@
+import { Suspense } from "react";
 import { getCurrentPlayerProfile } from "@/actions/players";
 import { createClient } from "@/lib/supabase/server";
 import { PlayerProfileView } from "@/components/player/player-profile-view";
 
 export const revalidate = 0;
 
-export default async function PlayerProfilePage() {
+interface PlayerProfilePageProps {
+  searchParams?: Promise<{ edit?: string }>;
+}
+
+export default async function PlayerProfilePage({ searchParams }: PlayerProfilePageProps) {
+  const params = await searchParams;
+  const initialEditOpen = params?.edit === "true";
+
   const supabase = await createClient();
   const {
     data: { user },
@@ -12,12 +20,19 @@ export default async function PlayerProfilePage() {
 
   const { data: player } = await getCurrentPlayerProfile();
 
-  // If no logged in user yet in dev, provide a mock user session so the page can be previewed
   const fallbackUser = user || {
     id: "dev-player-id",
     email: "student@kkwagh.edu.in",
     user_metadata: { full_name: "Student Athlete" },
   };
 
-  return <PlayerProfileView initialPlayer={player} user={fallbackUser} />;
+  return (
+    <Suspense fallback={<div className="h-64 w-full animate-pulse rounded-xl bg-muted/40" />}>
+      <PlayerProfileView
+        initialPlayer={player}
+        user={fallbackUser}
+        initialEditOpen={initialEditOpen}
+      />
+    </Suspense>
+  );
 }

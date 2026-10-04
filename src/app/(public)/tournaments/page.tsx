@@ -16,7 +16,7 @@ export default async function TournamentsPage() {
       {/* Header */}
       <div className="flex flex-col justify-between gap-4 border-b border-border pb-6 sm:flex-row sm:items-center">
         <div>
-          <h1 className="text-3xl font-extrabold tracking-tight text-foreground sm:text-4xl">
+          <h1 className="font-serif text-3xl font-extrabold tracking-tight text-foreground sm:text-4xl">
             Tournaments & Championships
           </h1>
           <p className="mt-1 text-sm text-muted-foreground">

@@ -85,11 +85,16 @@ const POPULAR_SPORTS = [
 interface PlayerProfileViewProps {
   initialPlayer: any;
   user: any;
+  initialEditOpen?: boolean;
 }
 
-export function PlayerProfileView({ initialPlayer, user }: PlayerProfileViewProps) {
+export function PlayerProfileView({
+  initialPlayer,
+  user,
+  initialEditOpen = false,
+}: PlayerProfileViewProps) {
   const [player, setPlayer] = useState<any>(initialPlayer);
-  const [isEditOpen, setIsEditOpen] = useState(false);
+  const [isEditOpen, setIsEditOpen] = useState(initialEditOpen);
   const [loading, setLoading] = useState(false);
 
   // Form state for registration or editing
@@ -105,6 +110,24 @@ export function PlayerProfileView({ initialPlayer, user }: PlayerProfileViewProp
     emergency_contact: player?.emergency_contact || "",
     medical_info: player?.medical_info || "",
   });
+
+  const openEditModal = () => {
+    if (player) {
+      setFormData({
+        registration_number: player.registration_number || "",
+        department: player.department || DEPARTMENTS[0],
+        year: player.year || YEARS[2],
+        date_of_birth: player.date_of_birth || "2004-01-01",
+        blood_group: player.blood_group || "O+",
+        height: player.height || 175,
+        weight: player.weight || 68,
+        sports_interested: player.sports_interested || ["Cricket", "Badminton"],
+        emergency_contact: player.emergency_contact || "",
+        medical_info: player.medical_info || "",
+      });
+    }
+    setIsEditOpen(true);
+  };
 
   const toggleSport = (sportName: string) => {
     const current = formData.sports_interested || [];
@@ -136,15 +159,15 @@ export function PlayerProfileView({ initialPlayer, user }: PlayerProfileViewProp
     try {
       if (player?.id) {
         const res = await updatePlayerProfile(player.id, formData);
-        if (!res.success) throw new Error(res.error || "Update failed");
-        setPlayer((prev: any) => ({ ...prev, ...formData }));
-        toast.success("Profile updated successfully!");
+        if (!res.success || !res.data) throw new Error(res.error || "Update failed");
+        setPlayer(res.data);
+        toast.success("Sports pass & academic records updated successfully!");
         setIsEditOpen(false);
       } else {
         const res = await registerPlayerProfile(formData);
         if (!res.success || !res.data) throw new Error(res.error || "Registration failed");
         setPlayer(res.data);
-        toast.success("Player profile registered successfully! Your Sports ID Pass is active.");
+        toast.success("Sports pass registered successfully! Your digital pass is permanently active.");
       }
     } catch (err: any) {
       toast.error(err.message || "Failed to save profile.");
@@ -363,9 +386,12 @@ export function PlayerProfileView({ initialPlayer, user }: PlayerProfileViewProp
             Official K. K. Wagh Sports ID pass with verifiable QR code check-in.
           </p>
         </div>
-        <Button onClick={() => setIsEditOpen(true)} variant="outline" className="gap-2">
+        <Button
+          onClick={openEditModal}
+          className="gap-2 bg-primary text-primary-foreground shadow-sm hover:bg-primary/90 font-medium"
+        >
           <Edit2 className="h-4 w-4" />
-          <span>Edit Profile</span>
+          <span>Edit Pass & Academic Year</span>
         </Button>
       </div>
 
@@ -401,25 +427,49 @@ export function PlayerProfileView({ initialPlayer, user }: PlayerProfileViewProp
               </p>
             </div>
 
-            <Button
-              size="sm"
-              variant="outline"
-              className="w-full gap-2 text-xs"
-              onClick={() => window.print()}
-            >
-              <Download className="h-3.5 w-3.5" />
-              Print / Save Digital Pass
-            </Button>
+            <div className="space-y-2 pt-2">
+              <Button
+                size="sm"
+                variant="default"
+                className="w-full gap-2 text-xs font-semibold shadow-sm"
+                onClick={openEditModal}
+              >
+                <Edit2 className="h-3.5 w-3.5" />
+                <span>Update Academic Year (FE / SE / TE / BE)</span>
+              </Button>
+              <Button
+                size="sm"
+                variant="outline"
+                className="w-full gap-2 text-xs"
+                onClick={() => window.print()}
+              >
+                <Download className="h-3.5 w-3.5" />
+                <span>Print / Save Digital Pass</span>
+              </Button>
+            </div>
           </CardContent>
         </Card>
 
         {/* Academic & Athletic Info */}
         <Card className="md:col-span-2">
           <CardHeader>
-            <CardTitle className="text-lg font-bold">Athletic Attributes & Records</CardTitle>
-            <CardDescription>
-              Academic department, physical attributes, and emergency profile
-            </CardDescription>
+            <div className="flex items-center justify-between">
+              <div>
+                <CardTitle className="text-lg font-bold">Athletic Attributes & Records</CardTitle>
+                <CardDescription>
+                  Academic department, annual enrollment, and emergency contacts
+                </CardDescription>
+              </div>
+              <Button
+                size="sm"
+                variant="outline"
+                className="gap-1.5 text-xs border-primary/30 text-primary hover:bg-primary/5 font-semibold"
+                onClick={openEditModal}
+              >
+                <Edit2 className="h-3.5 w-3.5" />
+                <span>Edit Records</span>
+              </Button>
+            </div>
           </CardHeader>
           <CardContent className="space-y-5">
             <div className="grid grid-cols-2 gap-4 text-sm">
@@ -488,13 +538,29 @@ export function PlayerProfileView({ initialPlayer, user }: PlayerProfileViewProp
         <DialogContent className="max-h-[90vh] overflow-y-auto sm:max-w-lg">
           <form onSubmit={handleRegisterOrUpdate}>
             <DialogHeader>
-              <DialogTitle>Update Player Profile</DialogTitle>
+              <DialogTitle className="flex items-center gap-2 text-lg font-bold">
+                <Edit2 className="h-5 w-5 text-primary" />
+                <span>Edit Sports Pass & Academic Year</span>
+              </DialogTitle>
               <DialogDescription>
-                Modify academic details, sports interests, and emergency contacts.
+                Update your academic year of study (FE / SE / TE / BE), branch, sports preferences, or contact details.
               </DialogDescription>
             </DialogHeader>
 
             <div className="space-y-4 py-4">
+              <div className="space-y-1">
+                <Label htmlFor="edit-prn">College PRN (Permanent Registration No.)</Label>
+                <Input
+                  id="edit-prn"
+                  value={formData.registration_number}
+                  onChange={(e) =>
+                    setFormData({ ...formData, registration_number: e.target.value })
+                  }
+                  placeholder="e.g. 72454855G"
+                  required
+                />
+              </div>
+
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-1">
                   <Label>Department</Label>

@@ -29,9 +29,10 @@ export async function getCurrentPlayerProfile() {
       return { data: null, error: "Not authenticated" };
     }
 
-    const { data: player, error: playerErr } = await supabase
+    const admin = createAdminClient();
+    const { data: player, error: playerErr } = await admin
       .from("players")
-      .select("*, users!inner(full_name, email, phone, avatar_url)")
+      .select("*, users(full_name, email, phone, avatar_url)")
       .eq("user_id", user.id)
       .maybeSingle();
 
@@ -74,33 +75,52 @@ export async function registerPlayerProfile(input: PlayerProfileInput) {
       ]);
     }
 
-    const { data, error } = await admin
+    // Check if player record already exists for this user_id (prevent duplicate key errors)
+    const { data: existingPlayer } = await admin
       .from("players")
-      .insert([
-        {
-          user_id: user.id,
-          registration_number: input.registration_number.trim().toUpperCase(),
-          department: input.department,
-          year: input.year,
-          date_of_birth: input.date_of_birth,
-          blood_group: input.blood_group || null,
-          height: input.height ? Number(input.height) : null,
-          weight: input.weight ? Number(input.weight) : null,
-          sports_interested: input.sports_interested || [],
-          emergency_contact: input.emergency_contact.trim(),
-          medical_info: input.medical_info?.trim() || null,
-        },
-      ])
-      .select("*, users(full_name, email)")
-      .single();
+      .select("id, qr_code")
+      .eq("user_id", user.id)
+      .maybeSingle();
 
-    if (error) throw error;
+    const normalizedData = {
+      user_id: user.id,
+      registration_number: input.registration_number.trim().toUpperCase(),
+      department: input.department,
+      year: input.year,
+      date_of_birth: input.date_of_birth,
+      blood_group: input.blood_group || null,
+      height: input.height ? Number(input.height) : null,
+      weight: input.weight ? Number(input.weight) : null,
+      sports_interested: input.sports_interested || [],
+      emergency_contact: input.emergency_contact.trim(),
+      medical_info: input.medical_info?.trim() || null,
+      updated_at: new Date().toISOString(),
+    };
+
+    let result;
+    if (existingPlayer) {
+      result = await admin
+        .from("players")
+        .update(normalizedData)
+        .eq("id", existingPlayer.id)
+        .select("*, users(full_name, email, phone, avatar_url)")
+        .single();
+    } else {
+      result = await admin
+        .from("players")
+        .insert([normalizedData])
+        .select("*, users(full_name, email, phone, avatar_url)")
+        .single();
+    }
+
+    if (result.error) throw result.error;
 
     revalidatePath("/player/profile");
     revalidatePath("/player/dashboard");
     revalidatePath("/admin/players");
+    revalidatePath(`/verify/${result.data.qr_code || result.data.registration_number}`);
 
-    return { success: true, data, error: null };
+    return { success: true, data: result.data, error: null };
   } catch (err: any) {
     return {
       success: false,
@@ -113,11 +133,38 @@ export async function registerPlayerProfile(input: PlayerProfileInput) {
 export async function updatePlayerProfile(playerId: string, input: Partial<PlayerProfileInput>) {
   try {
     const admin = createAdminClient();
+    const updatePayload: Record<string, any> = {
+      updated_at: new Date().toISOString(),
+    };
+
+    if (input.registration_number !== undefined) {
+      updatePayload.registration_number = input.registration_number.trim().toUpperCase();
+    }
+    if (input.department !== undefined) updatePayload.department = input.department;
+    if (input.year !== undefined) updatePayload.year = input.year;
+    if (input.date_of_birth !== undefined) updatePayload.date_of_birth = input.date_of_birth;
+    if (input.blood_group !== undefined) updatePayload.blood_group = input.blood_group || null;
+    if (input.height !== undefined) {
+      updatePayload.height = input.height ? Number(input.height) : null;
+    }
+    if (input.weight !== undefined) {
+      updatePayload.weight = input.weight ? Number(input.weight) : null;
+    }
+    if (input.sports_interested !== undefined) {
+      updatePayload.sports_interested = input.sports_interested;
+    }
+    if (input.emergency_contact !== undefined) {
+      updatePayload.emergency_contact = input.emergency_contact.trim();
+    }
+    if (input.medical_info !== undefined) {
+      updatePayload.medical_info = input.medical_info?.trim() || null;
+    }
+
     const { data, error } = await admin
       .from("players")
-      .update(input)
+      .update(updatePayload)
       .eq("id", playerId)
-      .select()
+      .select("*, users(full_name, email, phone, avatar_url)")
       .single();
 
     if (error) throw error;
@@ -125,6 +172,9 @@ export async function updatePlayerProfile(playerId: string, input: Partial<Playe
     revalidatePath("/player/profile");
     revalidatePath("/player/dashboard");
     revalidatePath("/admin/players");
+    if (data.qr_code || data.registration_number) {
+      revalidatePath(`/verify/${data.qr_code || data.registration_number}`);
+    }
 
     return { success: true, data, error: null };
   } catch (err: any) {
