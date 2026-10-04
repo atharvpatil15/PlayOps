@@ -1,89 +1,34 @@
-import { Calendar, Plus, Radio, Clock, MapPin } from "lucide-react";
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
+import { getMatches } from "@/actions/matches";
+import { getTournaments } from "@/actions/tournaments";
+import { getSports } from "@/actions/sports";
+import { getVenues } from "@/actions/venues";
+import { getTeams } from "@/actions/teams";
+import { MatchesManagement } from "@/components/admin/matches-management";
 
-export default function AdminMatchesPage() {
+export const revalidate = 0;
+
+export default async function AdminMatchesPage() {
+  const [
+    { data: matches },
+    { data: tournaments },
+    { data: sports },
+    { data: venues },
+    { data: teams },
+  ] = await Promise.all([
+    getMatches(),
+    getTournaments(),
+    getSports(),
+    getVenues(),
+    getTeams(),
+  ]);
+
   return (
-    <div className="space-y-6">
-      <div className="flex flex-col justify-between gap-4 border-b pb-4 sm:flex-row sm:items-center">
-        <div>
-          <h1 className="text-2xl font-bold tracking-tight text-foreground sm:text-3xl">
-            Matches & Live Ground Console
-          </h1>
-          <p className="text-sm text-muted-foreground">
-            Schedule fixtures, assign venues, and broadcast ball-by-ball / goal score updates.
-          </p>
-        </div>
-        <Button className="gap-2">
-          <Plus className="h-4 w-4" />
-          <span>Schedule New Match</span>
-        </Button>
-      </div>
-
-      {/* Live Scoring Console Widget */}
-      <Card className="border-red-500/40">
-        <CardHeader className="bg-red-500/5">
-          <div className="flex items-center justify-between">
-            <CardTitle className="flex items-center gap-2 text-base font-bold">
-              <Radio className="h-4 w-4 animate-pulse text-red-500" />
-              <span>Ground Scorekeeper Console: Cricket Semi-Final</span>
-            </CardTitle>
-            <Badge variant="live">LIVE SCORING</Badge>
-          </div>
-          <CardDescription>
-            Main Cricket Ground • Computer Strikers vs Mech Warriors
-          </CardDescription>
-        </CardHeader>
-        <CardContent className="space-y-6 p-6">
-          <div className="grid grid-cols-1 gap-4 text-center md:grid-cols-2">
-            <div className="space-y-2 rounded-xl border bg-muted/20 p-4">
-              <p className="text-xs font-semibold text-muted-foreground">
-                Computer Strikers (Batting)
-              </p>
-              <p className="font-mono text-3xl font-extrabold text-foreground">152 / 4</p>
-              <p className="text-xs text-muted-foreground">17.2 Overs (Current RR: 8.76)</p>
-            </div>
-            <div className="space-y-2 rounded-xl border bg-muted/20 p-4">
-              <p className="text-xs font-semibold text-muted-foreground">Mech Warriors (Bowling)</p>
-              <p className="font-mono text-3xl font-extrabold text-muted-foreground">Yet to Bat</p>
-              <p className="text-xs text-muted-foreground">Target: TBD</p>
-            </div>
-          </div>
-
-          <div className="space-y-2">
-            <p className="text-xs font-bold uppercase tracking-wider text-muted-foreground">
-              Quick Score Controls
-            </p>
-            <div className="flex flex-wrap gap-2">
-              <Button size="sm" variant="outline">
-                + 0 (Dot)
-              </Button>
-              <Button size="sm" variant="outline">
-                + 1 Run
-              </Button>
-              <Button size="sm" variant="outline">
-                + 2 Runs
-              </Button>
-              <Button size="sm" variant="outline" className="font-bold">
-                + 4 Boundary
-              </Button>
-              <Button size="sm" variant="outline" className="font-bold">
-                + 6 Maximum
-              </Button>
-              <Button size="sm" variant="destructive" className="font-bold">
-                🔴 Wicket
-              </Button>
-              <Button size="sm" variant="secondary">
-                Wide (+1)
-              </Button>
-              <Button size="sm" variant="secondary">
-                No Ball (+1)
-              </Button>
-            </div>
-          </div>
-        </CardContent>
-      </Card>
-    </div>
+    <MatchesManagement
+      initialMatches={(matches as any) || []}
+      tournaments={(tournaments as any) || []}
+      sports={(sports as any) || []}
+      venues={(venues as any) || []}
+      teams={(teams as any) || []}
+    />
   );
 }

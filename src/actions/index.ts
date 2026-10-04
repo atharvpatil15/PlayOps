@@ -5,3 +5,4 @@ export * from "./sports";
 export * from "./venues";
 export * from "./players";
 export * from "./teams";
+export * from "./matches";

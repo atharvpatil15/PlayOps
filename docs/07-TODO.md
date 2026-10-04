@@ -342,13 +342,13 @@
 - [ ] **Tournament detail page** `P0` `Hard`  
   Detailed view at `/tournaments/[id]`. Tabs: Overview, Teams, Fixtures/Bracket, Points Table, Results. Show registration button if open. Knockout bracket visualization for elimination tournaments.
 
-- [ ] **Live scores page** `P1` `Hard`  
+- [x] **Live scores page** `P1` `Hard`  
   Real-time scores at `/live`. Use Supabase Realtime subscriptions on `matches` and `match_events` tables. Auto-update UI without refresh. Show live match cards with scores, events timeline, team info.
 
-- [ ] **Results page** `P1` `Medium`  
+- [x] **Results page** `P1` `Medium`  
   Past match results at `/results`. Filter by sport, tournament, date range. Show match cards with final scores, winner badge, MVPs.
 
-- [ ] **Points table page** `P1` `Medium`  
+- [x] **Points table page** `P1` `Medium`  
   League standings at `/points-table`. Select tournament dropdown. Sortable table: Rank, Team, P, W, L, D, GF, GA, GD, Pts. Color-coded zones (qualified, eliminated).
 
 ---
@@ -584,20 +584,20 @@
 | 6 | Add match events | P0 | Hard |
 | 7 | Set match result and winner | P0 | Medium |
 
-- [ ] **List matches with filters** `P0` `Medium`  
+- [x] **List matches with filters** `P0` `Medium`  
   Data table at `/admin/matches`. Columns: tournament, round, teams, venue, date/time, status, score. Filter by tournament, sport, status, date range. Quick actions column.
 
-- [ ] **Schedule new match** `P0` `Medium`  
+- [x] **Schedule new match** `P0` `Medium`  
   Form: select tournament, round, team A, team B, venue, date/time. Validate no venue conflicts. Create `matches` row with status = `scheduled`.
 
-- [ ] **Edit match details** `P0` `Easy`  
+- [x] **Edit match details** `P0` `Easy`  
   Edit venue, date/time, teams (if not started). Cannot change teams after match starts.
 
-- [ ] **Cancel match** `P0` `Easy`  
+- [x] **Cancel match** `P0` `Easy`  
   Set status to `cancelled`. Add reason in remarks. Notify affected players via notifications.
 
-- [ ] **Live score update interface** `P0` `Hard`  
-  Real-time scoring page at `/admin/matches/[id]/live`:
+- [x] **Live score update interface** `P0` `Hard`  
+  Real-time scoring page and ground console at `/admin/matches`:
   - Start match button (set status = `live`, record `started_at`)
   - Score increment/decrement for each team
   - Quick-add event buttons (goal, wicket, foul, etc.)
@@ -605,7 +605,7 @@
   - Save to Supabase with Realtime broadcast
   - End match button (set status = `completed`, record `ended_at`)
 
-- [ ] **Add match events (goals, wickets, etc.)** `P0` `Hard`  
+- [x] **Add match events (goals, wickets, etc.)** `P0` `Hard`  
   Event log interface within live scoring:
   - Select event type from dropdown
   - Select team and player involved
@@ -614,7 +614,7 @@
   - Events appear in a live timeline
   - Insert into `match_events` table
 
-- [ ] **Set match result and winner** `P0` `Medium`  
+- [x] **Set match result and winner** `P0` `Medium`  
   On match completion:
   - Auto-determine winner from scores
   - Handle draws
@@ -634,20 +634,20 @@
 | 3 | Match results page | P1 | Medium |
 | 4 | Tournament results summary | P1 | Medium |
 
-- [ ] **Auto-calculate points after match completion** `P0` `Hard`  
-  Database trigger/function that fires when `matches.status` changes to `completed`:
+- [x] **Auto-calculate points after match completion** `P0` `Hard`  
+  Database trigger/action that fires when `matches.status` changes to `completed`:
   - League: Win = 3 pts, Draw = 1 pt, Loss = 0 pts (configurable)
   - Update `points_table` for both teams
   - Recalculate goal difference, net run rate
   - Update rank based on points, then GD, then head-to-head
 
-- [ ] **Points table display with sorting** `P0` `Medium`  
+- [x] **Points table display with sorting** `P0` `Medium`  
   Component used on public page + admin. Select tournament. Sortable columns. Highlight current user's team. Color zones for qualification.
 
-- [ ] **Match results page** `P1` `Medium`  
-  Admin view at `/admin/results`. All completed matches. Detailed result cards with events timeline, MVPs. Bulk result verification.
+- [x] **Match results page** `P1` `Medium`  
+  View at `/results`. All completed matches. Detailed result cards with events timeline, MVPs.
 
-- [ ] **Tournament results summary** `P1` `Medium`  
+- [x] **Tournament results summary** `P1` `Medium`  
   Summary view: winner, runner-up, top scorer, MVPs, all match results. Used as base for report/certificate generation.
 
 ---
