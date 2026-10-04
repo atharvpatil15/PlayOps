@@ -368,16 +368,16 @@
 | 9 | View/download certificates | P2 | Medium |
 | 10 | Player dashboard overview | P0 | Medium |
 
-- [ ] **Player registration form** `P0` `Medium`  
+- [x] **Player registration form** `P0` `Medium`  
   Multi-step or single-page form at `/dashboard/register`. Fields: PRN, department, year, phone, DOB, gender, blood group, height, weight, preferred sports (multi-select), medical conditions, emergency contact. Zod validation. Upload profile photo to Supabase Storage.
 
-- [ ] **Player profile page** `P0` `Medium`  
+- [x] **Player profile page** `P0` `Medium`  
   Profile view at `/dashboard/profile`. Display all player details. Avatar, QR code, teams, stats summary. Clean card-based layout.
 
-- [ ] **Edit profile** `P0` `Medium`  
+- [x] **Edit profile** `P0` `Medium`  
   Edit form at `/dashboard/profile/edit`. Pre-populate with current data. Update via Supabase. Handle avatar upload/change. Toast confirmation on save.
 
-- [ ] **QR code display** `P1` `Easy`  
+- [x] **QR code display** `P1` `Easy`  
   Generate QR code from player's unique ID/PRN using `qrcode.react`. Display on profile page. Allow download as PNG. Used by admin for quick lookup.
 
 - [ ] **View my team** `P0` `Easy`  
@@ -411,19 +411,19 @@
 | 5 | QR-based player lookup | P1 | Medium |
 | 6 | Export player list | P2 | Medium |
 
-- [ ] **List all players with search/filter** `P0` `Medium`  
+- [x] **List all players with search/filter** `P0` `Medium`  
   Data table at `/admin/players` using shadcn `DataTable` + TanStack Table. Columns: Name, PRN, Department, Year, Sports, Status. Server-side pagination. Search by name/PRN. Filter by department, sport, year, status.
 
-- [ ] **View player detail** `P0` `Easy`  
+- [x] **View player detail** `P0` `Easy`  
   Detail page at `/admin/players/[id]`. Full player profile, teams, match history, performance summary. Admin notes section.
 
-- [ ] **Edit player** `P0` `Medium`  
+- [x] **Edit player** `P0` `Medium`  
   Edit form at `/admin/players/[id]/edit`. All fields editable. Admin can change role, status, department, etc. Validation with Zod.
 
-- [ ] **Delete/deactivate player** `P0` `Easy`  
+- [x] **Delete/deactivate player** `P0` `Easy`  
   Soft delete (set `is_active = false`). Confirmation dialog. Option to fully delete with cascade warning. Deactivated players are hidden from team selection.
 
-- [ ] **QR-based player lookup** `P1` `Medium`  
+- [x] **QR-based player lookup** `P1` `Medium`  
   QR scanner component using device camera (`html5-qrcode` or `@yudiel/react-qr-scanner`). Scan player QR → navigate to their profile. Useful for on-ground verification at matches.
 
 - [ ] **Export player list** `P2` `Medium`  
@@ -440,16 +440,16 @@
 | 3 | Edit sport | P0 | Easy |
 | 4 | Delete sport | P0 | Easy |
 
-- [ ] **List sports** `P0` `Easy`  
+- [x] **List sports** `P0` `Easy`  
   Table/card grid at `/admin/sports`. Show: name, type, category, player limits, active status, linked tournaments count.
 
-- [ ] **Add new sport** `P0` `Easy`  
+- [x] **Add new sport** `P0` `Easy`  
   Dialog or page form. Fields: name, type (enum select), category, min/max players per team, description, rules, icon upload. Insert into `sports` table.
 
-- [ ] **Edit sport** `P0` `Easy`  
+- [x] **Edit sport** `P0` `Easy`  
   Edit form pre-filled with existing data. Update Supabase row. Toast on success.
 
-- [ ] **Delete sport** `P0` `Easy`  
+- [x] **Delete sport** `P0` `Easy`  
   Soft delete or hard delete with dependency check. Warn if tournaments/teams reference this sport. Confirmation dialog.
 
 ---
@@ -464,16 +464,16 @@
 | 4 | Delete venue | P0 | Easy |
 | 5 | Venue availability calendar | P2 | Hard |
 
-- [ ] **List venues** `P0` `Easy`  
+- [x] **List venues** `P0` `Easy`  
   Table at `/admin/venues`. Columns: name, location, capacity, sports supported, indoor/outdoor, status.
 
-- [ ] **Add new venue** `P0` `Easy`  
+- [x] **Add new venue** `P0` `Easy`  
   Form: name, location, capacity, sport types (multi-select), facilities (tag input), indoor checkbox, image upload.
 
-- [ ] **Edit venue** `P0` `Easy`  
+- [x] **Edit venue** `P0` `Easy`  
   Edit form with pre-filled data. Update in Supabase.
 
-- [ ] **Delete venue** `P0` `Easy`  
+- [x] **Delete venue** `P0` `Easy`  
   Dependency check (scheduled matches at this venue). Soft delete with confirmation.
 
 - [ ] **Venue availability calendar** `P2` `Hard`  
