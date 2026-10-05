@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { QRCodeSVG } from "qrcode.react";
 import {
   User,
@@ -176,10 +176,15 @@ export function PlayerProfileView({
     }
   };
 
-  const qrValue =
-    typeof window !== "undefined"
-      ? `${window.location.origin}/verify/${player?.qr_code || player?.registration_number}`
-      : `https://playops.kkwagh.edu.in/verify/${player?.qr_code || "PASS"}`;
+  const [origin, setOrigin] = useState("https://playops.kkwagh.edu.in");
+
+  useEffect(() => {
+    if (typeof window !== "undefined" && window.location.origin) {
+      setOrigin(window.location.origin);
+    }
+  }, []);
+
+  const qrValue = `${origin}/verify/${player?.qr_code || player?.registration_number || "PASS"}`;
 
   // If user has not yet created a player profile, show the onboarding registration form
   if (!player) {

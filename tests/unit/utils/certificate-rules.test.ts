@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { isGroupSport } from "@/actions/certificates";
+import { isGroupSport } from "@/lib/utils/helpers";
 
 describe("Certificate Business Rules & Eligibility", () => {
   describe("isGroupSport Classification", () => {

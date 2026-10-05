@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { QRCodeSVG } from "qrcode.react";
 import {
   Search,
@@ -92,6 +92,13 @@ export function PlayersManagement({ initialPlayers }: PlayersManagementProps) {
   const [scannedPlayer, setScannedPlayer] = useState<Player | null>(null);
   const [scanning, setScanning] = useState(false);
   const [toggling, setToggling] = useState(false);
+  const [origin, setOrigin] = useState("");
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      setOrigin(window.location.origin);
+    }
+  }, []);
 
   const filteredPlayers = players.filter((p) => {
     const matchesSearch =
@@ -297,7 +304,7 @@ export function PlayersManagement({ initialPlayers }: PlayersManagementProps) {
               <div className="rounded-xl border border-border bg-white p-4 text-center shadow-sm">
                 <div className="inline-block">
                   <QRCodeSVG
-                    value={`${typeof window !== "undefined" ? window.location.origin : ""}/verify/${selectedPlayer.qr_code || selectedPlayer.registration_number}`}
+                    value={`${origin}/verify/${selectedPlayer.qr_code || selectedPlayer.registration_number}`}
                     size={130}
                     level="M"
                   />

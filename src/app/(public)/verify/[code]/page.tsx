@@ -36,7 +36,7 @@ export default async function VerifyPlayerPage({ params }: VerifyPageProps) {
 
   return (
     <div className="flex min-h-[80vh] items-center justify-center px-4 py-12">
-      <div className={`w-full ${cert ? "max-w-4xl" : "max-w-md"} space-y-6`}>
+      <div className={`w-full ${cert ? "max-w-5xl" : "max-w-md"} space-y-6`}>
         <div className="space-y-1 text-center">
           <Badge variant="outline" className="mb-1 text-xs uppercase tracking-wider">
             Official Credential Verification

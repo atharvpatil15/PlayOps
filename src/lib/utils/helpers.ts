@@ -17,3 +17,7 @@ export function truncate(str: string, length: number): string {
 export function generateQrValue(playerId: string): string {
   return `PLAYOPS-${playerId.replace(/-/g, "").toUpperCase()}`;
 }
+
+export function isGroupSport(sport: { min_players_per_team?: number | null } | null | undefined): boolean {
+  return (sport?.min_players_per_team ?? 1) > 1;
+}

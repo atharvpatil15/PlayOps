@@ -77,8 +77,8 @@ export function PlayerCertificatesView({ certificates }: PlayerCertificatesViewP
 
       {/* Certificate Modal */}
       <Dialog open={!!selectedCert} onOpenChange={(open) => !open && setSelectedCert(null)}>
-        <DialogContent className="max-w-4xl p-6">
-          <DialogHeader>
+        <DialogContent className="max-w-5xl max-h-[96vh] overflow-y-auto p-3 sm:p-5 print:p-0 print:border-none print:shadow-none print:max-w-none">
+          <DialogHeader className="sr-only">
             <DialogTitle>Certificate of Achievement</DialogTitle>
           </DialogHeader>
           {selectedCert && <CertificateCard certificate={selectedCert} />}

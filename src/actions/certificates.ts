@@ -42,9 +42,7 @@ export async function getCertificates(playerId?: string) {
   }
 }
 
-export function isGroupSport(sport: { min_players_per_team?: number | null } | null | undefined): boolean {
-  return (sport?.min_players_per_team ?? 1) > 1;
-}
+import { isGroupSport } from "@/lib/utils/helpers";
 
 export async function issueCertificate(input: IssueCertificateInput) {
   try {

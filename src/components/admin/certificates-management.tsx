@@ -34,9 +34,9 @@ import { CertificateCard, type CertificateData } from "@/components/shared/certi
 import {
   issueCertificate,
   bulkIssueParticipationCertificates,
-  isGroupSport,
   type IssueCertificateInput,
 } from "@/actions/certificates";
+import { isGroupSport } from "@/lib/utils/helpers";
 import { formatDate } from "@/lib/utils/format";
 import { toast } from "sonner";
 
@@ -493,8 +493,8 @@ export function CertificatesManagement({
 
       {/* Certificate Print Preview Modal */}
       <Dialog open={!!previewCert} onOpenChange={(open) => !open && setPreviewCert(null)}>
-        <DialogContent className="max-w-4xl p-6">
-          <DialogHeader>
+        <DialogContent className="max-w-5xl max-h-[96vh] overflow-y-auto p-3 sm:p-5 print:p-0 print:border-none print:shadow-none print:max-w-none">
+          <DialogHeader className="sr-only">
             <DialogTitle>Certificate Preview</DialogTitle>
           </DialogHeader>
           {previewCert && <CertificateCard certificate={previewCert} />}

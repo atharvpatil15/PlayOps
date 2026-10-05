@@ -39,8 +39,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${inter.variable} ${playfair.variable}`}>
-      <body className="flex min-h-screen flex-col bg-background font-sans text-foreground antialiased">
+    <html lang="en" className={`${inter.variable} ${playfair.variable}`} suppressHydrationWarning>
+      <body
+        className="flex min-h-screen flex-col bg-background font-sans text-foreground antialiased"
+        suppressHydrationWarning
+      >
         {children}
         <Toaster position="top-right" richColors />
       </body>
