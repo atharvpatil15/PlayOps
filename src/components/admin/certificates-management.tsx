@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Award, Plus, Printer, Users, Eye, Search, CheckCircle2 } from "lucide-react";
+import { Award, Plus, Printer, Users, Eye, Search, CheckCircle2, AlertTriangle, ShieldAlert } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
@@ -34,25 +34,50 @@ import { CertificateCard, type CertificateData } from "@/components/shared/certi
 import {
   issueCertificate,
   bulkIssueParticipationCertificates,
+  isGroupSport,
   type IssueCertificateInput,
 } from "@/actions/certificates";
 import { formatDate } from "@/lib/utils/format";
 import { toast } from "sonner";
 
+export interface TournamentItem {
+  id: string;
+  name: string;
+  sport_id?: string;
+  sports?: {
+    id?: string;
+    name: string;
+    min_players_per_team?: number;
+    max_players_per_team?: number;
+    type?: string;
+  } | null;
+}
+
+export interface PlayerItem {
+  id: string;
+  registration_number: string;
+  department?: string;
+  users: { full_name: string; email?: string } | null;
+}
+
+export interface TeamMembershipItem {
+  player_id: string;
+  tournament_id: string;
+  team_name: string;
+}
+
 interface CertificatesManagementProps {
   initialCertificates: CertificateData[];
-  tournaments: Array<{ id: string; name: string }>;
-  players: Array<{
-    id: string;
-    registration_number: string;
-    users: { full_name: string; email?: string } | null;
-  }>;
+  tournaments: TournamentItem[];
+  players: PlayerItem[];
+  teamMemberships?: TeamMembershipItem[];
 }
 
 export function CertificatesManagement({
   initialCertificates,
   tournaments,
   players,
+  teamMemberships = [],
 }: CertificatesManagementProps) {
   const [certificates, setCertificates] = useState<CertificateData[]>(initialCertificates);
   const [search, setSearch] = useState("");
@@ -69,8 +94,41 @@ export function CertificatesManagement({
   });
   const [bulkTournamentId, setBulkTournamentId] = useState(tournaments[0]?.id || "");
 
+  const currentTournament = tournaments.find((t) => t.id === formData.tournament_id);
+  const isGroupGame = isGroupSport(currentTournament?.sports);
+
+  // Check if selected player is part of a team in this tournament
+  const playerTeam = teamMemberships.find(
+    (tm) => tm.player_id === formData.player_id && tm.tournament_id === formData.tournament_id
+  );
+
+  // Group games strictly require team membership
+  const canIssue = !isGroupGame || !!playerTeam;
+
+  const handleTournamentChange = (tourneyId: string) => {
+    const tourney = tournaments.find((t) => t.id === tourneyId);
+    const isGroup = isGroupSport(tourney?.sports);
+    let newPlayerId = formData.player_id;
+
+    if (isGroup && teamMemberships.length > 0) {
+      const eligible = teamMemberships.filter((tm) => tm.tournament_id === tourneyId);
+      if (eligible.length > 0 && !eligible.some((e) => e.player_id === formData.player_id)) {
+        newPlayerId = eligible[0].player_id;
+      }
+    }
+    setFormData({ ...formData, tournament_id: tourneyId, player_id: newPlayerId });
+  };
+
   const handleIssueSingle = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    if (isGroupGame && !playerTeam) {
+      toast.error(
+        `Cannot issue certificate: Selected athlete is not part of any team in this group sport (${currentTournament?.sports?.name || "Team Game"}).`
+      );
+      return;
+    }
+
     setLoading(true);
     try {
       const res = await issueCertificate(formData);
@@ -81,16 +139,26 @@ export function CertificatesManagement({
 
       const newCert: CertificateData = {
         ...res.data,
-        players: player
+        players: res.data.players || (player
           ? {
               registration_number: player.registration_number,
-              department: "",
+              department: player.department || "",
               users: player.users,
             }
-          : null,
-        tournaments: tournament
-          ? { name: tournament.name, start_date: "", end_date: "" }
-          : null,
+          : null),
+        tournaments: res.data.tournaments || (tournament
+          ? {
+              name: tournament.name,
+              start_date: "",
+              end_date: "",
+              sports: tournament.sports ? { name: tournament.sports.name } : null,
+            }
+          : null),
+        metadata: res.data.metadata || {
+          sport_name: tournament?.sports?.name,
+          department: player?.department,
+          team_name: playerTeam?.team_name,
+        },
       };
 
       setCertificates((prev) => [newCert, ...prev]);
@@ -254,10 +322,24 @@ export function CertificatesManagement({
 
             <div className="space-y-3">
               <div>
-                <Label htmlFor="tourney">Select Tournament</Label>
+                <div className="flex items-center justify-between mb-1.5">
+                  <Label htmlFor="tourney">Select Tournament</Label>
+                  {currentTournament?.sports && (
+                    <Badge
+                      variant={isGroupGame ? "secondary" : "outline"}
+                      className={`text-[10px] font-semibold ${
+                        isGroupGame
+                          ? "bg-amber-500/15 text-amber-700 dark:text-amber-400 border-amber-500/30"
+                          : "bg-blue-500/15 text-blue-700 dark:text-blue-400 border-blue-500/30"
+                      }`}
+                    >
+                      {isGroupGame ? "👥 Group Game" : "👤 Individual Game"} • {currentTournament.sports.name}
+                    </Badge>
+                  )}
+                </div>
                 <Select
                   value={formData.tournament_id}
-                  onValueChange={(val) => setFormData({ ...formData, tournament_id: val })}
+                  onValueChange={handleTournamentChange}
                 >
                   <SelectTrigger id="tourney">
                     <SelectValue />
@@ -265,7 +347,7 @@ export function CertificatesManagement({
                   <SelectContent>
                     {tournaments.map((t) => (
                       <SelectItem key={t.id} value={t.id}>
-                        {t.name}
+                        {t.name} ({isGroupSport(t.sports) ? "Group" : "Individual"})
                       </SelectItem>
                     ))}
                   </SelectContent>
@@ -281,14 +363,51 @@ export function CertificatesManagement({
                   <SelectTrigger id="player">
                     <SelectValue />
                   </SelectTrigger>
-                  <SelectContent>
-                    {players.map((p) => (
-                      <SelectItem key={p.id} value={p.id}>
-                        {p.users?.full_name || "Athlete"} ({p.registration_number})
-                      </SelectItem>
-                    ))}
+                  <SelectContent className="max-h-56">
+                    {players.map((p) => {
+                      const tm = teamMemberships.find(
+                        (m) => m.player_id === p.id && m.tournament_id === formData.tournament_id
+                      );
+                      return (
+                        <SelectItem key={p.id} value={p.id}>
+                          {p.users?.full_name || "Athlete"} ({p.registration_number})
+                          {isGroupGame
+                            ? tm
+                              ? ` — [Team: ${tm.team_name}]`
+                              : " — [No Team]"
+                            : ""}
+                        </SelectItem>
+                      );
+                    })}
                   </SelectContent>
                 </Select>
+
+                {/* Team Membership Eligibility Feedback */}
+                {isGroupGame && !playerTeam && (
+                  <div className="mt-2 rounded-lg border border-destructive/30 bg-destructive/10 p-2.5 text-xs text-destructive flex items-start gap-2">
+                    <AlertTriangle className="h-4 w-4 shrink-0 mt-0.5" />
+                    <div>
+                      <p className="font-semibold">Team Membership Required</p>
+                      <p className="text-[11px] leading-tight text-muted-foreground mt-0.5">
+                        This is a group game ({currentTournament?.sports?.name || "Team Sport"}). Athletes cannot be issued a certificate unless they are an active member of a registered team in this tournament.
+                      </p>
+                    </div>
+                  </div>
+                )}
+
+                {isGroupGame && playerTeam && (
+                  <div className="mt-2 rounded-md border border-emerald-500/20 bg-emerald-500/10 p-2 text-xs text-emerald-700 dark:text-emerald-400 flex items-center gap-1.5">
+                    <CheckCircle2 className="h-3.5 w-3.5" />
+                    <span>Verified Squad Member: <strong>{playerTeam.team_name}</strong></span>
+                  </div>
+                )}
+
+                {!isGroupGame && currentTournament && (
+                  <div className="mt-2 rounded-md border border-blue-500/20 bg-blue-500/10 p-2 text-xs text-blue-700 dark:text-blue-400 flex items-center gap-1.5">
+                    <CheckCircle2 className="h-3.5 w-3.5" />
+                    <span>Individual Sport: Eligible for direct individual certification.</span>
+                  </div>
+                )}
               </div>
 
               <div>
@@ -320,7 +439,7 @@ export function CertificatesManagement({
               >
                 Cancel
               </Button>
-              <Button type="submit" disabled={loading} className="gap-1.5">
+              <Button type="submit" disabled={loading || !canIssue} className="gap-1.5">
                 <Award className="h-4 w-4" />
                 <span>{loading ? "Issuing..." : "Issue Certificate"}</span>
               </Button>

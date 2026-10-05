@@ -44,9 +44,19 @@ export function CertificateCard({ certificate }: CertificateCardProps) {
     certificate.players?.registration_number ||
     certificate.players?.roll_number ||
     "Verified Athlete";
-  const department = certificate.players?.department || "Engineering";
-  const tournamentName = certificate.tournaments?.name || "KK Wagh Sports Tournament";
-  const sportName = certificate.tournaments?.sports?.name || "Inter-Department Championship";
+  const department =
+    certificate.players?.department ||
+    certificate.metadata?.department ||
+    "Engineering";
+  const tournamentName =
+    certificate.tournaments?.name ||
+    certificate.metadata?.tournament_name ||
+    "KK Wagh Sports Tournament";
+  const sportName =
+    certificate.tournaments?.sports?.name ||
+    certificate.metadata?.sport_name ||
+    "Inter-Department Championship";
+  const teamName = certificate.metadata?.team_name;
 
   const getTitleByType = (type: CertificateType) => {
     switch (type) {
@@ -144,6 +154,11 @@ export function CertificateCard({ certificate }: CertificateCardProps) {
             <p className="text-xs font-medium text-muted-foreground">
               Roll No: <span className="font-mono font-bold text-foreground">{rollNumber}</span> •{" "}
               Department of <span className="font-bold text-foreground">{department}</span>
+              {teamName && (
+                <>
+                  {" "}• Squad: <span className="font-bold text-foreground">{teamName}</span>
+                </>
+              )}
             </p>
           </div>
 

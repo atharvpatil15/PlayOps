@@ -3,6 +3,7 @@
 import { createClient } from "@/lib/supabase/server";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { revalidatePath } from "next/cache";
+import type { Database } from "@/types/database.types";
 
 export interface PlayerProfileInput {
   registration_number: string; // PRN
@@ -133,7 +134,7 @@ export async function registerPlayerProfile(input: PlayerProfileInput) {
 export async function updatePlayerProfile(playerId: string, input: Partial<PlayerProfileInput>) {
   try {
     const admin = createAdminClient();
-    const updatePayload: Record<string, any> = {
+    const updatePayload: Database["public"]["Tables"]["players"]["Update"] = {
       updated_at: new Date().toISOString(),
     };
 

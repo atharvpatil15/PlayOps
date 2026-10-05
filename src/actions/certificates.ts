@@ -42,11 +42,111 @@ export async function getCertificates(playerId?: string) {
   }
 }
 
+export function isGroupSport(sport: { min_players_per_team?: number | null } | null | undefined): boolean {
+  return (sport?.min_players_per_team ?? 1) > 1;
+}
+
 export async function issueCertificate(input: IssueCertificateInput) {
   try {
     const admin = createAdminClient();
 
-    const certUrl = `/verify/cert-${input.player_id.slice(0, 8)}-${input.tournament_id.slice(0, 8)}`;
+    // 1. Fetch tournament details and associated sport configuration
+    const { data: tournament, error: tourneyErr } = await admin
+      .from("tournaments")
+      .select("id, name, sports(id, name, min_players_per_team, max_players_per_team, type)")
+      .eq("id", input.tournament_id)
+      .single();
+
+    if (tourneyErr || !tournament) {
+      return { success: false, data: null, error: "Tournament not found" };
+    }
+
+    // 2. Fetch player details
+    const { data: player, error: playerErr } = await admin
+      .from("players")
+      .select("id, registration_number, department, user_id, users(id, full_name, email)")
+      .eq("id", input.player_id)
+      .single();
+
+    if (playerErr || !player) {
+      return { success: false, data: null, error: "Athlete profile not found" };
+    }
+
+    const sport = tournament.sports as any;
+    const isGroup = isGroupSport(sport);
+    const playerName = (player.users as any)?.full_name || "Athlete";
+    const sportName = sport?.name || "Sport";
+
+    // 3. Check team membership for this tournament
+    // Query teams that are part of this tournament directly or via tournament registrations
+    const { data: directTeams } = await admin
+      .from("teams")
+      .select("id, name")
+      .eq("tournament_id", input.tournament_id);
+
+    const { data: regTeams } = await admin
+      .from("tournament_registrations")
+      .select("team_id, teams(id, name)")
+      .eq("tournament_id", input.tournament_id);
+
+    const allTeamIds = new Set<string>();
+    const teamNameMap = new Map<string, string>();
+
+    directTeams?.forEach((t) => {
+      allTeamIds.add(t.id);
+      teamNameMap.set(t.id, t.name);
+    });
+
+    regTeams?.forEach((r) => {
+      if (r.team_id) {
+        allTeamIds.add(r.team_id);
+        if ((r.teams as any)?.name) {
+          teamNameMap.set(r.team_id, (r.teams as any).name);
+        }
+      }
+    });
+
+    let matchedTeamName: string | null = null;
+    let isMemberOfTeam = false;
+
+    if (allTeamIds.size > 0) {
+      const { data: membership } = await admin
+        .from("team_players")
+        .select("team_id")
+        .eq("player_id", input.player_id)
+        .in("team_id", Array.from(allTeamIds))
+        .limit(1);
+
+      if (membership && membership.length > 0) {
+        isMemberOfTeam = true;
+        matchedTeamName = teamNameMap.get(membership[0].team_id) || null;
+      }
+    }
+
+    // 4. Enforce the team membership rule:
+    // If it is a group game and the player is not part of any team in this tournament, block issuing!
+    if (isGroup && !isMemberOfTeam) {
+      return {
+        success: false,
+        data: null,
+        error: `Cannot issue certificate: ${playerName} is not part of any registered team for this group sport (${sportName}). Group games require the athlete to be a member of a team.`,
+      };
+    }
+
+    // 5. Verification code & URL
+    const certCode = `cert-${input.player_id.slice(0, 8)}-${input.tournament_id.slice(0, 8)}-${input.type.slice(0, 3)}`;
+    const certUrl = `/verify/${certCode}`;
+
+    // 6. Enrich metadata
+    const enrichedMetadata = {
+      sport_name: sportName,
+      department: player.department,
+      registration_number: player.registration_number,
+      tournament_name: tournament.name,
+      team_name: matchedTeamName || null,
+      is_group_game: isGroup,
+      ...input.metadata,
+    };
 
     const { data, error } = await admin
       .from("certificates")
@@ -57,15 +157,26 @@ export async function issueCertificate(input: IssueCertificateInput) {
           type: input.type,
           issued_date: new Date().toISOString().split("T")[0],
           certificate_url: certUrl,
-          metadata: input.metadata || {},
+          metadata: enrichedMetadata,
         },
       ])
-      .select("*, players(user_id, users(full_name)), tournaments(name)")
+      .select(
+        "*, players(id, registration_number, department, user_id, users(full_name, email)), tournaments(id, name, start_date, end_date, sports(name))"
+      )
       .single();
 
-    if (error) throw error;
+    if (error) {
+      if (error.code === "23505" || error.message?.includes("uq_certificate_per_player")) {
+        return {
+          success: false,
+          data: null,
+          error: `${playerName} has already been issued a "${input.type.replace(/_/g, " ")}" certificate for ${tournament.name}.`,
+        };
+      }
+      throw error;
+    }
 
-    // Send automatic congratulatory notification to the athlete
+    // 7. Send automatic congratulatory notification to the athlete
     const targetUserId = (data.players as any)?.user_id;
     if (targetUserId) {
       await createNotification({
@@ -87,6 +198,31 @@ export async function issueCertificate(input: IssueCertificateInput) {
       data: null,
       error: err.message || "Failed to issue certificate",
     };
+  }
+}
+
+export async function getCertificateByCode(code: string) {
+  try {
+    const admin = createAdminClient();
+
+    let query = admin
+      .from("certificates")
+      .select(
+        "*, players(id, registration_number, department, users(id, full_name, email)), tournaments(id, name, start_date, end_date, sports(name))"
+      );
+
+    if (code.includes("-") && code.length >= 32) {
+      query = query.or(`id.eq.${code},certificate_url.ilike.%${code}%`);
+    } else {
+      query = query.ilike("certificate_url", `%${code}%`);
+    }
+
+    const { data, error } = await query.maybeSingle();
+    if (error) throw error;
+
+    return { data, error: null };
+  } catch (err: any) {
+    return { data: null, error: err.message || "Certificate not found" };
   }
 }
 

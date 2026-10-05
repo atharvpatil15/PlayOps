@@ -1,4 +1,6 @@
 import { getPlayerByQR } from "@/actions/players";
+import { getCertificateByCode } from "@/actions/certificates";
+import { CertificateCard } from "@/components/shared/certificate-card";
 import { CheckCircle2, XCircle, Shield, Award, Calendar, Phone } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -15,12 +17,26 @@ export const revalidate = 0;
 
 export default async function VerifyPlayerPage({ params }: VerifyPageProps) {
   const { code } = await params;
-  const { data: rawPlayer, error } = await getPlayerByQR(code);
+  
+  // Try checking certificate first if code starts with cert- or is a UUID
+  let cert = null;
+  if (code.toLowerCase().includes("cert-")) {
+    const certRes = await getCertificateByCode(code);
+    cert = certRes.data;
+  }
+
+  const { data: rawPlayer } = await getPlayerByQR(code);
   const player = rawPlayer as any;
+
+  if (!player && !cert) {
+    // If not found yet, try certificate lookup
+    const certRes = await getCertificateByCode(code);
+    cert = certRes.data;
+  }
 
   return (
     <div className="flex min-h-[80vh] items-center justify-center px-4 py-12">
-      <div className="w-full max-w-md space-y-6">
+      <div className={`w-full ${cert ? "max-w-4xl" : "max-w-md"} space-y-6`}>
         <div className="space-y-1 text-center">
           <Badge variant="outline" className="mb-1 text-xs uppercase tracking-wider">
             Official Credential Verification
@@ -29,11 +45,19 @@ export default async function VerifyPlayerPage({ params }: VerifyPageProps) {
             KK Wagh Sports Portal
           </h1>
           <p className="text-xs text-muted-foreground">
-            PlayOps Athlete Check-in & Eligibility Verification System
+            PlayOps Athlete Check-in &amp; Official Award Verification System
           </p>
         </div>
 
-        {player ? (
+        {cert ? (
+          <div className="space-y-4">
+            <div className="flex items-center justify-center gap-2 text-emerald-600 bg-emerald-500/10 border border-emerald-500/30 rounded-xl p-3 text-sm font-semibold">
+              <CheckCircle2 className="h-5 w-5" />
+              <span>Official Sports Certificate Authenticated &amp; Validated</span>
+            </div>
+            <CertificateCard certificate={cert as any} />
+          </div>
+        ) : player ? (
           <Card className="overflow-hidden border-primary/40 bg-card shadow-xl">
             <div className="h-3 bg-gradient-to-r from-primary to-blue-400" />
             <CardHeader className="pb-2 text-center">
