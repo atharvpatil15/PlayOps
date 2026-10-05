@@ -29,9 +29,9 @@ const supabase = createClient(supabaseUrl, serviceKey, {
 });
 
 async function main() {
-  const email = "atharwapatil1@gmail.com";
-  const password = "Admin@123";
-  const fullName = "Atharwa Patil";
+  const email = "admin123@gmail.com";
+  const password = "admin@123";
+  const fullName = "Sports Administrator";
 
   console.log(`Checking if user ${email} exists in auth.users...`);
   const { data: userList, error: listErr } = await supabase.auth.admin.listUsers();
