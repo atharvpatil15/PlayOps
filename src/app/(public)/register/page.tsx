@@ -112,7 +112,7 @@ export default function RegisterPage() {
     <div className="container flex min-h-[calc(100vh-4rem)] items-center justify-center px-4 py-12 sm:px-6 lg:px-8">
       <div className="w-full max-w-lg space-y-8">
         <div className="flex flex-col items-center">
-          <Link href="/" className="mb-4 inline-block">
+          <Link href="/" className="mb-4 inline-block transition-opacity hover:opacity-90">
             <Image
               src="/kk-wagh-logo.png"
               alt="K. K. Wagh Education Society"
@@ -122,15 +122,18 @@ export default function RegisterPage() {
               className="h-16 sm:h-20 w-auto object-contain dark:brightness-0 dark:invert transition-all"
             />
           </Link>
-          <h2 className="text-center font-serif text-3xl font-bold tracking-tight text-foreground">
+          <span className="text-xs uppercase font-medium tracking-wider text-muted-foreground mb-1">
+            Official Registration
+          </span>
+          <h2 className="text-center font-serif text-3xl sm:text-4xl font-normal text-foreground">
             Create Sports Pass
           </h2>
-          <p className="mt-2 max-w-md text-center text-sm text-muted-foreground">
+          <p className="mt-1 max-w-md text-center text-sm text-muted-foreground">
             Join KK Wagh PlayOps to participate in sports leagues and track live scores
           </p>
         </div>
 
-        <Card className="border-border/50 bg-card/50 shadow-xl backdrop-blur-sm">
+        <Card className="border border-border bg-card">
           <CardContent className="pt-8">
             <Form {...form}>
               <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
@@ -193,10 +196,10 @@ export default function RegisterPage() {
                             <button
                               type="button"
                               onClick={() => field.onChange("player")}
-                              className={`relative flex items-center justify-center gap-2 rounded-xl border p-4 text-sm font-semibold transition-all duration-200 ${
+                              className={`relative flex items-center justify-center gap-2 rounded-md border p-3.5 text-xs font-medium transition-colors duration-150 ${
                                 field.value === "player"
-                                  ? "border-primary bg-primary/10 text-primary ring-1 ring-primary/20"
-                                  : "border-border text-muted-foreground hover:border-border/80 hover:bg-muted/50"
+                                  ? "border-primary bg-primary/5 text-foreground"
+                                  : "border-border text-muted-foreground hover:border-foreground/30 hover:text-foreground"
                               }`}
                             >
                               {field.value === "player" && (
@@ -209,10 +212,10 @@ export default function RegisterPage() {
                             <button
                               type="button"
                               onClick={() => field.onChange("viewer")}
-                              className={`relative flex items-center justify-center gap-2 rounded-xl border p-4 text-sm font-semibold transition-all duration-200 ${
+                              className={`relative flex items-center justify-center gap-2 rounded-md border p-3.5 text-xs font-medium transition-colors duration-150 ${
                                 field.value === "viewer"
-                                  ? "border-primary bg-primary/10 text-primary ring-1 ring-primary/20"
-                                  : "border-border text-muted-foreground hover:border-border/80 hover:bg-muted/50"
+                                  ? "border-primary bg-primary/5 text-foreground"
+                                  : "border-border text-muted-foreground hover:border-foreground/30 hover:text-foreground"
                               }`}
                             >
                               {field.value === "viewer" && (

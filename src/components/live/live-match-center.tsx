@@ -202,24 +202,24 @@ export function LiveMatchCenter({
   return (
     <div className="space-y-8">
       {/* Realtime Status Indicator Bar */}
-      <div className="flex flex-wrap items-center justify-between gap-4 rounded-xl border bg-card/60 p-4 backdrop-blur-sm">
+      <div className="flex flex-wrap items-center justify-between gap-4 rounded-lg border border-border bg-card p-4">
         <div className="flex items-center gap-3">
-          <div className="relative flex h-3.5 w-3.5">
+          <div className="relative flex h-2.5 w-2.5">
             {isConnected ? (
               <>
-                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75" />
-                <span className="relative inline-flex h-3.5 w-3.5 rounded-full bg-emerald-500" />
+                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-primary opacity-75" />
+                <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-primary" />
               </>
             ) : (
-              <span className="relative inline-flex h-3.5 w-3.5 rounded-full bg-amber-500" />
+              <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-muted-foreground" />
             )}
           </div>
           <div>
             <div className="flex items-center gap-2">
-              <span className="text-sm font-bold text-foreground">
+              <span className="text-sm font-medium text-foreground">
                 {isConnected ? "Live WebSocket Connected" : "Connecting to Live Feed..."}
               </span>
-              <Badge variant="outline" className="text-[10px]">
+              <Badge variant="outline" className="text-[10px] font-medium">
                 Supabase Realtime
               </Badge>
             </div>
@@ -233,10 +233,10 @@ export function LiveMatchCenter({
         <div className="flex flex-wrap items-center gap-1.5">
           <button
             onClick={() => setSelectedSport("all")}
-            className={`rounded-full px-3 py-1 text-xs font-semibold transition-colors ${
+            className={`rounded-md px-3 py-1.5 text-xs font-medium transition-colors duration-150 ${
               selectedSport === "all"
-                ? "bg-primary text-primary-foreground"
-                : "bg-muted text-muted-foreground hover:bg-muted/80"
+                ? "bg-foreground text-background"
+                : "border border-border bg-card text-muted-foreground hover:border-foreground/30 hover:text-foreground"
             }`}
           >
             All Sports
@@ -245,10 +245,10 @@ export function LiveMatchCenter({
             <button
               key={s.id}
               onClick={() => setSelectedSport(s.id)}
-              className={`flex items-center gap-1 rounded-full px-3 py-1 text-xs font-semibold transition-colors ${
+              className={`flex items-center gap-1.5 rounded-md px-3 py-1.5 text-xs font-medium transition-colors duration-150 ${
                 selectedSport === s.id
-                  ? "bg-primary text-primary-foreground"
-                  : "bg-muted text-muted-foreground hover:bg-muted/80"
+                  ? "bg-foreground text-background"
+                  : "border border-border bg-card text-muted-foreground hover:border-foreground/30 hover:text-foreground"
               }`}
             >
               <span>{s.icon || "🏅"}</span>
@@ -261,12 +261,12 @@ export function LiveMatchCenter({
       {/* Live Matches Grid */}
       <div className="space-y-4">
         <div className="flex items-center justify-between">
-          <h2 className="flex items-center gap-2 text-xl font-bold tracking-tight">
-            <Flame className="h-5 w-5 text-red-500" />
+          <h2 className="flex items-center gap-2 font-serif text-2xl font-normal text-foreground">
+            <Flame className="h-5 w-5 text-primary" />
             <span>Active Matches In-Play ({filteredLiveMatches.length})</span>
           </h2>
           {filteredLiveMatches.length > 0 && (
-            <Badge variant="live" className="flex items-center gap-1">
+            <Badge variant="live" className="flex items-center gap-1.5 px-3 py-1 text-xs font-medium">
               <Radio className="h-3 w-3 animate-pulse" />
               <span>LIVE BROADCAST</span>
             </Badge>
@@ -278,47 +278,47 @@ export function LiveMatchCenter({
             {filteredLiveMatches.map((m) => (
               <Card
                 key={m.id}
-                className="overflow-hidden border-red-500/20 shadow-md transition-shadow hover:shadow-lg"
+                className="group overflow-hidden border border-border bg-card transition-colors duration-150 hover:border-foreground/40"
               >
-                <div className="flex items-center justify-between border-b bg-red-500/10 px-4 py-2.5">
+                <div className="flex items-center justify-between border-b border-border bg-muted/20 px-4 py-3">
                   <div className="flex items-center gap-2">
                     <span className="text-base">{m.sports?.icon || "🏅"}</span>
                     <div>
-                      <p className="text-xs font-bold text-foreground">
+                      <p className="font-serif text-sm font-normal text-foreground">
                         {m.tournaments?.name || "Tournament"}
                       </p>
-                      <p className="text-[11px] text-muted-foreground">
+                      <p className="text-[11px] font-medium uppercase tracking-wider text-muted-foreground">
                         {m.round.replace(/_/g, " ").toUpperCase()} • Match #{m.match_number}
                       </p>
                     </div>
                   </div>
-                  <Badge variant="live" className="flex items-center gap-1 text-xs">
+                  <Badge variant="live" className="flex items-center gap-1 text-xs font-medium">
                     <Radio className="h-3 w-3 animate-pulse" />
                     <span>LIVE</span>
                   </Badge>
                 </div>
 
-                <CardContent className="space-y-4 p-5">
+                <CardContent className="space-y-4 p-5 sm:p-6">
                   {/* Team vs Team with Score Display */}
                   <div className="space-y-3">
-                    <div className="flex items-center justify-between rounded-lg bg-muted/40 p-3">
+                    <div className="flex items-center justify-between rounded-md border border-border bg-muted/20 p-3.5 transition-colors group-hover:bg-muted/40">
                       <div className="flex items-center gap-2">
-                        <span className="font-bold text-foreground sm:text-lg">
+                        <span className="font-medium text-foreground sm:text-base">
                           {m.team_a?.name || "Team A"}
                         </span>
                       </div>
-                      <span className="font-mono text-xl font-extrabold text-primary sm:text-2xl">
+                      <span className="font-mono text-2xl font-semibold text-foreground sm:text-3xl tabular-nums">
                         {m.score_team_a ?? "0"}
                       </span>
                     </div>
 
-                    <div className="flex items-center justify-between rounded-lg bg-muted/40 p-3">
+                    <div className="flex items-center justify-between rounded-md border border-border bg-muted/20 p-3.5 transition-colors group-hover:bg-muted/40">
                       <div className="flex items-center gap-2">
-                        <span className="font-bold text-foreground sm:text-lg">
+                        <span className="font-medium text-foreground sm:text-base">
                           {m.team_b?.name || "Team B"}
                         </span>
                       </div>
-                      <span className="font-mono text-xl font-extrabold text-primary sm:text-2xl">
+                      <span className="font-mono text-2xl font-semibold text-foreground sm:text-3xl tabular-nums">
                         {m.score_team_b ?? "0"}
                       </span>
                     </div>
@@ -326,14 +326,14 @@ export function LiveMatchCenter({
 
                   {/* Status / Remarks */}
                   {m.remarks && (
-                    <div className="flex items-start gap-2 rounded-md bg-amber-500/10 p-2.5 text-xs font-medium text-amber-700 dark:text-amber-300">
-                      <Volume2 className="mt-0.5 h-3.5 w-3.5 flex-shrink-0" />
+                    <div className="flex items-start gap-2 rounded-md border border-border bg-muted/20 p-2.5 text-xs text-muted-foreground">
+                      <Volume2 className="mt-0.5 h-3.5 w-3.5 flex-shrink-0 text-primary" />
                       <span>{m.remarks}</span>
                     </div>
                   )}
 
                   {/* Metadata & Actions */}
-                  <div className="flex flex-wrap items-center justify-between gap-2 border-t pt-3 text-xs text-muted-foreground">
+                  <div className="flex flex-wrap items-center justify-between gap-2 border-t border-border pt-3 text-xs text-muted-foreground">
                     <div className="flex items-center gap-2">
                       {m.venues && (
                         <div className="flex items-center gap-1">
@@ -345,7 +345,7 @@ export function LiveMatchCenter({
                     <Button
                       size="sm"
                       variant="outline"
-                      className="h-8 gap-1.5 text-xs font-semibold"
+                      className="h-8 gap-1.5 text-xs font-medium"
                       onClick={() => handleOpenMatchDetails(m)}
                     >
                       <Eye className="h-3.5 w-3.5 text-primary" />
@@ -366,8 +366,8 @@ export function LiveMatchCenter({
       </div>
 
       {/* Upcoming Matches Section */}
-      <div className="space-y-4 border-t pt-8">
-        <h2 className="flex items-center gap-2 text-xl font-bold tracking-tight">
+      <div className="space-y-4 border-t border-border pt-8">
+        <h2 className="flex items-center gap-2 font-serif text-2xl font-normal text-foreground">
           <Clock className="h-5 w-5 text-primary" />
           <span>Upcoming Scheduled Matches ({upcomingMatches.length})</span>
         </h2>
@@ -375,12 +375,12 @@ export function LiveMatchCenter({
         {upcomingMatches.length > 0 ? (
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {upcomingMatches.map((m) => (
-              <Card key={m.id} className="transition-colors hover:border-primary/40">
-                <CardHeader className="flex flex-row items-center justify-between space-y-0 bg-muted/30 p-3">
-                  <span className="text-xs font-bold text-muted-foreground">
+              <Card key={m.id} className="border border-border bg-card transition-colors duration-150 hover:border-foreground/30">
+                <CardHeader className="flex flex-row items-center justify-between space-y-0 border-b border-border bg-muted/20 p-3">
+                  <span className="font-serif text-xs font-normal text-foreground">
                     {m.sports?.icon || "🏅"} {m.tournaments?.name || "Tournament"}
                   </span>
-                  <Badge variant="outline" className="text-[10px]">
+                  <Badge variant="outline" className="text-[10px] font-medium">
                     {m.round.replace(/_/g, " ").toUpperCase()}
                   </Badge>
                 </CardHeader>

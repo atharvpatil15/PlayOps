@@ -20,17 +20,19 @@ export function StatCard({
   className,
 }: StatCardProps) {
   return (
-    <Card className={cn("overflow-hidden", className)}>
-      <CardContent className="p-6">
+    <Card className={cn("overflow-hidden border border-border bg-card transition-colors duration-150 hover:border-foreground/30", className)}>
+      <CardContent className="p-5">
         <div className="flex items-center justify-between space-y-0 pb-2">
-          <p className="text-sm font-medium text-muted-foreground">{title}</p>
-          <div className="rounded-lg bg-primary/10 p-2 text-primary">
-            <Icon className="h-5 w-5" />
-          </div>
+          <p className="text-xs font-medium uppercase tracking-wider text-muted-foreground">{title}</p>
+          <Icon className="h-4 w-4 text-muted-foreground" />
         </div>
         <div className="flex items-baseline space-x-2">
-          <div className="text-2xl font-bold tracking-tight text-foreground">{value}</div>
-          {trend && <span className="text-xs font-semibold text-emerald-600">{trend}</span>}
+          <div className="font-serif text-3xl font-medium text-foreground tabular-nums">{value}</div>
+          {trend && (
+            <span className="text-[11px] font-medium text-emerald-600 dark:text-emerald-400">
+              {trend}
+            </span>
+          )}
         </div>
         {description && <p className="mt-1 text-xs text-muted-foreground">{description}</p>}
       </CardContent>

@@ -9,9 +9,7 @@ import {
   Flame,
   ArrowRight,
   ShieldCheck,
-  CheckCircle2,
   ChevronRight,
-  PlayCircle,
   Radio,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -19,10 +17,6 @@ import { Badge } from "@/components/ui/badge";
 import {
   Card,
   CardContent,
-  CardHeader,
-  CardTitle,
-  CardDescription,
-  CardFooter,
 } from "@/components/ui/card";
 import { SUPPORTED_SPORTS } from "@/lib/constants/sport";
 import { ROUTES } from "@/lib/constants/routes";
@@ -70,21 +64,25 @@ export default async function HomePage() {
 
   const stats = [
     {
+      index: "01",
       label: "Active Tournaments",
       value: String(tournamentsCount ?? 0),
       icon: Trophy,
     },
     {
+      index: "02",
       label: "Registered Athletes",
       value: String(playersCount ?? 0),
       icon: Users,
     },
     {
+      index: "03",
       label: "Sports Offered",
       value: String(sportsCount ?? 10),
       icon: Flame,
     },
     {
+      index: "04",
       label: "Campus Venues",
       value: `${venuesCount ?? 6} Grounds`,
       icon: Calendar,
@@ -132,72 +130,81 @@ export default async function HomePage() {
 
   return (
     <div className="flex w-full flex-col">
-      {/* Hero Section */}
-      <section className="relative overflow-hidden border-b border-border/50 bg-background pb-16 pt-16 md:pb-24 md:pt-24 lg:pt-32">
-        <div className="bg-grid-slate-900/[0.04] dark:bg-grid-slate-400/[0.05] absolute inset-0 bg-[bottom_1px_center] [mask-image:linear-gradient(to_bottom,transparent,black)] dark:border-b dark:border-slate-100/5 dark:bg-bottom"></div>
-        <div className="container relative z-10 mx-auto max-w-7xl px-4 sm:px-8">
-          <div className="mx-auto flex max-w-4xl flex-col items-center space-y-8 text-center">
-            <Badge
-              variant="secondary"
-              className="border-primary/20 bg-primary/5 px-4 py-1.5 text-sm font-medium text-primary transition-colors hover:bg-primary/10"
-            >
-              <span className="mr-2 flex h-2 w-2 animate-pulse rounded-full bg-primary" />
-              KK Wagh Institute of Engineering Education & Research
-            </Badge>
+      {/* Editorial Announcement Bar */}
+      <div className="border-b border-border bg-muted/40 py-2.5 px-4 text-xs">
+        <div className="container mx-auto flex max-w-7xl items-center justify-between">
+          <div className="flex items-center gap-2">
+            <span className="font-semibold text-foreground">KKWIEER Athletics</span>
+            <span className="text-muted-foreground">•</span>
+            <span className="text-muted-foreground hidden sm:inline">
+              Official Tournament Ecosystem &amp; Digital Sports Pass Registry
+            </span>
+          </div>
+          <div className="flex items-center gap-4 text-xs font-medium">
+            <span className="flex items-center gap-1.5 text-muted-foreground">
+              <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
+              <span>Realtime Broadcast Active</span>
+            </span>
+          </div>
+        </div>
+      </div>
 
-            <h1 className="font-serif text-4xl font-bold leading-[1.15] tracking-tight text-foreground md:text-6xl md:leading-[1.15] lg:text-7xl">
-              The Official Digital Sports Arena for{" "}
-              <span className="bg-gradient-to-r from-primary via-blue-500 to-indigo-600 bg-clip-text text-transparent">
-                KK Wagh
-              </span>
-            </h1>
+      {/* Hero Section — Asymmetric Editorial Layout */}
+      <section className="border-b border-border bg-background py-16 md:py-24">
+        <div className="container mx-auto max-w-7xl px-4 sm:px-8">
+          <div className="grid grid-cols-1 gap-12 lg:grid-cols-12 lg:items-center">
+            {/* Left Content Column */}
+            <div className="space-y-6 lg:col-span-7">
+              <div className="inline-flex items-center gap-2 text-xs font-medium text-muted-foreground">
+                <span className="h-1.5 w-1.5 rounded-full bg-primary" />
+                <span>KK Wagh Institute of Engineering Education &amp; Research</span>
+              </div>
 
-            <p className="mx-auto max-w-2xl text-lg leading-relaxed text-muted-foreground md:text-xl">
-              PlayOps centralizes college athletic tournaments, real-time ground commentary, team
-              registrations, and performance analytics into a single high-performance portal.
-            </p>
+              <h1 className="font-serif text-4xl sm:text-5xl lg:text-6xl font-normal tracking-tight text-foreground leading-[1.12]">
+                The Official Digital Sports Arena for{" "}
+                <span className="text-primary italic">KK Wagh</span>
+              </h1>
 
-            <div className="flex w-full flex-col justify-center gap-4 pt-4 sm:flex-row">
-              <Button
-                asChild
-                size="lg"
-                className="h-12 px-8 text-base shadow-lg shadow-primary/20 transition-all hover:shadow-primary/30"
-              >
-                <Link href={ROUTES.REGISTER}>
-                  Get Your Sports Pass
-                  <ArrowRight className="ml-2 h-4 w-4" />
-                </Link>
-              </Button>
-              <Button
-                asChild
-                variant="outline"
-                size="lg"
-                className="h-12 bg-background/50 px-8 text-base backdrop-blur-sm"
-              >
-                <Link href={ROUTES.LIVE}>
-                  <Radio className="mr-2 h-4 w-4 animate-pulse text-red-500" />
-                  Live Match Center
-                </Link>
-              </Button>
+              <p className="max-w-xl text-base sm:text-lg leading-relaxed text-muted-foreground">
+                PlayOps centralizes college athletic tournaments, real-time ground commentary, team
+                registrations, and performance analytics into a single high-performance portal.
+              </p>
+
+              {/* Primary & Secondary Actions — Single Intentional Accent */}
+              <div className="flex flex-col sm:flex-row gap-3 pt-2">
+                <Button asChild size="lg" variant="default">
+                  <Link href={ROUTES.REGISTER}>
+                    Get Your Sports Pass
+                    <ArrowRight className="ml-2 h-4 w-4" />
+                  </Link>
+                </Button>
+                <Button asChild variant="outline" size="lg">
+                  <Link href={ROUTES.LIVE}>
+                    <Radio className="mr-2 h-4 w-4 text-red-500" />
+                    Live Match Center
+                  </Link>
+                </Button>
+              </div>
+
+              {/* Subtle Trust Indicators */}
+              <div className="flex flex-wrap items-center gap-x-6 gap-y-2 pt-4 text-xs text-muted-foreground">
+                <div className="flex items-center gap-1.5">
+                  <span className="h-1 w-1 rounded-full bg-muted-foreground" />
+                  <span>Verified Rosters</span>
+                </div>
+                <div className="flex items-center gap-1.5">
+                  <span className="h-1 w-1 rounded-full bg-muted-foreground" />
+                  <span>Realtime Broadcast</span>
+                </div>
+                <div className="flex items-center gap-1.5">
+                  <span className="h-1 w-1 rounded-full bg-muted-foreground" />
+                  <span>Automated Brackets</span>
+                </div>
+              </div>
             </div>
 
-            <div className="flex flex-wrap items-center justify-center gap-x-8 gap-y-4 pt-8 text-sm font-medium text-muted-foreground">
-              <div className="flex items-center gap-2 rounded-full border border-border/50 bg-muted/50 px-4 py-1.5">
-                <CheckCircle2 className="h-4 w-4 text-primary" />
-                <span>Verified Rosters</span>
-              </div>
-              <div className="flex items-center gap-2 rounded-full border border-border/50 bg-muted/50 px-4 py-1.5">
-                <CheckCircle2 className="h-4 w-4 text-primary" />
-                <span>Realtime Broadcast</span>
-              </div>
-              <div className="flex items-center gap-2 rounded-full border border-border/50 bg-muted/50 px-4 py-1.5">
-                <CheckCircle2 className="h-4 w-4 text-primary" />
-                <span>Automated Brackets</span>
-              </div>
-            </div>
-
-            {/* Direct Live / Past Match Score Card in Landing Page UI */}
-            <div className="w-full max-w-4xl pt-6">
+            {/* Right Column: Integrated Scoreboard Card */}
+            <div className="lg:col-span-5">
               <HeroMatchScoreCard
                 initialLiveMatches={liveMatches}
                 initialPastMatches={pastMatches}
@@ -207,49 +214,46 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* Stats Counter Section */}
-      <section className="border-b border-border/50 bg-muted/30 py-12">
+      {/* Stats Counter Section — Clean Metric Bar */}
+      <section className="border-b border-border bg-card py-10">
         <div className="container mx-auto max-w-7xl px-4 sm:px-8">
-          <div className="grid grid-cols-2 gap-4 md:grid-cols-4 md:gap-8">
-            {stats.map((stat) => {
-              const Icon = stat.icon;
-              return (
-                <Card key={stat.label} className="border-none bg-transparent shadow-none">
-                  <CardContent className="flex flex-col items-center justify-center space-y-2 p-6 text-center">
-                    <div className="mb-2 rounded-2xl bg-primary/10 p-3 text-primary">
-                      <Icon className="h-6 w-6" />
-                    </div>
-                    <span className="text-3xl font-extrabold text-foreground md:text-4xl">
-                      {stat.value}
-                    </span>
-                    <span className="text-sm font-medium text-muted-foreground">{stat.label}</span>
-                  </CardContent>
-                </Card>
-              );
-            })}
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+            {stats.map((stat) => (
+              <div key={stat.label} className="space-y-1">
+                <span className="font-mono text-xs text-muted-foreground">
+                  {stat.index}
+                </span>
+                <div className="font-serif text-3xl sm:text-4xl font-normal text-foreground tabular-nums">
+                  {stat.value}
+                </div>
+                <p className="text-xs uppercase tracking-wider text-muted-foreground font-medium">
+                  {stat.label}
+                </p>
+              </div>
+            ))}
           </div>
         </div>
       </section>
 
-      {/* Featured Sports Catalog */}
-      <section className="bg-background py-20 md:py-28">
+      {/* Featured Sports Catalog — Controlled Asymmetric Pacing */}
+      <section className="bg-background py-16 md:py-20 border-b border-border">
         <div className="container mx-auto max-w-7xl px-4 sm:px-8">
-          <div className="mb-12 flex flex-col justify-between gap-6 md:flex-row md:items-end">
-            <div className="max-w-2xl">
-              <Badge variant="outline" className="mb-4 border-primary/30 text-primary">
-                Sports Catalog
-              </Badge>
-              <h2 className="mb-4 text-3xl font-bold tracking-tight text-foreground md:text-4xl">
-                Inter-Department & University Sports
+          <div className="mb-10 flex flex-col justify-between gap-4 md:flex-row md:items-end">
+            <div>
+              <span className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
+                Athletic Disciplines
+              </span>
+              <h2 className="mt-1 font-serif text-3xl sm:text-4xl font-normal text-foreground">
+                Inter-Department &amp; University Sports
               </h2>
-              <p className="text-lg text-muted-foreground">
+              <p className="mt-1 text-sm text-muted-foreground max-w-xl">
                 Explore supported athletic competitions hosted across KK Wagh campus facilities.
               </p>
             </div>
-            <Button asChild variant="ghost" className="group">
-              <Link href={ROUTES.TOURNAMENTS}>
-                View Tournaments
-                <ChevronRight className="ml-1 h-4 w-4 transition-transform group-hover:translate-x-1" />
+            <Button asChild variant="outline" size="sm">
+              <Link href={ROUTES.TOURNAMENTS} className="flex items-center gap-1">
+                <span>View Tournaments</span>
+                <ChevronRight className="h-3.5 w-3.5" />
               </Link>
             </Button>
           </div>
@@ -261,168 +265,191 @@ export default async function HomePage() {
             }}
             className="w-full"
           >
-            <CarouselContent className="-ml-2 md:-ml-4">
+            <CarouselContent className="-ml-3">
               {SUPPORTED_SPORTS.map((sport) => (
                 <CarouselItem
                   key={sport.name}
-                  className="basis-1/2 pl-2 md:basis-1/3 md:pl-4 lg:basis-1/4 xl:basis-1/5"
+                  className="basis-1/2 pl-3 sm:basis-1/3 md:basis-1/4 lg:basis-1/5"
                 >
-                  <div className="p-1">
-                    <Card className="group border-border/50 transition-all duration-300 hover:border-primary/50 hover:shadow-lg">
-                      <CardContent className="flex aspect-square flex-col items-center justify-center p-8 text-center">
-                        <span className="mb-4 text-5xl transition-transform duration-300 group-hover:-rotate-3 group-hover:scale-110">
+                  <Card className="h-full border border-border bg-card p-5 transition-colors duration-150 hover:border-foreground/40">
+                    <div className="flex h-full flex-col justify-between">
+                      <div className="flex items-center justify-between text-xs text-muted-foreground">
+                        <span className="capitalize">{sport.type}</span>
+                        <span className="font-mono text-[11px]">{sport.minPlayers}-{sport.maxPlayers}P</span>
+                      </div>
+
+                      <div className="my-6 text-center">
+                        <span className="text-4xl block mb-3">
                           {sport.icon}
                         </span>
-                        <h3 className="mb-1 text-lg font-bold text-foreground">{sport.name}</h3>
-                        <Badge
-                          variant="secondary"
-                          className="mt-2 bg-muted text-xs font-normal capitalize"
-                        >
-                          {sport.type} • {sport.minPlayers}-{sport.maxPlayers} Players
-                        </Badge>
-                      </CardContent>
-                    </Card>
-                  </div>
+                        <h3 className="font-serif text-lg font-medium text-foreground">
+                          {sport.name}
+                        </h3>
+                      </div>
+
+                      <div className="border-t border-border pt-3 text-center">
+                        <span className="text-xs text-primary font-medium hover:underline">
+                          View Fixtures ❯
+                        </span>
+                      </div>
+                    </div>
+                  </Card>
                 </CarouselItem>
               ))}
             </CarouselContent>
-            <div className="mr-4 mt-8 flex justify-end gap-2">
-              <CarouselPrevious className="relative inset-auto h-10 w-10 translate-y-0 bg-background hover:bg-muted" />
-              <CarouselNext className="relative inset-auto h-10 w-10 translate-y-0 bg-background hover:bg-muted" />
+            <div className="mt-6 flex justify-end gap-2">
+              <CarouselPrevious className="relative inset-auto h-8 w-8 translate-y-0 rounded border border-border bg-background hover:bg-muted" />
+              <CarouselNext className="relative inset-auto h-8 w-8 translate-y-0 rounded border border-border bg-background hover:bg-muted" />
             </div>
           </Carousel>
         </div>
       </section>
 
-      {/* Feature Grid */}
-      <section className="border-y border-border/50 bg-muted/30 py-20 md:py-28">
+      {/* Feature Section — Breaking the 3-Column AI Template Look */}
+      <section className="bg-muted/30 py-16 md:py-24 border-b border-border">
         <div className="container mx-auto max-w-7xl px-4 sm:px-8">
-          <div className="mx-auto mb-16 max-w-3xl text-center">
-            <Badge variant="outline" className="mb-4 border-primary/30 text-primary">
-              Enterprise Architecture
-            </Badge>
-            <h2 className="mb-4 font-serif text-3xl font-bold tracking-tight text-foreground md:text-4xl">
-              Built for Speed, Reliability &amp; Sportsmanship
-            </h2>
-            <p className="text-lg text-muted-foreground">
-              Everything needed to orchestrate college tournaments from opening whistles to trophy
-              ceremonies.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
-            {features.map((feature) => {
-              const Icon = feature.icon;
-              return (
-                <Card
-                  key={feature.title}
-                  className="border-border/50 bg-background/50 backdrop-blur-sm transition-shadow hover:shadow-md"
-                >
-                  <CardHeader>
-                    <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-primary/10 text-primary">
-                      <Icon className="h-6 w-6" />
-                    </div>
-                    <CardTitle className="text-xl font-bold text-foreground">
-                      {feature.title}
-                    </CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <p className="leading-relaxed text-muted-foreground">{feature.description}</p>
-                  </CardContent>
-                </Card>
-              );
-            })}
-          </div>
-        </div>
-      </section>
-
-      {/* FAQ Section */}
-      <section className="bg-background py-20 md:py-28">
-        <div className="container mx-auto max-w-4xl px-4 sm:px-8">
-          <div className="mb-12 text-center">
-            <h2 className="mb-4 font-serif text-3xl font-bold tracking-tight text-foreground md:text-4xl">
-              Frequently Asked Questions
-            </h2>
-            <p className="text-lg text-muted-foreground">
-              Got questions about PlayOps or tournaments? We&apos;ve got answers.
-            </p>
-          </div>
-
-          <Accordion type="single" collapsible className="w-full">
-            <AccordionItem value="item-1" className="border-border/50">
-              <AccordionTrigger className="text-left text-lg font-semibold transition-colors hover:text-primary">
-                How do I get a Digital Sports Pass?
-              </AccordionTrigger>
-              <AccordionContent className="text-base leading-relaxed text-muted-foreground">
-                Click on the &quot;Get Your Sports Pass&quot; button in the hero section and register with
-                your college email. You will instantly receive a QR-based digital pass on your
-                dashboard.
-              </AccordionContent>
-            </AccordionItem>
-            <AccordionItem value="item-2" className="border-border/50">
-              <AccordionTrigger className="text-left text-lg font-semibold transition-colors hover:text-primary">
-                Can I register a team for a tournament?
-              </AccordionTrigger>
-              <AccordionContent className="text-base leading-relaxed text-muted-foreground">
-                Yes! If you are a team captain, you can create a team from your dashboard and invite
-                registered players from your department using their email addresses.
-              </AccordionContent>
-            </AccordionItem>
-            <AccordionItem value="item-3" className="border-border/50">
-              <AccordionTrigger className="text-left text-lg font-semibold transition-colors hover:text-primary">
-                How does live scoring work?
-              </AccordionTrigger>
-              <AccordionContent className="text-base leading-relaxed text-muted-foreground">
-                Our sports coordinators update the scores directly from the grounds using the admin
-                panel. These scores are broadcasted instantly to the Live Match Center using
-                WebSockets.
-              </AccordionContent>
-            </AccordionItem>
-            <AccordionItem value="item-4" className="border-border/50">
-              <AccordionTrigger className="text-left text-lg font-semibold transition-colors hover:text-primary">
-                Are the certificates verifiable?
-              </AccordionTrigger>
-              <AccordionContent className="text-base leading-relaxed text-muted-foreground">
-                Absolutely. Every certificate issued via PlayOps contains a unique cryptographic QR
-                code that anyone can scan to verify its authenticity.
-              </AccordionContent>
-            </AccordionItem>
-          </Accordion>
-        </div>
-      </section>
-
-      {/* CTA Section */}
-      <section className="border-t border-border/50 bg-background py-20 md:py-28">
-        <div className="container mx-auto max-w-5xl px-4 sm:px-8">
-          <div className="relative overflow-hidden rounded-3xl bg-primary p-8 text-center shadow-2xl md:p-16">
-            <div className="absolute inset-0 bg-[url('/noise.png')] opacity-10 mix-blend-overlay"></div>
-            <div className="absolute inset-0 bg-gradient-to-br from-primary via-primary/90 to-blue-700"></div>
-
-            <div className="relative z-10 space-y-8">
-              <h2 className="font-serif text-3xl font-bold leading-tight tracking-tight text-white md:text-5xl">
-                Ready to Represent Your Department?
+          <div className="grid grid-cols-1 gap-12 lg:grid-cols-12">
+            {/* Left Column: Editorial Section Anchor */}
+            <div className="space-y-4 lg:col-span-4 lg:sticky lg:top-24 lg:self-start">
+              <Badge variant="outline" className="text-xs uppercase font-medium">
+                Enterprise Architecture
+              </Badge>
+              <h2 className="font-serif text-3xl sm:text-4xl font-normal tracking-tight text-foreground leading-tight">
+                Built for Speed, Reliability &amp; Sportsmanship
               </h2>
-              <p className="mx-auto max-w-2xl text-lg leading-relaxed text-primary-foreground/90 md:text-xl">
-                Register your player profile today to obtain your digital KK Wagh Sports Pass, join
-                your department team, and compete in upcoming championships.
+              <p className="text-sm leading-relaxed text-muted-foreground">
+                Everything needed to orchestrate college tournaments from opening whistles to trophy
+                ceremonies.
               </p>
-              <div className="flex flex-col justify-center gap-4 pt-4 sm:flex-row">
-                <Button
-                  asChild
-                  size="lg"
-                  className="h-14 bg-white px-8 text-base font-bold text-primary shadow-lg hover:bg-white/90"
-                >
-                  <Link href={ROUTES.REGISTER}>Register as Player</Link>
-                </Button>
-                <Button
-                  asChild
-                  size="lg"
-                  variant="outline"
-                  className="h-14 border-2 border-white bg-transparent px-8 text-base font-bold text-white backdrop-blur-sm transition-all hover:bg-white hover:text-primary shadow-sm"
-                >
-                  <Link href={ROUTES.TOURNAMENTS}>Browse Tournaments</Link>
-                </Button>
+
+              <div className="pt-4 border-t border-border/80">
+                <div className="text-xs text-muted-foreground space-y-2">
+                  <p className="font-medium text-foreground">Campus Engineering Standards</p>
+                  <p>Engineered for low ground latency, high concurrency during championship finals, and cryptographic pass validation.</p>
+                </div>
               </div>
+            </div>
+
+            {/* Right Column: Editorial Asymmetric Staggered List (No cookie-cutter 3-column grid) */}
+            <div className="lg:col-span-8">
+              <div className="divide-y divide-border rounded-lg border border-border bg-card">
+                {features.map((feature, idx) => {
+                  const Icon = feature.icon;
+                  const itemIndex = String(idx + 1).padStart(2, "0");
+
+                  return (
+                    <div
+                      key={feature.title}
+                      className="flex flex-col sm:flex-row items-start gap-4 p-6 transition-colors duration-150 hover:bg-muted/30"
+                    >
+                      <div className="flex items-center gap-3 shrink-0">
+                        <span className="font-mono text-xs text-muted-foreground w-6">
+                          {itemIndex}
+                        </span>
+                        <div className="flex h-9 w-9 items-center justify-center rounded border border-border bg-muted/50 text-foreground">
+                          <Icon className="h-4 w-4" />
+                        </div>
+                      </div>
+
+                      <div className="flex-1 space-y-1">
+                        <h3 className="font-serif text-lg font-medium text-foreground">
+                          {feature.title}
+                        </h3>
+                        <p className="text-sm text-muted-foreground leading-relaxed">
+                          {feature.description}
+                        </p>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* FAQ Section — Asymmetrical 2-Column Editorial Structure */}
+      <section className="bg-background py-16 md:py-24 border-b border-border">
+        <div className="container mx-auto max-w-7xl px-4 sm:px-8">
+          <div className="grid grid-cols-1 gap-12 lg:grid-cols-12">
+            <div className="space-y-3 lg:col-span-4 lg:sticky lg:top-24 lg:self-start">
+              <span className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
+                Inquiries &amp; Rules
+              </span>
+              <h2 className="font-serif text-3xl sm:text-4xl font-normal tracking-tight text-foreground">
+                Frequently Asked Questions
+              </h2>
+              <p className="text-sm text-muted-foreground leading-relaxed">
+                Got questions about PlayOps or tournaments? We&apos;ve got answers.
+              </p>
+            </div>
+
+            <div className="lg:col-span-8">
+              <Accordion type="single" collapsible className="w-full divide-y divide-border rounded-lg border border-border bg-card">
+                <AccordionItem value="item-1" className="border-none px-6 py-1">
+                  <AccordionTrigger className="text-left font-serif text-base sm:text-lg font-medium text-foreground hover:text-primary py-4 hover:no-underline">
+                    How do I get a Digital Sports Pass?
+                  </AccordionTrigger>
+                  <AccordionContent className="text-sm leading-relaxed text-muted-foreground pb-4">
+                    Click on the &quot;Get Your Sports Pass&quot; button in the hero section and register with
+                    your college email. You will instantly receive a QR-based digital pass on your
+                    dashboard.
+                  </AccordionContent>
+                </AccordionItem>
+                <AccordionItem value="item-2" className="border-none px-6 py-1">
+                  <AccordionTrigger className="text-left font-serif text-base sm:text-lg font-medium text-foreground hover:text-primary py-4 hover:no-underline">
+                    Can I register a team for a tournament?
+                  </AccordionTrigger>
+                  <AccordionContent className="text-sm leading-relaxed text-muted-foreground pb-4">
+                    Yes! If you are a team captain, you can create a team from your dashboard and invite
+                    registered players from your department using their email addresses.
+                  </AccordionContent>
+                </AccordionItem>
+                <AccordionItem value="item-3" className="border-none px-6 py-1">
+                  <AccordionTrigger className="text-left font-serif text-base sm:text-lg font-medium text-foreground hover:text-primary py-4 hover:no-underline">
+                    How does live scoring work?
+                  </AccordionTrigger>
+                  <AccordionContent className="text-sm leading-relaxed text-muted-foreground pb-4">
+                    Our sports coordinators update the scores directly from the grounds using the admin
+                    panel. These scores are broadcasted instantly to the Live Match Center using
+                    WebSockets.
+                  </AccordionContent>
+                </AccordionItem>
+                <AccordionItem value="item-4" className="border-none px-6 py-1">
+                  <AccordionTrigger className="text-left font-serif text-base sm:text-lg font-medium text-foreground hover:text-primary py-4 hover:no-underline">
+                    Are the certificates verifiable?
+                  </AccordionTrigger>
+                  <AccordionContent className="text-sm leading-relaxed text-muted-foreground pb-4">
+                    Absolutely. Every certificate issued via PlayOps contains a unique cryptographic QR
+                    code that anyone can scan to verify its authenticity.
+                  </AccordionContent>
+                </AccordionItem>
+              </Accordion>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* CTA Section — Restrained, Quiet Editorial Callout */}
+      <section className="bg-muted/40 py-16 md:py-24">
+        <div className="container mx-auto max-w-4xl px-4 sm:px-8">
+          <div className="rounded-lg border border-border bg-card p-8 sm:p-12 text-center space-y-6">
+            <h2 className="font-serif text-3xl sm:text-4xl font-normal tracking-tight text-foreground">
+              Ready to Represent Your Department?
+            </h2>
+
+            <p className="mx-auto max-w-xl text-sm sm:text-base leading-relaxed text-muted-foreground">
+              Register your player profile today to obtain your digital KK Wagh Sports Pass, join
+              your department team, and compete in upcoming championships.
+            </p>
+
+            <div className="flex flex-col sm:flex-row justify-center gap-3 pt-2">
+              <Button asChild size="lg" variant="default">
+                <Link href={ROUTES.REGISTER}>Register as Player</Link>
+              </Button>
+              <Button asChild size="lg" variant="outline">
+                <Link href={ROUTES.TOURNAMENTS}>Browse Tournaments</Link>
+              </Button>
             </div>
           </div>
         </div>

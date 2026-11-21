@@ -20,11 +20,11 @@ export default async function ResultsPage() {
 
   return (
     <div className="container max-w-7xl space-y-8 px-4 py-8 sm:px-8">
-      <div className="border-b pb-6">
-        <Badge variant="outline" className="mb-2">
-          Archives
-        </Badge>
-        <h1 className="font-serif text-3xl font-extrabold tracking-tight text-foreground sm:text-4xl">
+      <div className="border-b border-border pb-6">
+        <span className="text-xs uppercase font-medium tracking-wider text-muted-foreground">
+          Match Archives
+        </span>
+        <h1 className="mt-1 font-serif text-3xl sm:text-4xl font-normal text-foreground">
           Completed Match Results
         </h1>
         <p className="mt-1 text-sm text-muted-foreground">

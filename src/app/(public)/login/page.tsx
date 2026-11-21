@@ -115,7 +115,7 @@ export default function LoginPage() {
     <div className="container flex min-h-[calc(100vh-4rem)] items-center justify-center px-4 py-12 sm:px-6 lg:px-8">
       <div className="w-full max-w-md space-y-8">
         <div className="flex flex-col items-center">
-          <Link href="/" className="mb-4 inline-block">
+          <Link href="/" className="mb-4 inline-block transition-opacity hover:opacity-90">
             <Image
               src="/kk-wagh-logo.png"
               alt="K. K. Wagh Education Society"
@@ -125,15 +125,18 @@ export default function LoginPage() {
               className="h-16 sm:h-20 w-auto object-contain dark:brightness-0 dark:invert transition-all"
             />
           </Link>
-          <h2 className="text-center font-serif text-3xl font-bold tracking-tight text-foreground">
+          <span className="text-xs uppercase font-medium tracking-wider text-muted-foreground mb-1">
+            Athlete &amp; Staff Portal
+          </span>
+          <h2 className="text-center font-serif text-3xl sm:text-4xl font-normal text-foreground">
             Welcome Back
           </h2>
-          <p className="mt-2 max-w-sm text-center text-sm text-muted-foreground">
+          <p className="mt-1 max-w-sm text-center text-sm text-muted-foreground">
             Enter your college credentials to access match schedules and sports passes
           </p>
         </div>
 
-        <Card className="border-border/50 bg-card/50 shadow-xl backdrop-blur-sm">
+        <Card className="border border-border bg-card">
           <CardContent className="pt-8">
             <Form {...form}>
               <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
