@@ -25,15 +25,18 @@ export default async function LivePage() {
   return (
     <div className="container max-w-7xl space-y-8 px-4 py-8 sm:px-8">
       {/* Header */}
-      <div className="flex flex-col justify-between gap-4 border-b pb-6 sm:flex-row sm:items-center">
+      <div className="flex flex-col justify-between gap-4 border-b border-border pb-6 sm:flex-row sm:items-center">
         <div>
           <div className="flex items-center gap-2">
-            <Badge variant="live" className="flex items-center gap-1.5 px-3 py-1">
-              <span className="flex h-2 w-2 animate-pulse rounded-full bg-white" />
+            <Badge variant="live" className="flex items-center gap-2 px-2.5 py-0.5">
+              <span className="h-2 w-2 rounded-full bg-red-500 animate-pulse" />
               <span>LIVE MATCH CENTER</span>
             </Badge>
+            <span className="text-xs text-muted-foreground">
+              Ground Broadcast
+            </span>
           </div>
-          <h1 className="mt-2 font-serif text-3xl font-extrabold tracking-tight text-foreground sm:text-4xl">
+          <h1 className="mt-2 font-serif text-3xl sm:text-4xl font-normal text-foreground">
             Real-Time Ground Scores &amp; Commentary
           </h1>
           <p className="mt-1 text-sm text-muted-foreground">

@@ -50,17 +50,17 @@ export default async function PlayerDashboardPage() {
   return (
     <div className="space-y-6">
       {/* Header Banner */}
-      <div className="flex flex-col justify-between gap-4 rounded-xl border bg-card p-6 shadow-sm sm:flex-row sm:items-center">
+      <div className="flex flex-col justify-between gap-4 rounded-lg border border-border bg-card p-6 sm:flex-row sm:items-center">
         <div>
           <div className="flex items-center gap-2">
-            <Badge variant="default">Verified Athlete</Badge>
+            <Badge variant="outline" className="text-[10px] font-medium">Verified Athlete</Badge>
             {player?.registration_number && (
               <span className="text-xs text-muted-foreground font-mono">
                 Reg No: {player.registration_number}
               </span>
             )}
           </div>
-          <h1 className="mt-1 text-2xl font-bold tracking-tight text-foreground sm:text-3xl">
+          <h1 className="mt-2 font-serif text-2xl sm:text-3xl font-normal text-foreground">
             Welcome back, {player?.users?.full_name || user?.user_metadata?.full_name || "Athlete"}!
           </h1>
           <p className="text-sm text-muted-foreground">
@@ -118,14 +118,14 @@ export default async function PlayerDashboardPage() {
         <Card className="lg:col-span-2">
           <CardHeader className="flex flex-row items-center justify-between pb-2">
             <div>
-              <CardTitle className="text-lg font-bold">Upcoming Match</CardTitle>
+              <CardTitle className="font-serif text-lg font-normal">Upcoming Match</CardTitle>
               <CardDescription>Your next scheduled college fixture</CardDescription>
             </div>
-            {nextMatch && <Badge variant="default">Scheduled</Badge>}
+            {nextMatch && <Badge variant="outline" className="text-[10px] font-medium">Scheduled</Badge>}
           </CardHeader>
           <CardContent className="space-y-4 pt-2">
             {nextMatch ? (
-              <div className="rounded-xl border bg-muted/30 p-4">
+              <div className="rounded-md border border-border bg-muted/20 p-4">
                 <div className="mb-3 flex items-center justify-between border-b pb-2 text-xs text-muted-foreground">
                   <span className="font-semibold text-primary">
                     {nextMatch.tournaments?.name || "Tournament"}

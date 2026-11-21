@@ -72,14 +72,14 @@ export function PointsTableView({
   return (
     <div className="space-y-6">
       {/* Tournament Selector Bar */}
-      <div className="flex flex-col gap-4 rounded-xl border bg-card p-4 sm:flex-row sm:items-center sm:justify-between">
+      <div className="flex flex-col gap-4 rounded-lg border border-border bg-card p-4 sm:flex-row sm:items-center sm:justify-between">
         <div className="space-y-1">
-          <span className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+          <span className="text-[11px] font-medium uppercase tracking-wider text-muted-foreground">
             Select Tournament
           </span>
           <div className="flex items-center gap-2">
-            <Trophy className="h-5 w-5 text-amber-500" />
-            <h3 className="text-base font-bold text-foreground">
+            <Trophy className="h-4 w-4 text-primary" />
+            <h3 className="font-serif text-lg font-normal text-foreground">
               {currentTournament?.name || "All Tournaments"}
             </h3>
           </div>
@@ -108,30 +108,30 @@ export function PointsTableView({
 
       {/* Standings Table */}
       {initialStandings.length > 0 ? (
-        <Card className="overflow-hidden border shadow-sm">
-          <CardHeader className="flex flex-row items-center justify-between border-b bg-muted/30">
+        <Card className="overflow-hidden border border-border bg-card">
+          <CardHeader className="flex flex-row items-center justify-between border-b border-border bg-muted/20 py-4">
             <div>
-              <CardTitle className="text-lg font-bold">
+              <CardTitle className="font-serif text-xl font-normal text-foreground">
                 {currentTournament?.name || "Tournament Leaderboard"}
               </CardTitle>
               <p className="mt-0.5 text-xs text-muted-foreground">
                 Top teams advance to the knockout/playoff stages
               </p>
             </div>
-            <Badge variant="success">Auto-Updated from Live Matches</Badge>
+            <Badge variant="outline" className="text-[10px] font-medium">Auto-Updated from Live Matches</Badge>
           </CardHeader>
           <CardContent className="p-0">
             <Table>
               <TableHeader>
-                <TableRow className="bg-muted/10">
-                  <TableHead className="w-16 text-center font-bold">Rank</TableHead>
-                  <TableHead className="font-bold">Team</TableHead>
-                  <TableHead className="text-center font-bold">Played</TableHead>
-                  <TableHead className="text-center font-bold text-emerald-600">Won</TableHead>
-                  <TableHead className="text-center font-bold text-red-500">Lost</TableHead>
-                  <TableHead className="text-center font-bold text-muted-foreground">Draw</TableHead>
-                  <TableHead className="text-center font-bold">Diff / NRR</TableHead>
-                  <TableHead className="text-right font-extrabold text-foreground">Points</TableHead>
+                <TableRow className="bg-muted/10 border-b border-border">
+                  <TableHead className="w-16 text-center text-xs font-medium uppercase tracking-wider">Rank</TableHead>
+                  <TableHead className="text-xs font-medium uppercase tracking-wider">Team</TableHead>
+                  <TableHead className="text-center text-xs font-medium uppercase tracking-wider">Played</TableHead>
+                  <TableHead className="text-center text-xs font-medium uppercase tracking-wider">Won</TableHead>
+                  <TableHead className="text-center text-xs font-medium uppercase tracking-wider">Lost</TableHead>
+                  <TableHead className="text-center text-xs font-medium uppercase tracking-wider">Draw</TableHead>
+                  <TableHead className="text-center text-xs font-medium uppercase tracking-wider">Diff / NRR</TableHead>
+                  <TableHead className="text-right text-xs font-medium uppercase tracking-wider text-foreground">Points</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -142,36 +142,36 @@ export function PointsTableView({
                   return (
                     <TableRow
                       key={row.id}
-                      className={isTopTwo ? "bg-primary/5 font-medium" : ""}
+                      className={isTopTwo ? "bg-primary/[0.03] font-medium" : ""}
                     >
-                      <TableCell className="text-center font-bold">
+                      <TableCell className="text-center">
                         <span
-                          className={`inline-flex h-6 w-6 items-center justify-center rounded-full text-xs font-bold ${
+                          className={`inline-flex h-6 w-6 items-center justify-center rounded text-xs font-mono font-medium ${
                             rank === 1
-                              ? "bg-amber-400 font-extrabold text-amber-950"
+                              ? "bg-foreground text-background font-semibold"
                               : rank === 2
-                                ? "bg-slate-300 font-bold text-slate-900"
+                                ? "border border-border bg-muted/40 text-foreground"
                                 : rank === 3
-                                  ? "bg-amber-600/30 text-amber-800 dark:text-amber-300"
+                                  ? "border border-border/80 text-foreground"
                                   : "text-muted-foreground"
                           }`}
                         >
                           {rank}
                         </span>
                       </TableCell>
-                      <TableCell className="font-semibold text-foreground">
+                      <TableCell className="font-medium text-foreground">
                         {row.teams?.name || "Unknown Team"}
                       </TableCell>
-                      <TableCell className="text-center">{row.matches_played}</TableCell>
-                      <TableCell className="text-center font-semibold text-emerald-600">
+                      <TableCell className="text-center font-mono text-xs">{row.matches_played}</TableCell>
+                      <TableCell className="text-center font-mono text-xs text-foreground font-medium">
                         {row.wins}
                       </TableCell>
-                      <TableCell className="text-center text-red-500">{row.losses}</TableCell>
-                      <TableCell className="text-center text-muted-foreground">{row.draws}</TableCell>
+                      <TableCell className="text-center font-mono text-xs text-muted-foreground">{row.losses}</TableCell>
+                      <TableCell className="text-center font-mono text-xs text-muted-foreground">{row.draws}</TableCell>
                       <TableCell className="text-center font-mono text-xs">
                         {formatScoreDiff(row.net_score_diff)}
                       </TableCell>
-                      <TableCell className="text-right text-base font-extrabold text-foreground">
+                      <TableCell className="text-right font-serif text-base font-normal text-foreground">
                         {row.points}
                       </TableCell>
                     </TableRow>

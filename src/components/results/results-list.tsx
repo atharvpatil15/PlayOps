@@ -66,24 +66,24 @@ export function ResultsList({ initialMatches, sports }: ResultsListProps) {
   return (
     <div className="space-y-6">
       {/* Filter and Search Bar */}
-      <div className="flex flex-col gap-3 rounded-xl border bg-card p-4 sm:flex-row sm:items-center sm:justify-between">
+      <div className="flex flex-col gap-3 rounded-lg border border-border bg-card p-4 sm:flex-row sm:items-center sm:justify-between">
         <div className="relative w-full sm:w-72">
           <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
           <Input
             placeholder="Search teams or tournaments..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="pl-9 text-sm"
+            className="pl-9 text-xs"
           />
         </div>
 
         <div className="flex flex-wrap items-center gap-1.5">
           <button
             onClick={() => setSelectedSport("all")}
-            className={`rounded-full px-3 py-1 text-xs font-semibold transition-colors ${
+            className={`rounded-md px-3 py-1.5 text-xs font-medium transition-colors duration-150 ${
               selectedSport === "all"
-                ? "bg-primary text-primary-foreground"
-                : "bg-muted text-muted-foreground hover:bg-muted/80"
+                ? "bg-foreground text-background"
+                : "border border-border bg-card text-muted-foreground hover:border-foreground/30 hover:text-foreground"
             }`}
           >
             All Sports
@@ -92,10 +92,10 @@ export function ResultsList({ initialMatches, sports }: ResultsListProps) {
             <button
               key={s.id}
               onClick={() => setSelectedSport(s.id)}
-              className={`flex items-center gap-1 rounded-full px-3 py-1 text-xs font-semibold transition-colors ${
+              className={`flex items-center gap-1.5 rounded-md px-3 py-1.5 text-xs font-medium transition-colors duration-150 ${
                 selectedSport === s.id
-                  ? "bg-primary text-primary-foreground"
-                  : "bg-muted text-muted-foreground hover:bg-muted/80"
+                  ? "bg-foreground text-background"
+                  : "border border-border bg-card text-muted-foreground hover:border-foreground/30 hover:text-foreground"
               }`}
             >
               <span>{s.icon || "🏅"}</span>
@@ -113,58 +113,58 @@ export function ResultsList({ initialMatches, sports }: ResultsListProps) {
             const teamBWon = m.winner_id === m.team_b_id;
 
             return (
-              <Card key={m.id} className="overflow-hidden border transition-all hover:shadow-md">
-                <div className="flex items-center justify-between border-b bg-muted/30 px-4 py-3">
+              <Card key={m.id} className="group overflow-hidden border border-border bg-card transition-colors duration-150 hover:border-foreground/40">
+                <div className="flex items-center justify-between border-b border-border bg-muted/20 px-4 py-3">
                   <div>
                     <div className="flex items-center gap-1.5">
                       <span>{m.sports?.icon || "🏅"}</span>
-                      <p className="text-xs font-bold text-foreground">
+                      <p className="font-serif text-sm font-normal text-foreground">
                         {m.tournaments?.name || "Tournament"}
                       </p>
                     </div>
-                    <p className="mt-0.5 text-[11px] text-muted-foreground">
+                    <p className="mt-0.5 text-[11px] font-medium uppercase tracking-wider text-muted-foreground">
                       {m.round.replace(/_/g, " ").toUpperCase()} • Match #{m.match_number}
                     </p>
                   </div>
-                  <Badge variant="secondary" className="text-xs">
+                  <Badge variant="secondary" className="text-xs font-normal">
                     Final Result
                   </Badge>
                 </div>
 
                 <CardContent className="space-y-4 p-5">
-                  <div className="space-y-2.5">
+                  <div className="space-y-2">
                     <div
-                      className={`flex items-center justify-between rounded-lg p-2.5 transition-colors ${
-                        teamAWon ? "bg-emerald-500/10 font-bold text-emerald-950 dark:text-emerald-200" : "bg-muted/40"
+                      className={`flex items-center justify-between rounded-md px-3 py-2.5 transition-colors ${
+                        teamAWon ? "bg-primary/5 font-semibold text-foreground border-l-2 border-primary" : "bg-muted/30"
                       }`}
                     >
                       <div className="flex items-center gap-2">
-                        {teamAWon && <Trophy className="h-4 w-4 text-emerald-600" />}
-                        <span className="text-sm font-semibold">{m.team_a?.name || "Team A"}</span>
+                        {teamAWon && <Trophy className="h-4 w-4 text-primary" />}
+                        <span className="text-sm">{m.team_a?.name || "Team A"}</span>
                       </div>
-                      <span className="font-mono text-lg font-extrabold">
+                      <span className="font-mono text-base font-semibold tabular-nums">
                         {m.score_team_a ?? "-"}
                       </span>
                     </div>
 
                     <div
-                      className={`flex items-center justify-between rounded-lg p-2.5 transition-colors ${
-                        teamBWon ? "bg-emerald-500/10 font-bold text-emerald-950 dark:text-emerald-200" : "bg-muted/40"
+                      className={`flex items-center justify-between rounded-md px-3 py-2.5 transition-colors ${
+                        teamBWon ? "bg-primary/5 font-semibold text-foreground border-l-2 border-primary" : "bg-muted/30"
                       }`}
                     >
                       <div className="flex items-center gap-2">
-                        {teamBWon && <Trophy className="h-4 w-4 text-emerald-600" />}
-                        <span className="text-sm font-semibold">{m.team_b?.name || "Team B"}</span>
+                        {teamBWon && <Trophy className="h-4 w-4 text-primary" />}
+                        <span className="text-sm">{m.team_b?.name || "Team B"}</span>
                       </div>
-                      <span className="font-mono text-lg font-extrabold">
+                      <span className="font-mono text-base font-semibold tabular-nums">
                         {m.score_team_b ?? "-"}
                       </span>
                     </div>
                   </div>
 
-                  <div className="flex items-center justify-between border-t pt-3 text-xs">
-                    <div className="flex items-center gap-1.5 font-semibold text-emerald-600 dark:text-emerald-400">
-                      <CheckCircle2 className="h-4 w-4" />
+                  <div className="flex items-center justify-between border-t border-border pt-3 text-xs">
+                    <div className="flex items-center gap-1.5 font-medium text-foreground">
+                      <CheckCircle2 className="h-3.5 w-3.5 text-primary" />
                       <span>{getWinnerDescription(m)}</span>
                     </div>
 

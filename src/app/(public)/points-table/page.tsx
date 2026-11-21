@@ -12,11 +12,11 @@ export default async function PointsTablePage({ searchParams }: PointsTablePageP
 
   return (
     <div className="container max-w-7xl space-y-8 px-4 py-8 sm:px-8">
-      <div className="border-b pb-6">
-        <Badge variant="outline" className="mb-2">
-          Standings
-        </Badge>
-        <h1 className="font-serif text-3xl font-extrabold tracking-tight text-foreground sm:text-4xl">
+      <div className="border-b border-border pb-6">
+        <span className="text-xs uppercase font-medium tracking-wider text-muted-foreground">
+          League Standings
+        </span>
+        <h1 className="mt-1 font-serif text-3xl sm:text-4xl font-normal text-foreground">
           Tournament Points Table
         </h1>
         <p className="mt-1 text-sm text-muted-foreground">

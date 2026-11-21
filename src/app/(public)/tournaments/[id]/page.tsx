@@ -50,11 +50,11 @@ export default async function TournamentDetailPage({ params }: TournamentDetailP
               >
                 {tournament.status}
               </Badge>
-              <Badge variant="outline" className="capitalize">
+              <Badge variant="outline" className="capitalize text-xs font-medium">
                 {tournament.format}
               </Badge>
             </div>
-            <h1 className="text-3xl font-extrabold tracking-tight text-foreground sm:text-4xl">
+            <h1 className="mt-1 font-serif text-3xl sm:text-4xl font-normal text-foreground">
               {tournament.name}
             </h1>
             <p className="text-sm text-muted-foreground">
@@ -63,7 +63,7 @@ export default async function TournamentDetailPage({ params }: TournamentDetailP
           </div>
 
           <div className="flex items-center gap-3">
-            <Button asChild size="lg">
+            <Button asChild>
               <Link href="/player/profile">Athlete ID Pass</Link>
             </Button>
           </div>
@@ -72,29 +72,29 @@ export default async function TournamentDetailPage({ params }: TournamentDetailP
 
       {/* Meta Grid */}
       <div className="grid grid-cols-2 gap-4 sm:grid-cols-4">
-        <Card className="p-4">
-          <p className="text-xs text-muted-foreground">Sport Discipline</p>
-          <p className="mt-1 flex items-center gap-1.5 text-lg font-bold text-foreground">
+        <Card className="border border-border bg-card p-4">
+          <p className="text-[11px] uppercase font-medium tracking-wider text-muted-foreground">Sport Discipline</p>
+          <p className="mt-1 flex items-center gap-1.5 text-base font-semibold text-foreground">
             <span>{tournament.sports?.icon || "🏆"}</span>
             <span>{tournament.sports?.name}</span>
           </p>
         </Card>
-        <Card className="p-4">
-          <p className="text-xs text-muted-foreground">Dates</p>
-          <p className="mt-1 text-sm font-bold text-foreground">
+        <Card className="border border-border bg-card p-4">
+          <p className="text-[11px] uppercase font-medium tracking-wider text-muted-foreground">Dates</p>
+          <p className="mt-1 text-sm font-semibold text-foreground">
             {new Date(tournament.start_date).toLocaleDateString()} –{" "}
             {new Date(tournament.end_date).toLocaleDateString()}
           </p>
         </Card>
-        <Card className="p-4">
-          <p className="text-xs text-muted-foreground">Campus Ground</p>
-          <p className="mt-1 text-sm font-bold text-foreground">
+        <Card className="border border-border bg-card p-4">
+          <p className="text-[11px] uppercase font-medium tracking-wider text-muted-foreground">Campus Ground</p>
+          <p className="mt-1 text-sm font-semibold text-foreground">
             {tournament.venues?.name || "Campus Ground"}
           </p>
         </Card>
-        <Card className="p-4">
-          <p className="text-xs text-muted-foreground">Approved Squads</p>
-          <p className="mt-1 text-sm font-bold text-foreground">
+        <Card className="border border-border bg-card p-4">
+          <p className="text-[11px] uppercase font-medium tracking-wider text-muted-foreground">Approved Squads</p>
+          <p className="mt-1 font-serif text-lg font-normal text-foreground">
             {approvedTeams.length} / {tournament.max_teams} Teams
           </p>
         </Card>
@@ -114,11 +114,11 @@ export default async function TournamentDetailPage({ params }: TournamentDetailP
               {tournament.matches.map((m: any) => (
                 <Card
                   key={m.id}
-                  className="border-border transition-colors hover:border-primary/40"
+                  className="border border-border bg-card transition-colors duration-150 hover:border-foreground/30"
                 >
                   <CardHeader className="pb-2">
                     <div className="flex items-center justify-between text-xs text-muted-foreground">
-                      <span className="font-semibold uppercase tracking-wider text-primary">
+                      <span className="text-[11px] font-medium uppercase tracking-wider text-primary">
                         Match #{m.match_number} • {m.round?.replace(/_/g, " ")}
                       </span>
                       <Badge
@@ -129,22 +129,22 @@ export default async function TournamentDetailPage({ params }: TournamentDetailP
                               ? "secondary"
                               : "outline"
                         }
-                        className="text-[10px] capitalize"
+                        className="text-[10px] capitalize font-medium"
                       >
                         {m.status}
                       </Badge>
                     </div>
                   </CardHeader>
                   <CardContent className="space-y-3 text-sm">
-                    <div className="flex items-center justify-between rounded-lg bg-muted/40 p-3 font-semibold">
+                    <div className="flex items-center justify-between rounded-md bg-muted/20 px-3 py-2 text-sm font-medium">
                       <span className="text-foreground">{m.team_a?.name || "Team A"}</span>
-                      <span className="font-mono text-muted-foreground">
+                      <span className="font-mono text-muted-foreground tabular-nums">
                         {m.score_team_a ?? "—"}
                       </span>
                     </div>
-                    <div className="flex items-center justify-between rounded-lg bg-muted/40 p-3 font-semibold">
+                    <div className="flex items-center justify-between rounded-md bg-muted/20 px-3 py-2 text-sm font-medium">
                       <span className="text-foreground">{m.team_b?.name || "Team B"}</span>
-                      <span className="font-mono text-muted-foreground">
+                      <span className="font-mono text-muted-foreground tabular-nums">
                         {m.score_team_b ?? "—"}
                       </span>
                     </div>

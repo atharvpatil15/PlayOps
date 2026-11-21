@@ -4,6 +4,7 @@ import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/componen
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { formatDate } from "@/lib/utils/format";
+import { cn } from "@/lib/utils";
 import type { TournamentWithSportVenue } from "@/types/tournament";
 
 interface TournamentCardProps {
@@ -11,57 +12,57 @@ interface TournamentCardProps {
 }
 
 export function TournamentCard({ tournament }: TournamentCardProps) {
-  const statusVariant =
-    tournament.status === "ongoing"
-      ? "success"
-      : tournament.status === "upcoming"
-        ? "default"
-        : "secondary";
+  const isOngoing = tournament.status === "ongoing";
+  const isUpcoming = tournament.status === "upcoming";
+
+  const statusVariant = isOngoing ? "success" : isUpcoming ? "default" : "secondary";
 
   return (
-    <Card className="flex flex-col justify-between overflow-hidden transition-shadow hover:shadow-md">
-      <CardHeader className="pb-3">
+    <Card className="flex flex-col justify-between overflow-hidden border border-border bg-card transition-colors duration-150 hover:border-foreground/40">
+      <CardHeader className="pb-3 pt-5">
         <div className="flex items-start justify-between gap-2">
-          <Badge variant={statusVariant} className="capitalize">
+          <Badge variant={statusVariant} className="text-[10px] uppercase font-medium">
             {tournament.status}
           </Badge>
-          <span className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">
+          <span className="text-[11px] text-muted-foreground uppercase font-medium">
             {tournament.format.replace("+", " & ")}
           </span>
         </div>
-        <CardTitle className="mt-2 line-clamp-1 text-lg font-bold leading-tight text-foreground">
+        <CardTitle className="mt-2 line-clamp-1 font-serif text-lg font-medium text-foreground">
           {tournament.name}
         </CardTitle>
       </CardHeader>
-      <CardContent className="space-y-2.5 text-sm text-muted-foreground">
+
+      <CardContent className="space-y-2.5 text-xs text-muted-foreground">
         <div className="flex items-center gap-2">
-          <Trophy className="h-4 w-4 shrink-0 text-primary" />
-          <span>{tournament.sport?.name || "Multi-sport"}</span>
+          <Trophy className="h-3.5 w-3.5 text-muted-foreground shrink-0" />
+          <span className="font-medium text-foreground">{tournament.sport?.name || "Multi-sport"}</span>
         </div>
         <div className="flex items-center gap-2">
-          <Calendar className="h-4 w-4 shrink-0 text-muted-foreground" />
+          <Calendar className="h-3.5 w-3.5 text-muted-foreground shrink-0" />
           <span>
-            {formatDate(tournament.start_date)} - {formatDate(tournament.end_date)}
+            {formatDate(tournament.start_date)} – {formatDate(tournament.end_date)}
           </span>
         </div>
         {tournament.venue && (
           <div className="flex items-center gap-2">
-            <MapPin className="h-4 w-4 shrink-0 text-muted-foreground" />
+            <MapPin className="h-3.5 w-3.5 text-muted-foreground shrink-0" />
             <span className="line-clamp-1">{tournament.venue.name}</span>
           </div>
         )}
         <div className="flex items-center gap-2">
-          <Users className="h-4 w-4 shrink-0 text-muted-foreground" />
+          <Users className="h-3.5 w-3.5 text-muted-foreground shrink-0" />
           <span>Max {tournament.max_teams} Teams</span>
         </div>
       </CardContent>
-      <CardFooter className="border-t pt-2">
+
+      <CardFooter className="border-t border-border pt-3">
         <Button asChild variant="outline" size="sm" className="w-full">
           <Link
             href={`/tournaments/${tournament.id}`}
             className="flex items-center justify-center gap-1.5"
           >
-            <span>View Tournament</span>
+            <span>View Tournament Bracket</span>
             <ArrowRight className="h-3.5 w-3.5" />
           </Link>
         </Button>

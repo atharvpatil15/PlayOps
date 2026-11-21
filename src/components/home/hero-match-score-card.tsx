@@ -116,22 +116,22 @@ export function HeroMatchScoreCard({
 
     return (
       <div className="w-full">
-        <div className="relative overflow-hidden rounded-2xl border-2 border-red-500/50 bg-gradient-to-b from-red-500/10 via-card to-background p-5 sm:p-6 shadow-xl transition-all">
+        <div className="rounded-lg border border-border bg-card text-card-foreground p-5 sm:p-6">
           {/* Top Bar: Live Badge, Sport, Tournament, Venue, Match Switcher */}
-          <div className="flex flex-wrap items-center justify-between gap-3 border-b border-border/50 pb-3">
+          <div className="flex flex-wrap items-center justify-between gap-3 border-b border-border pb-3">
             <div className="flex flex-wrap items-center gap-2">
-              <Badge className="bg-red-600 text-white font-extrabold text-xs px-3 py-1 tracking-wider animate-pulse flex items-center gap-1.5 shadow-sm">
+              <Badge variant="live" className="text-xs px-2.5 py-0.5 tracking-normal flex items-center gap-1.5">
                 <Radio className="h-3.5 w-3.5" />
                 <span>LIVE MATCH ONGOING</span>
               </Badge>
 
-              <Badge variant="outline" className="border-border text-xs sm:text-sm font-semibold">
+              <span className="inline-flex items-center gap-1 rounded border border-border bg-muted/40 px-2 py-0.5 text-xs font-medium text-foreground">
                 <span>{currentLive.sports?.icon || "🏆"}</span>
-                <span className="ml-1.5">{currentLive.sports?.name || "Sport"}</span>
-              </Badge>
+                <span>{currentLive.sports?.name || "Sport"}</span>
+              </span>
 
               {currentLive.tournaments?.name && (
-                <span className="text-xs text-muted-foreground font-medium hidden sm:inline">
+                <span className="text-xs text-muted-foreground hidden sm:inline">
                   • {currentLive.tournaments.name}
                 </span>
               )}
@@ -139,7 +139,7 @@ export function HeroMatchScoreCard({
 
             <div className="flex items-center gap-3">
               {currentLive.venues?.name && (
-                <span className="flex items-center gap-1 text-xs text-muted-foreground font-medium">
+                <span className="flex items-center gap-1 text-xs text-muted-foreground">
                   <MapPin className="h-3.5 w-3.5 text-muted-foreground" />
                   <span>{currentLive.venues.name}</span>
                 </span>
@@ -147,7 +147,7 @@ export function HeroMatchScoreCard({
 
               {/* Match switcher if multiple live games */}
               {isMultipleLive && (
-                <div className="flex items-center gap-1 border border-border rounded-md px-1 py-0.5 bg-background/50">
+                <div className="flex items-center gap-1 border border-border rounded px-1 py-0.5 bg-muted/30">
                   <Button
                     variant="ghost"
                     size="icon"
@@ -158,7 +158,7 @@ export function HeroMatchScoreCard({
                   >
                     <ChevronLeft className="h-3.5 w-3.5" />
                   </Button>
-                  <span className="px-1 text-[11px] font-bold">
+                  <span className="px-1 text-[11px] font-medium text-foreground">
                     {activeLiveIdx + 1}/{liveMatches.length}
                   </span>
                   <Button
@@ -177,23 +177,23 @@ export function HeroMatchScoreCard({
           </div>
 
           {/* Central Live Match Scoreboard Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-5 items-center gap-4 py-6 sm:py-7">
+          <div className="grid grid-cols-1 md:grid-cols-5 items-center gap-4 py-5 sm:py-6">
             {/* Team A */}
-            <div className="flex items-center justify-between md:justify-end gap-3 md:col-span-2">
+            <div className="flex items-center justify-between md:justify-end gap-3.5 md:col-span-2">
               <div className="text-left md:text-right">
-                <h3 className="text-xl sm:text-2xl font-black text-foreground tracking-tight">
-                  {currentLive.team_a?.name || "Team Alpha"}
-                </h3>
-                <span className="text-xs text-muted-foreground uppercase font-semibold">
+                <span className="text-[11px] text-muted-foreground uppercase font-medium tracking-wide">
                   {currentLive.round.replace(/_/g, " ")}
                 </span>
-                <p className="mt-1 font-mono text-2xl sm:text-4xl font-black tracking-tight text-primary">
+                <h3 className="text-lg sm:text-xl font-semibold text-foreground tracking-tight">
+                  {currentLive.team_a?.name || "Team Alpha"}
+                </h3>
+                <p className="mt-0.5 font-mono text-3xl sm:text-4xl font-bold tracking-tight text-foreground tabular-nums">
                   {currentLive.score_team_a ?? "0"}
                 </p>
               </div>
-              <Avatar className="h-14 w-14 sm:h-16 sm:w-16 border-2 border-border shadow-md">
+              <Avatar className="h-12 w-12 sm:h-14 sm:w-14 border border-border bg-muted/40">
                 <AvatarImage src={currentLive.team_a?.logo_url || ""} />
-                <AvatarFallback className="bg-primary/10 text-primary font-black text-base sm:text-lg">
+                <AvatarFallback className="bg-muted text-foreground font-semibold text-sm sm:text-base">
                   {getInitials(currentLive.team_a?.name || "TA")}
                 </AvatarFallback>
               </Avatar>
@@ -201,36 +201,36 @@ export function HeroMatchScoreCard({
 
             {/* VS Badge & Live Commentary Snippet */}
             <div className="flex flex-col items-center justify-center md:col-span-1 py-1">
-              <div className="rounded-full border border-border bg-muted/80 px-4 py-1 text-xs font-black uppercase tracking-widest text-muted-foreground shadow-inner">
+              <span className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                 VS
-              </div>
+              </span>
               {currentLive.remarks ? (
-                <div className="mt-2.5 max-w-[200px] text-center text-xs font-bold text-red-600 dark:text-red-400 bg-red-500/10 rounded-md px-2.5 py-1 border border-red-500/20">
+                <div className="mt-2 max-w-[200px] text-center text-xs text-foreground bg-muted/50 rounded px-2.5 py-1 border border-border">
                   {currentLive.remarks}
                 </div>
               ) : (
-                <span className="mt-2 text-[11px] text-muted-foreground font-semibold">
+                <span className="mt-1.5 text-[11px] text-muted-foreground">
                   Match in Progress
                 </span>
               )}
             </div>
 
             {/* Team B */}
-            <div className="flex items-center justify-between md:justify-start gap-3 md:col-span-2">
-              <Avatar className="h-14 w-14 sm:h-16 sm:w-16 border-2 border-border shadow-md">
+            <div className="flex items-center justify-between md:justify-start gap-3.5 md:col-span-2">
+              <Avatar className="h-12 w-12 sm:h-14 sm:w-14 border border-border bg-muted/40">
                 <AvatarImage src={currentLive.team_b?.logo_url || ""} />
-                <AvatarFallback className="bg-primary/10 text-primary font-black text-base sm:text-lg">
+                <AvatarFallback className="bg-muted text-foreground font-semibold text-sm sm:text-base">
                   {getInitials(currentLive.team_b?.name || "TB")}
                 </AvatarFallback>
               </Avatar>
               <div className="text-right md:text-left">
-                <h3 className="text-xl sm:text-2xl font-black text-foreground tracking-tight">
-                  {currentLive.team_b?.name || "Team Beta"}
-                </h3>
-                <span className="text-xs text-muted-foreground uppercase font-semibold">
+                <span className="text-[11px] text-muted-foreground uppercase font-medium tracking-wide">
                   {currentLive.round.replace(/_/g, " ")}
                 </span>
-                <p className="mt-1 font-mono text-2xl sm:text-4xl font-black tracking-tight text-primary">
+                <h3 className="text-lg sm:text-xl font-semibold text-foreground tracking-tight">
+                  {currentLive.team_b?.name || "Team Beta"}
+                </h3>
+                <p className="mt-0.5 font-mono text-3xl sm:text-4xl font-bold tracking-tight text-foreground tabular-nums">
                   {currentLive.score_team_b ?? "0"}
                 </p>
               </div>
@@ -238,18 +238,15 @@ export function HeroMatchScoreCard({
           </div>
 
           {/* Action Footer */}
-          <div className="flex flex-col sm:flex-row items-center justify-between gap-3 border-t border-border/50 pt-3">
-            <span className="flex items-center gap-1.5 text-xs text-muted-foreground font-medium">
-              <span className="relative flex h-2 w-2">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
-                <span className="relative inline-flex rounded-full h-2 w-2 bg-red-500"></span>
-              </span>
-              <span>Realtime ground WebSocket feed active</span>
+          <div className="flex flex-col sm:flex-row items-center justify-between gap-3 border-t border-border pt-3">
+            <span className="flex items-center gap-2 text-xs text-muted-foreground">
+              <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
+              <span>Realtime ground feed connected</span>
             </span>
 
-            <Button asChild size="sm" className="w-full sm:w-auto bg-red-600 hover:bg-red-700 text-white font-bold text-xs shadow-sm">
+            <Button asChild size="sm" variant="default">
               <Link href={ROUTES.LIVE}>
-                <Radio className="mr-1.5 h-3.5 w-3.5 animate-pulse" />
+                <Radio className="mr-1.5 h-3.5 w-3.5" />
                 Go to Live Match Center ❯
               </Link>
             </Button>
@@ -269,29 +266,29 @@ export function HeroMatchScoreCard({
 
     return (
       <div className="w-full">
-        <div className="relative overflow-hidden rounded-2xl border border-border bg-gradient-to-b from-muted/40 via-card to-background p-5 sm:p-6 shadow-lg transition-all">
+        <div className="rounded-lg border border-border bg-card text-card-foreground p-5 sm:p-6">
           {/* Top Bar: Past Result Badge, Sport, Date, Venue */}
-          <div className="flex flex-wrap items-center justify-between gap-3 border-b border-border/50 pb-3">
+          <div className="flex flex-wrap items-center justify-between gap-3 border-b border-border pb-3">
             <div className="flex flex-wrap items-center gap-2">
-              <Badge className="bg-primary text-primary-foreground font-extrabold text-xs px-3 py-1 tracking-wider flex items-center gap-1.5 shadow-sm">
-                <Trophy className="h-3.5 w-3.5 text-amber-300" />
+              <Badge variant="secondary" className="text-xs px-2.5 py-0.5 tracking-normal flex items-center gap-1.5">
+                <Trophy className="h-3.5 w-3.5 text-primary" />
                 <span>LATEST MATCH RESULT</span>
               </Badge>
 
-              <Badge variant="outline" className="border-border text-xs sm:text-sm font-semibold">
+              <span className="inline-flex items-center gap-1 rounded border border-border bg-muted/40 px-2 py-0.5 text-xs font-medium text-foreground">
                 <span>{currentPast.sports?.icon || "🏆"}</span>
-                <span className="ml-1.5">{currentPast.sports?.name || "Sport"}</span>
-              </Badge>
+                <span>{currentPast.sports?.name || "Sport"}</span>
+              </span>
 
               {currentPast.tournaments?.name && (
-                <span className="text-xs text-muted-foreground font-medium hidden sm:inline">
+                <span className="text-xs text-muted-foreground hidden sm:inline">
                   • {currentPast.tournaments.name}
                 </span>
               )}
             </div>
 
             <div className="flex items-center gap-3">
-              <span className="flex items-center gap-1 text-xs text-muted-foreground font-medium">
+              <span className="flex items-center gap-1 text-xs text-muted-foreground">
                 <Calendar className="h-3.5 w-3.5 text-muted-foreground" />
                 <span>{formatDate(currentPast.match_date)}</span>
                 {currentPast.venues?.name && <span>• {currentPast.venues.name}</span>}
@@ -299,7 +296,7 @@ export function HeroMatchScoreCard({
 
               {/* Match switcher if multiple completed games */}
               {isMultiplePast && (
-                <div className="flex items-center gap-1 border border-border rounded-md px-1 py-0.5 bg-background/50">
+                <div className="flex items-center gap-1 border border-border rounded px-1 py-0.5 bg-muted/30">
                   <Button
                     variant="ghost"
                     size="icon"
@@ -310,7 +307,7 @@ export function HeroMatchScoreCard({
                   >
                     <ChevronLeft className="h-3.5 w-3.5" />
                   </Button>
-                  <span className="px-1 text-[11px] font-bold">
+                  <span className="px-1 text-[11px] font-medium text-foreground">
                     {activePastIdx + 1}/{pastMatches.length}
                   </span>
                   <Button
@@ -329,30 +326,30 @@ export function HeroMatchScoreCard({
           </div>
 
           {/* Central Completed Scoreboard Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-5 items-center gap-4 py-6 sm:py-7">
+          <div className="grid grid-cols-1 md:grid-cols-5 items-center gap-4 py-5 sm:py-6">
             {/* Team A */}
-            <div className="flex items-center justify-between md:justify-end gap-3 md:col-span-2">
+            <div className="flex items-center justify-between md:justify-end gap-3.5 md:col-span-2">
               <div className="text-left md:text-right">
                 <div className="flex items-center md:justify-end gap-1.5">
                   {isTeamAWinner && (
-                    <Badge className="bg-amber-500/20 text-amber-600 dark:text-amber-400 border border-amber-500/30 font-black text-[10px] px-1.5 py-0.5">
+                    <Badge variant="outline" className="border-primary/30 text-primary text-[10px] px-1.5 py-0 font-medium">
                       WINNER 🏆
                     </Badge>
                   )}
-                  <h3 className="text-xl sm:text-2xl font-bold text-foreground tracking-tight">
+                  <h3 className="text-lg sm:text-xl font-semibold text-foreground tracking-tight">
                     {currentPast.team_a?.name || "Team Alpha"}
                   </h3>
                 </div>
-                <span className="text-xs text-muted-foreground uppercase font-semibold">
+                <span className="text-[11px] text-muted-foreground uppercase font-medium tracking-wide">
                   {currentPast.round.replace(/_/g, " ")}
                 </span>
-                <p className={`mt-1 font-mono text-2xl sm:text-4xl font-black tracking-tight ${isTeamAWinner ? "text-primary" : "text-foreground"}`}>
+                <p className={`mt-0.5 font-mono text-3xl sm:text-4xl font-bold tracking-tight tabular-nums ${isTeamAWinner ? "text-primary" : "text-foreground"}`}>
                   {currentPast.score_team_a ?? "0"}
                 </p>
               </div>
-              <Avatar className="h-14 w-14 sm:h-16 sm:w-16 border-2 border-border shadow-md">
+              <Avatar className="h-12 w-12 sm:h-14 sm:w-14 border border-border bg-muted/40">
                 <AvatarImage src={currentPast.team_a?.logo_url || ""} />
-                <AvatarFallback className="bg-muted text-foreground font-black text-base sm:text-lg">
+                <AvatarFallback className="bg-muted text-foreground font-semibold text-sm sm:text-base">
                   {getInitials(currentPast.team_a?.name || "TA")}
                 </AvatarFallback>
               </Avatar>
@@ -360,39 +357,39 @@ export function HeroMatchScoreCard({
 
             {/* Final Badge & Result Remarks */}
             <div className="flex flex-col items-center justify-center md:col-span-1 py-1">
-              <Badge variant="secondary" className="px-3 py-1 text-xs font-black uppercase tracking-wider">
+              <Badge variant="secondary" className="px-2.5 py-0.5 text-xs font-medium uppercase tracking-wider">
                 FINAL RESULT
               </Badge>
               {currentPast.remarks && (
-                <div className="mt-2 text-center text-xs font-semibold text-muted-foreground max-w-[200px] line-clamp-2">
+                <div className="mt-2 text-center text-xs text-muted-foreground max-w-[200px] line-clamp-2 bg-muted/40 rounded px-2 py-0.5 border border-border">
                   {currentPast.remarks}
                 </div>
               )}
             </div>
 
             {/* Team B */}
-            <div className="flex items-center justify-between md:justify-start gap-3 md:col-span-2">
-              <Avatar className="h-14 w-14 sm:h-16 sm:w-16 border-2 border-border shadow-md">
+            <div className="flex items-center justify-between md:justify-start gap-3.5 md:col-span-2">
+              <Avatar className="h-12 w-12 sm:h-14 sm:w-14 border border-border bg-muted/40">
                 <AvatarImage src={currentPast.team_b?.logo_url || ""} />
-                <AvatarFallback className="bg-muted text-foreground font-black text-base sm:text-lg">
+                <AvatarFallback className="bg-muted text-foreground font-semibold text-sm sm:text-base">
                   {getInitials(currentPast.team_b?.name || "TB")}
                 </AvatarFallback>
               </Avatar>
               <div className="text-right md:text-left">
                 <div className="flex items-center md:justify-start gap-1.5">
-                  <h3 className="text-xl sm:text-2xl font-bold text-foreground tracking-tight">
+                  <h3 className="text-lg sm:text-xl font-semibold text-foreground tracking-tight">
                     {currentPast.team_b?.name || "Team Beta"}
                   </h3>
                   {isTeamBWinner && (
-                    <Badge className="bg-amber-500/20 text-amber-600 dark:text-amber-400 border border-amber-500/30 font-black text-[10px] px-1.5 py-0.5">
+                    <Badge variant="outline" className="border-primary/30 text-primary text-[10px] px-1.5 py-0 font-medium">
                       WINNER 🏆
                     </Badge>
                   )}
                 </div>
-                <span className="text-xs text-muted-foreground uppercase font-semibold">
+                <span className="text-[11px] text-muted-foreground uppercase font-medium tracking-wide">
                   {currentPast.round.replace(/_/g, " ")}
                 </span>
-                <p className={`mt-1 font-mono text-2xl sm:text-4xl font-black tracking-tight ${isTeamBWinner ? "text-primary" : "text-foreground"}`}>
+                <p className={`mt-0.5 font-mono text-3xl sm:text-4xl font-bold tracking-tight tabular-nums ${isTeamBWinner ? "text-primary" : "text-foreground"}`}>
                   {currentPast.score_team_b ?? "0"}
                 </p>
               </div>
@@ -400,16 +397,16 @@ export function HeroMatchScoreCard({
           </div>
 
           {/* Action Footer */}
-          <div className="flex flex-col sm:flex-row items-center justify-between gap-3 border-t border-border/50 pt-3">
-            <span className="text-xs text-muted-foreground font-medium">
+          <div className="flex flex-col sm:flex-row items-center justify-between gap-3 border-t border-border pt-3">
+            <span className="text-xs text-muted-foreground">
               Official score verified by KK Wagh Sports Committee
             </span>
 
             <div className="flex items-center gap-2 w-full sm:w-auto justify-end">
-              <Button asChild variant="outline" size="sm" className="font-bold text-xs">
+              <Button asChild variant="outline" size="sm">
                 <Link href={ROUTES.POINTS_TABLE}>Points Table</Link>
               </Button>
-              <Button asChild size="sm" className="font-bold text-xs shadow-sm">
+              <Button asChild size="sm" variant="default">
                 <Link href={ROUTES.RESULTS}>
                   All Match Results ❯
                 </Link>
@@ -427,23 +424,23 @@ export function HeroMatchScoreCard({
   // =========================================================================
   return (
     <div className="w-full">
-      <div className="relative overflow-hidden rounded-2xl border border-dashed border-border/80 bg-card/50 p-6 sm:p-8 text-center shadow-sm">
-        <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-primary/10 text-primary mb-3">
-          <Calendar className="h-7 w-7" />
+      <div className="rounded-lg border border-border bg-card p-6 sm:p-8 text-center">
+        <div className="mx-auto flex h-10 w-10 items-center justify-center rounded border border-border bg-muted/40 text-muted-foreground mb-3">
+          <Calendar className="h-5 w-5" />
         </div>
-        <h3 className="text-lg sm:text-xl font-bold text-foreground">
+        <h3 className="text-base sm:text-lg font-semibold text-foreground">
           No Matches Have Taken Place Yet
         </h3>
-        <p className="mx-auto mt-2 max-w-lg text-sm text-muted-foreground leading-relaxed">
+        <p className="mx-auto mt-1 max-w-md text-sm text-muted-foreground leading-relaxed">
           No matches have been played yet for this season. As soon as tournaments kick off and ground action begins, live scores and past match results will be displayed here in real time.
         </p>
-        <div className="mt-5 flex flex-wrap items-center justify-center gap-3">
-          <Button asChild variant="outline" size="sm" className="font-semibold text-xs">
+        <div className="mt-4 flex flex-wrap items-center justify-center gap-3">
+          <Button asChild variant="outline" size="sm">
             <Link href={ROUTES.TOURNAMENTS}>
               Explore Upcoming Tournaments <ArrowRight className="ml-1.5 h-3.5 w-3.5" />
             </Link>
           </Button>
-          <Button asChild size="sm" className="font-semibold text-xs">
+          <Button asChild size="sm" variant="default">
             <Link href={ROUTES.REGISTER}>
               Get Sports Pass 2026
             </Link>

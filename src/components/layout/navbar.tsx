@@ -54,24 +54,24 @@ export function Navbar() {
   const displayName = user?.fullName || (isAdmin ? "Sports Administrator" : "Student Athlete");
 
   return (
-    <header className="sticky top-0 z-40 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-      <div className="container flex h-16 sm:h-18 max-w-7xl items-center justify-between px-4 sm:px-8">
-        <div className="flex items-center gap-6">
-          <Link href="/" className="flex items-center space-x-3">
+    <header className="sticky top-0 z-40 w-full border-b border-border bg-background">
+      <div className="container flex h-16 max-w-7xl items-center justify-between px-4 sm:px-8">
+        <div className="flex items-center gap-8">
+          <Link href="/" className="flex items-center space-x-3 transition-opacity hover:opacity-80">
             <Image
               src="/kk-wagh-logo.png"
               alt="K. K. Wagh Education Society"
               width={260}
               height={75}
               priority
-              className="h-11 sm:h-14 w-auto object-contain dark:brightness-0 dark:invert transition-all"
+              className="h-10 sm:h-12 w-auto object-contain dark:brightness-0 dark:invert transition-all"
             />
-            <div className="hidden border-l border-border/60 pl-3 sm:flex flex-col">
-              <span className="text-base font-bold leading-tight tracking-tight text-foreground font-serif">
+            <div className="hidden border-l border-border pl-3 sm:flex flex-col">
+              <span className="font-serif text-lg font-medium tracking-tight text-foreground">
                 PlayOps
               </span>
-              <span className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">
-                Athletic Portal
+              <span className="text-[10px] font-medium tracking-wider uppercase text-muted-foreground">
+                Athletics Portal
               </span>
             </div>
           </Link>
@@ -85,18 +85,18 @@ export function Navbar() {
                   key={link.href}
                   href={link.href}
                   className={cn(
-                    "flex items-center space-x-1.5 rounded-md px-3 py-2 text-sm font-medium transition-colors",
+                    "flex items-center space-x-1.5 rounded-md px-3 py-1.5 text-sm font-medium transition-colors duration-150",
                     isActive
-                      ? "bg-primary/10 font-semibold text-primary"
-                      : "text-muted-foreground hover:bg-muted hover:text-foreground"
+                      ? "text-primary font-semibold bg-primary/5"
+                      : "text-muted-foreground hover:text-foreground hover:bg-muted/50"
                   )}
                 >
                   <Icon className="h-4 w-4" />
                   <span>{link.title}</span>
                   {link.badge && (
-                    <span className="relative ml-1 flex h-2 w-2">
-                      <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-red-400 opacity-75"></span>
-                      <span className="relative inline-flex h-2 w-2 rounded-full bg-red-500"></span>
+                    <span className="ml-1 inline-flex items-center gap-1 rounded bg-red-600/10 px-1.5 py-0.2 text-[10px] font-medium text-red-600 dark:text-red-400">
+                      <span className="h-1.5 w-1.5 rounded-full bg-red-500" />
+                      <span>Live</span>
                     </span>
                   )}
                 </Link>
@@ -115,10 +115,10 @@ export function Navbar() {
                   asChild
                   variant="outline"
                   size="sm"
-                  className="hidden lg:inline-flex items-center gap-1.5 border-primary/30 text-primary hover:bg-primary/5"
+                  className="hidden lg:inline-flex items-center gap-1.5 border-border text-foreground hover:bg-muted"
                 >
                   <Link href={ROUTES.ADMIN_DASHBOARD}>
-                    <Shield className="h-4 w-4" />
+                    <Shield className="h-4 w-4 text-primary" />
                     <span>Admin Panel</span>
                   </Link>
                 </Button>
@@ -127,10 +127,10 @@ export function Navbar() {
                   asChild
                   variant="outline"
                   size="sm"
-                  className="hidden lg:inline-flex items-center gap-1.5 border-primary/30 text-primary hover:bg-primary/5"
+                  className="hidden lg:inline-flex items-center gap-1.5 border-border text-foreground hover:bg-muted"
                 >
                   <Link href={ROUTES.PLAYER_DASHBOARD}>
-                    <Trophy className="h-4 w-4" />
+                    <Trophy className="h-4 w-4 text-primary" />
                     <span>Athlete Hub</span>
                   </Link>
                 </Button>

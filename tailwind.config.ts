@@ -63,14 +63,21 @@ const config: Config = {
   				foreground: '#ffffff'
   			}
   		},
+  		boxShadow: {
+  			'xs': '0 1px 2px 0 rgba(0, 0, 0, 0.04)',
+  			'sm': '0 1px 3px 0 rgba(0, 0, 0, 0.05), 0 1px 2px -1px rgba(0, 0, 0, 0.05)',
+  			'md': '0 4px 6px -1px rgba(0, 0, 0, 0.06), 0 2px 4px -2px rgba(0, 0, 0, 0.04)',
+  		},
   		borderRadius: {
   			lg: 'var(--radius)',
   			md: 'calc(var(--radius) - 2px)',
   			sm: 'calc(var(--radius) - 4px)'
   		},
   		fontFamily: {
-  			sans: ['var(--font-inter)', 'system-ui', 'sans-serif'],
-  			serif: ['var(--font-serif)', 'Georgia', 'Cambria', 'Times New Roman', 'serif'],
+  			sans: ['var(--font-sans)', 'system-ui', 'sans-serif'],
+  			serif: ['var(--font-serif)', 'Fraunces', 'Georgia', 'serif'],
+  			display: ['var(--font-serif)', 'Fraunces', 'Georgia', 'serif'],
+  			mono: ['ui-monospace', 'SFMono-Regular', 'Menlo', 'Monaco', 'monospace'],
   		},
   		keyframes: {
   			'accordion-down': {

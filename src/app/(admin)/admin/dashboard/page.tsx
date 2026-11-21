@@ -61,12 +61,12 @@ export default async function AdminDashboardPage() {
       <div className="flex flex-col justify-between gap-4 border-b border-border/60 pb-5 sm:flex-row sm:items-center">
         <div>
           <div className="flex items-center gap-2 mb-1.5">
-            <Badge variant="outline" className="border-primary/30 bg-primary/5 text-primary text-[11px] font-bold uppercase tracking-wider">
+            <Badge variant="outline" className="text-[11px] font-medium uppercase tracking-wider">
               <ShieldCheck className="mr-1 h-3 w-3" />
               KK Wagh Directorate of Physical Education
             </Badge>
           </div>
-          <h1 className="font-serif text-2xl font-bold tracking-tight text-foreground sm:text-3xl">
+          <h1 className="font-serif text-2xl sm:text-3xl font-normal text-foreground">
             Sports Governance Center
           </h1>
           <p className="mt-0.5 text-xs sm:text-sm text-muted-foreground">
@@ -165,28 +165,28 @@ export default async function AdminDashboardPage() {
             liveMatches.map((m: any) => (
               <div
                 key={m.id}
-                className="flex flex-col justify-between gap-3 rounded-xl border border-red-500/20 bg-gradient-to-r from-red-500/5 via-card to-background p-4 sm:flex-row sm:items-center shadow-xs"
+                className="flex flex-col justify-between gap-3 rounded-lg border border-border bg-card p-4 sm:flex-row sm:items-center"
               >
                 <div>
                   <div className="mb-1 flex items-center gap-2 text-xs text-muted-foreground">
-                    <span className="font-bold text-primary">
+                    <span className="font-medium text-primary">
                       {m.tournaments?.name || "Tournament"}
                     </span>
                     <span>• {m.round?.replace(/_/g, " ").toUpperCase()}</span>
                     {m.venues?.name && <span>• 📍 {m.venues.name}</span>}
                   </div>
-                  <p className="font-serif text-base font-bold text-foreground">
+                  <p className="font-serif text-base font-normal text-foreground">
                     {m.team_a?.name || "Team Alpha"}{" "}
-                    <span className="font-mono text-primary font-black text-lg">({m.score_team_a ?? 0})</span>{" "}
+                    <span className="font-mono text-foreground font-semibold text-base">({m.score_team_a ?? 0})</span>{" "}
                     <span className="text-xs font-sans text-muted-foreground uppercase mx-1">vs</span>{" "}
                     {m.team_b?.name || "Team Beta"}{" "}
-                    <span className="font-mono text-primary font-black text-lg">({m.score_team_b ?? 0})</span>
+                    <span className="font-mono text-foreground font-semibold text-base">({m.score_team_b ?? 0})</span>
                   </p>
                 </div>
                 <div className="flex items-center gap-2">
-                  <Button size="sm" asChild className="gap-1.5 font-semibold text-xs shadow-sm bg-red-600 hover:bg-red-700 text-white">
+                  <Button size="sm" asChild variant="outline" className="gap-1.5 font-medium text-xs">
                     <Link href={ROUTES.ADMIN_MATCHES}>
-                      <Radio className="h-3.5 w-3.5 animate-pulse" />
+                      <Radio className="h-3.5 w-3.5 animate-pulse text-primary" />
                       Open Ground Console
                     </Link>
                   </Button>
